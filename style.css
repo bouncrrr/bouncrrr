@@ -1,0 +1,272 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap');
+
+body, html {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    height: 100%;
+    width: 100%;
+    background: transparent;
+}
+
+#background-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(-45deg, #20354E, #3399CC, #20354E, #3399CC); /* Removed grey tones */
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    z-index: -1;
+}
+
+* {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Uniform text shadow */
+}
+
+.navbar {
+    position: fixed;
+    top: -50px; /* Adjusted position to make the navbar slightly higher up */
+    width: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 100;
+    transition: top 0.3s ease-in-out;
+    text-align: center; /* Center-align all text content */
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    margin: 0 20px;
+    padding-bottom: 5px;
+}
+
+.navbar-visible {
+    top: 0; /* Adjust the top property to make it visible */
+}
+
+.navbar-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.navbar a:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Highlight effect on hover */
+    border-radius: 5px; /* Add rounded corners */
+}
+
+#arrow-container {
+    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    position: fixed;
+    bottom: 100px; /* Adjust the distance from the bottom as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 99; /* Ensure it's above other content */
+    animation: arrow-bounce 2s infinite;
+    opacity: 1; /* Initially visible */
+    visibility: visible;
+}
+
+
+#arrow {
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-top: 40px solid rgba(255, 255, 255, 0.5); /* Semi-transparent white */
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    text-align: center;
+    padding: 10px;
+    z-index: 10;
+}
+
+footer a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+header h1 {
+    text-align: center;
+    font-size: 15vw;
+    margin-top: 20vh;
+}
+
+main {
+    z-index: 1;
+    position: relative;
+}
+
+section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    margin: 8vh 0; /* Increased spacing */
+}
+
+section h2 {
+    font-size: 8vw;
+}
+
+section h3 {
+    text-align: left;
+    font-size: 11vw;
+}
+
+section h4 {
+    text-align: center;
+    font-size: 3vw;
+}
+
+section p {
+    font-size: 2.5vw;
+}
+
+.pricing-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Creates two columns of equal width */
+    gap: 20px; /* Adjusts the gap between grid items */
+    justify-content: center; /* Center the items horizontally */
+    align-items: start; /* Align items to the start of the container */
+    padding: 20px 0; /* Add some padding around the entire grid */
+}
+
+.pricing-tier {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 20px;
+    margin: 10px;
+    width: auto; /* Let the grid control the width */
+    min-width: 250px;
+    text-align: center;
+    box-sizing: border-box;
+    position: relative; /* Ensure this is set for correct badge positioning */
+}
+
+.pricing-tier h3, .pricing-tier p, .pricing-tier .small-text {
+    margin: 10px 0;
+}
+
+.pricing-tier h4 {
+    margin-top: 10px; /* Adjust this value as needed to reduce the space */
+    margin-bottom: 5px; /* Reduce the bottom margin */
+}
+
+.pricing-tier .small-text {
+    margin-top: 0; /* Reduce the top margin */
+}
+
+.small-text {
+    font-size: 1vw;
+}
+
+.large-heading {
+    font-size: 11vw; /* Assuming 11vw is the size you've used for the similar large headings */
+    text-align: left;
+}
+
+.original-price {
+    text-decoration: line-through;
+    color: white; /* Ensures visibility */
+}
+
+section > p:last-child, section > img:last-child {
+    margin-bottom: 0px; /* Adjust as needed */
+}
+
+#contact h2 {
+    margin-bottom: 10px; /* Reduce the bottom margin of the h2 to bring it closer to the email address. Adjust this value as needed. */
+}
+
+#contact p {
+    margin-top: 0; /* Reduce the top margin of the paragraph to bring it closer to the 'contact' heading. Adjust as needed. */
+}
+
+.badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 70px;
+    height: 70px;
+    background-color: #20354E;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    font-size: 12px;
+    transform: rotate(45deg);
+}
+
+.badge:before {
+    content: ""; /* Hide one of the texts if duplicated by CSS */
+    position: absolute;
+    width: 160%;
+    text-align: center;
+    font-size: 10px;
+    transform: translate(-30%, 60%);
+    transform-origin: center center;
+    rotate: -45deg;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 18px;
+    background: #3399CC;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #2577a9;
+}
+
+a[href^="mailto:"] {
+    color: #3399CC; /* Adjusted to match your theme */
+}
+
+@keyframes arrow-bounce {
+    0% {
+        transform: translate(-50%, 0);
+    }
+    50% {
+        transform: translate(-50%, 10px);
+    }
+    100% {
+        transform: translate(-50%, 0);
+    }
+}
+
+.arrow-hidden {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+}
+
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
