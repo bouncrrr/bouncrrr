@@ -1,44 +1,118 @@
-// Function to handle navbar visibility
-function handleNavbar(entries) {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            document.getElementById("navbar").classList.remove("navbar-visible");
-        } else {
-            document.getElementById("navbar").classList.add("navbar-visible");
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if we are on one of the info pages
+    if (!document.body.classList.contains('info-page')) {
+        const navbarObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                document.getElementById("navbar").classList.toggle("navbar-visible", !entry.isIntersecting);
+            });
+        }, { threshold: 0.1 });
+        navbarObserver.observe(document.querySelector('header'));
+    } else {
+        // If on an info page, ensure the navbar is always visible
+        document.getElementById("navbar").classList.add("navbar-visible");
+    }
+
+    const arrowObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            document.getElementById("arrow-container").classList.toggle("arrow-hidden", !entry.isIntersecting);
+        });
+    }, { threshold: 0.9 });
+    arrowObserver.observe(document.querySelector('header'));
+
+    var controller = new ScrollMagic.Controller();
+
+    function positionContainers() {
+        const introSection = document.querySelector('#intro');
+        const emojiContainer = document.getElementById('emoji-container');
+        const imageContainer = document.getElementById('image-animation-container');
+
+        const containerTopPosition = introSection.offsetTop + introSection.offsetHeight - 300;
+        emojiContainer.style.top = `${containerTopPosition}px`;
+        imageContainer.style.top = `${containerTopPosition}px`;
+    }
+
+    function createEmojis() {
+        const container = document.getElementById('emoji-container');
+        container.innerHTML = '';
+        const emojis = ['💰', '⏰', '💸', '💰', '⏳'];
+        for (let i = 0; i < 100; i++) {
+            const emoji = document.createElement('div');
+            emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            emoji.className = 'emoji';
+            container.appendChild(emoji);
+
+            emoji.style.left = `${Math.random() * 100}%`;
+            emoji.style.bottom = `${-250 - Math.random() * 500}px`;
+
+            emoji.dataset.speed = Math.random() * 0.5 + 0.5;
+
+            setTimeout(() => emoji.style.opacity = 1, 100 * i);
         }
-    });
-}
+    }
 
-// Create an Intersection Observer instance with a custom threshold
-const observer = new IntersectionObserver(handleNavbar, { threshold: 0.3 });
+    function createRepeatedImages() {
+        const container = document.getElementById('image-animation-container');
+        container.innerHTML = '';
+        const imageSrc = 'https://raw.githubusercontent.com/bouncrrr/bouncrrr.github.io/main/Bouncing%20Window.png';
+        for (let i = 0; i < 50; i++) {
+            const img = document.createElement('img');
+            img.src = imageSrc;
+            img.className = 'repeated-image';
+            container.appendChild(img);
 
-// Observe the header element
-observer.observe(document.querySelector('header'));
+            img.style.left = `${Math.random() * 100}%`;
+            img.style.bottom = `${-250 - Math.random() * 500}px`;
 
+            img.dataset.speed = Math.random() * 0.5 + 0.5;
 
-
-
-
-function handleArrowVisibility(entries) {
-    entries.forEach(entry => {
-        const arrowContainer = document.getElementById("arrow-container");
-        const arrow = document.getElementById("arrow");
-        if (!entry.isIntersecting) {
-            // When the header is not visible, fade out both the arrow and its container
-            arrowContainer.classList.add("arrow-hidden");
-            arrow.classList.add("arrow-hidden");
-        } else {
-            // When the header becomes visible, fade in both the arrow and its container
-            arrowContainer.classList.remove("arrow-hidden");
-            arrow.classList.remove("arrow-hidden");
+            setTimeout(() => img.style.opacity = 1, 100 * i);
         }
-    });
-}
+    }
 
-const arrowObserver = new IntersectionObserver(handleArrowVisibility, {
-    threshold: [1, 1] // Trigger at both just out of and into view
+    function updatePositions(progress, selector) {
+        const elements = document.querySelectorAll(selector);
+        elements.forEach(element => {
+            const speed = parseFloat(element.dataset.speed);
+            const translateY = (progress * speed * 3000 + 500) * -1;
+            element.style.transform = `translateY(${translateY}px)`;
+
+            let opacity;
+            if (progress < 0.2) {
+                opacity = progress / 0.2;
+            } else if (progress > 0.8) {
+                opacity = (1 - progress) / 0.2;
+            } else {
+                opacity = 1;
+            }
+
+            element.style.opacity = opacity;
+        });
+    }
+
+    positionContainers();
+    createEmojis();
+    createRepeatedImages();
+
+    var emojiScene = new ScrollMagic.Scene({
+        triggerElement: "#animation-trigger",
+        duration: 1100
+    })
+    .on('progress', function(e) {
+        updatePositions(e.progress, '.emoji');
+    })
+    .addTo(controller);
+
+    var imageScene = new ScrollMagic.Scene({
+        triggerElement: "#image-animation-trigger",
+        duration: 1100
+    })
+    .on('progress', function(e) {
+        updatePositions(e.progress, '.repeated-image');
+    })
+    .addTo(controller);
+
+// imageScene.addIndicators({name: "Image Animation"});
+
+    positionImageContainer();
+
 });
-
-
-// Assuming you want to hide the arrow when the header is out of view:
-arrowObserver.observe(document.querySelector('header'));
