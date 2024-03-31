@@ -17,10 +17,10 @@ body, html {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(-45deg, #20354E, #3399CC, #20354E, #3399CC); /* Removed grey tones */
+    background: linear-gradient(-45deg, #20354E, #3399CC, #20354E, #3399CC);
     background-size: 400% 400%;
     animation: gradientBG 15s ease infinite;
-    z-index: -1;
+    z-index: -2;
 }
 
 * {
@@ -60,27 +60,6 @@ body, html {
     border-radius: 5px; /* Add rounded corners */
 }
 
-#arrow-container {
-    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
-    position: fixed;
-    bottom: 100px; /* Adjust the distance from the bottom as needed */
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 99; /* Ensure it's above other content */
-    animation: arrow-bounce 2s infinite;
-    opacity: 1; /* Initially visible */
-    visibility: visible;
-}
-
-
-#arrow {
-    width: 0;
-    height: 0;
-    border-left: 20px solid transparent;
-    border-right: 20px solid transparent;
-    border-top: 40px solid rgba(255, 255, 255, 0.5); /* Semi-transparent white */
-}
-
 footer {
     position: fixed;
     bottom: 0;
@@ -100,12 +79,32 @@ footer a {
 header h1 {
     text-align: center;
     font-size: 15vw;
-    margin-top: 20vh;
+    margin-top: 15vh;
+    margin-bottom: 0; /* Remove bottom margin to bring the tagline closer */
+}
+
+header h2 {
+    font-size: 3vw; /* Smaller than the main title */
+    margin-top: 0vh; /* Adjust as needed */
+    text-align: center;
+    padding-top: 10vh; /* Adjust this value as needed */
 }
 
 main {
     z-index: 1;
     position: relative;
+}
+
+.info-page main {
+    max-width: 60%; /* Adjust based on preference */
+    margin: 0 auto; /* Centers the content */
+    padding-bottom: 100px; /* Vertical padding and horizontal for a bit of spacing */
+    box-sizing: border-box; /* Ensures padding doesn't affect the total width */
+}
+
+.info-page p {
+    max-width: 600px; /* Adjust based on preference */
+    margin: 0px auto; /* Adds vertical spacing and centers horizontally */
 }
 
 section {
@@ -118,12 +117,13 @@ section {
 }
 
 section h2 {
-    font-size: 8vw;
+    font-size: 6vw;
+    margin-bottom: 10px; /* Reduce the bottom margin as needed */
 }
 
 section h3 {
-    text-align: left;
-    font-size: 11vw;
+    text-align: center;
+    font-size: 10vw;
 }
 
 section h4 {
@@ -133,6 +133,7 @@ section h4 {
 
 section p {
     font-size: 2.5vw;
+    max-width: 800px; /* Adjust based on preference */
 }
 
 .pricing-container {
@@ -253,20 +254,106 @@ a[href^="mailto:"] {
     }
 }
 
-.arrow-hidden {
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+/* Arrow Container */
+#arrow-container {
+    transition: opacity 0.5s ease-in-out;
+    position: fixed;
+    bottom: 60px; /* Adjust based on your layout */
+    left: 50%;
+    transform: translateX(-50%);
+    animation: arrow-bounce 2s infinite;
+    z-index: 99;
+    opacity: 1; /* Make sure the arrow is fully visible initially */
 }
 
-@keyframes gradientBG {
-    0% {
-        background-position: 0% 50%;
+#arrow {
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-top: 40px solid rgba(255, 255, 255, 0.5); /* Semi-transparent white */
+}
+
+/* Arrow Hidden State */
+.arrow-hidden {
+    opacity: 0 !important; /* Ensure fading out, add !important to override any potential conflicts */
+    transition: opacity 0.5s ease-in-out !important;
+}
+
+#animation-trigger {
+    position: relative;
+    top: -600px; /* Adjust this value to move the trigger higher */
+}
+
+#emoji-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1; /* Ensure emojis appear above other content */
+}
+
+#image-animation-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1; /* Ensure emojis appear above other content */
+}
+
+#image-animation-trigger {
+    position: relative;
+    top: -700px; /* Adjust this value to move the trigger higher */
+}
+
+.emoji {
+    position: absolute;
+    font-size: 6rem; /* Adjust based on desired size */
+    opacity: 1; /* Start invisible for fade-in effect */
+    transition: transform 0.5s linear; opacity 2s ease-out; /* Ensure duration matches or exceeds scroll animation duration */
+    z-index: -1; /* Ensure emojis appear above other content */
+}
+
+.repeated-image {
+    position: absolute;
+    width: 600px; /* Adjust size as needed */
+    opacity: 0; /* Start with images invisible */
+    transition: transform 0.5s linear; opacity 2s ease-out; /* Ensure duration matches or exceeds scroll animation duration */
+}
+
+.section-image {
+    max-width: 100%; /* Ensures image is no wider than its container */
+    height: auto; /* Maintains aspect ratio */
+    display: block; /* Removes default inline behavior, helping with spacing */
+    margin: 0 auto; /* Centers image if it's smaller than the container */
+}
+
+.navbar-visible {
+    top: 0; /* Adjust as needed to make it visible */
+}
+
+/* Specific size adjustments for all section images */
+.main-window-image,
+.options-menu-image,
+.setup-image,
+.lost-focus-image {
+    max-width: 600px; /* Adjust as needed for a smaller, proportional size */
+}
+
+.navbar, footer {
+    left: 0;
+    right: 0;
+}
+
+@keyframes arrow-bounce {
+    0%, 100% {
+        transform: translate(-50%, 0);
     }
     50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
+        transform: translate(-50%, -20px);
     }
 }
