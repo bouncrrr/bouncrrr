@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,8 +7,6 @@
     <title>bouncrrr</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="bouncrrr-favicon.ico" type="image/x-icon">
-
 </head>
 <body>
     <div id="background-animation"></div>
@@ -21,36 +20,43 @@
     </div>
     <header>
         <h1>bouncrrr</h1>
+	    <h2>bounce smarter. not harder.</h2>
     </header>
     <div class="arrow" id="arrow-container">
-    <div class="arrow" id="arrow"></div>
-</div>
+        <div class="arrow" id="arrow"></div>
+    </div>
     <main>
         <section id="intro">
             <h3>how much is your time worth?</h3>
+    <div id="animation-trigger"></div> <!-- Marker for ScrollMagic trigger -->
+    <div id="emoji-container"></div> <!-- Positioned outside but close to the text trigger -->
         </section>
         <section>
             <h3>how much of it have you wasted waiting for stems to bounce?</h3>
         </section>
+<div id="image-animation-container"></div>
+    <div id="image-animation-trigger"></div>
         <section id="what-bouncrrr-does">
             <h2>what bouncrrr does</h2>
-            <img src="#" alt="Placeholder image for what bouncrrr does"class=" placeholder-image"> <!-- Replace # with your image URL -->
+            <img src="https://raw.githubusercontent.com/bouncrrr/bouncrrr.github.io/main/MainWindow.png" alt="bouncrrr main window" class="main-window-image">
             <p>bouncrrr automates the process of bouncing stems in logic pro, saving producers, engineers, and artists hours (or even DAYS) of manual work.</p>
         </section>
         <section id="how-does-it-do-it">
             <h2>how does it do it?</h2>
-            <img src="#" alt="Placeholder image for how does it do it" placeholder-image"> <!-- Replace # with your image URL -->
+            <img src="https://raw.githubusercontent.com/bouncrrr/bouncrrr.github.io/main/Options%20Menu.png" alt="options menu" class="main-window-image">
             <p>bouncrrr uses a complex code to automate the process, bouncing each stem one by one.</p>
         </section>
         <section id="setup">
             <h2>how much setup do i need to do?</h2>
-            <img src="#" alt="Placeholder image for setup" placeholder-image"> <!-- Replace # with your image URL -->
+            <img src="https://raw.githubusercontent.com/bouncrrr/bouncrrr.github.io/main/bouncrrr%20setup%20track.png" alt="bouncrrr setup" class="main-window-image"> <!-- Replace # with your image URL -->
             <p>the setup for bouncrrr is minimal, involving a small preparation process for each project.</p>
         </section>
         <section>
             <h2>is this just another gimmick that isn't really going to work?</h2>
-            <img src="#" alt="Placeholder image for reliability" placeholder-image"> <!-- Replace # with your image URL -->
-            <p>a lot of time and effort has gone specifically into making sure that bouncrrr is reliable and doesn't crash. if the bouncing process gets knocked off course, you'll be alerted and given the option to resume from where you left off. bouncrrr was created by a producer and mix engineer who was fed up of half solutions and false promises, so reliability was a priority.</p>
+            <img src="https://raw.githubusercontent.com/bouncrrr/bouncrrr.github.io/main/Logic%20Pro%20Lost%20Focus.png" alt="Logic Pro Lost Focus" class="main-window-image">
+            <p>a lot of time and effort has gone specifically into making sure that bouncrrr is reliable and doesn't crash.</p>
+<p>if the bouncing process gets knocked off course, you'll be alerted and given the option to resume from where you left off.</p>
+<p>bouncrrr was created by a producer and mix engineer who was fed up of half solutions and false promises, so reliability was a priority.</p>
         </section>
         <section id="pricing">
     <h2 class="large-heading">pricing</h2>
@@ -61,7 +67,7 @@
 		<p class="small-text">only bounce 3 tracks at a time</p>
 		<p class="small-text">limited to 5 bounces a month</p>
                 <p>free</p>
-                <button>Download</button>
+                <button>download</button>
             </div>
             <div class="pricing-tier">
                 <h4>monthly subscription</h4>
@@ -70,7 +76,7 @@
 		<p class="small-text">limited to 10 sessions a month</p>
                 <p>£8.99/month</p>
                 <p class="small-text">(billed monthly)</p>
-                <button>Subscribe</button>
+                <button>subscribe</button>
             </div>
             <div class="pricing-tier">
                 <h4>annual subscription</h4>
@@ -78,7 +84,7 @@
 		<p class="small-text">no limits on sessions</p>
                 <p>£6.25/month</p>
                 <p class="small-text">(billed annually at £75)</p>
-                <button>Subscribe</button>
+                <button>subscribe</button>
             </div>
             <div class="pricing-tier special">
                 <h4>lifetime license</h4>
@@ -87,20 +93,21 @@
 		<p class="small-text">unlimited bounces</p>
                 <p><span class="original-price">£150</span> £90</p>
                 <div class="badge">★ INTRODUCTORY PRICING!</div>
-                <button>Buy Now</button>
+                <button>buy now</button>
             </div>
         </section>
         <section id="contact">
             <h2>contact</h2>
-            <p>Email us at <a href="mailto:hello@bouncrrr.co">hello@bouncrrr.co</a></p>
+            <p>email us at <a href="mailto:hello@bouncrrr.co">hello@bouncrrr.co</a></p>
         </section>
     </main>
     <footer>
-        <a href="#privacy">Privacy Policy</a> | 
-        <a href="#support">Support</a> | 
-        <a href="#terms">Terms of Use</a>
+        <a href="privacy.html">privacy notice</a> | 
+        <a href="support.html">support</a> | 
+        <a href="terms.html">terms of use</a>
     </footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/ScrollMagic.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/plugins/debug.addIndicators.min.js"></script>
     <script src="script.js"></script>
-
 </body>
 </html>
