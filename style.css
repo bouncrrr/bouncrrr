@@ -370,3 +370,9 @@ a[href^="mailto:"] {
         background-position: 0% 50%;
     }
 }
+
+@media (max-width: 768px) {
+    #emoji-container, #image-animation-container {
+        display: none; /* Hide animation containers on mobile */
+    }
+}

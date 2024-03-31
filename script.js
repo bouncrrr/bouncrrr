@@ -1,4 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Check if the screen width is less than or equal to 768 pixels
+    if (window.innerWidth <= 768) {
+        // Code to disable or not initialise animations
+        console.log('Animations disabled for mobile');
+        return; // Exit the function early
+    }
     // Check if we are on one of the info pages
     if (!document.body.classList.contains('info-page')) {
         const navbarObserver = new IntersectionObserver((entries) => {
