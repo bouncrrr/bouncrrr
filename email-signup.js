@@ -4,7 +4,7 @@ document.getElementById('signup-form').addEventListener('submit', function(e) {
     const email = document.getElementById('email').value;
     const consent = true; // Assuming the user implicitly gives consent by submitting the form, adjust as needed
 
-    fetch('https://bouncrrr-paddle-backend.onrender.com/api/email-signup', {
+    fetch('https://paddle-cockroach-bouncrrr.onrender.com/api/email-signup', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
