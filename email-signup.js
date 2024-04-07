@@ -15,12 +15,12 @@ document.getElementById('signup-form').addEventListener('submit', function(e) {
     if (response.ok) {
         alert('thank you for signing up!');
     } else if (response.status === 409) { // Check for the 409 Conflict status
-        alert('this email is already signed up.');
+        alert('this email is already signed up');
     } else {
-        alert('there was an issue with your signup. please try again.');
+        alert('there was an issue with your signup. please try again');
     }
 })
 .catch((error) => {
-    console.error('Error:', error);
+    console.error('error:', error);
     alert('error submitting your email');
 });
