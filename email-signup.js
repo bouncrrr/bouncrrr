@@ -1,8 +1,7 @@
-// email-signup.js content
 document.getElementById('signup-form').addEventListener('submit', function(e) {
     e.preventDefault();
     const email = document.getElementById('email').value;
-    const consent = true; // Assuming the user implicitly gives consent by submitting the form, adjust as needed
+    const consent = true; // Assuming the user implicitly gives consent by submitting the form
 
     fetch('https://paddle-cockroach-bouncrrr.onrender.com/api/email-signup', {
         method: 'POST',
@@ -11,16 +10,18 @@ document.getElementById('signup-form').addEventListener('submit', function(e) {
         },
         body: JSON.stringify({ email, consent }),
     })
-    .then(response => response.json()) // Assuming your backend sends a JSON response
-    if (response.ok) {
-        alert('thank you for signing up!');
-    } else if (response.status === 409) { // Check for the 409 Conflict status
-        alert('this email is already signed up');
-    } else {
-        alert('there was an issue with your signup. please try again');
-    }
-})
-.catch((error) => {
-    console.error('error:', error);
-    alert('error submitting your email');
+    .then(response => response.json().then(data => ({status: response.status, body: data})))
+    .then(obj => {
+        if (obj.status === 200) {
+            alert('Thank you for signing up!');
+        } else if (obj.status === 409) { 
+            alert('This email is already signed up.');
+        } else {
+            alert('There was an issue with your signup. Please try again.');
+        }
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+        alert('Error submitting your email.');
+    });
 });
