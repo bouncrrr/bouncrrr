@@ -1,3 +1,4 @@
+// email-signup.js content
 document.getElementById('signup-form').addEventListener('submit', function(e) {
     e.preventDefault();
     const email = document.getElementById('email').value;
@@ -11,26 +12,22 @@ document.getElementById('signup-form').addEventListener('submit', function(e) {
         body: JSON.stringify({ email, consent }),
     })
     .then(response => {
-        // Check for response.ok to handle HTTP status codes of 200-299
         if (!response.ok) {
-            // If server response is not OK, we still try to parse it as JSON for error details
-            return response.json().then(error => Promise.reject(error));
+            if (response.status === 409) {
+                // If server response status is 409, it means email already exists
+                return response.text().then(text => Promise.reject(new Error('This email is already signed up.')));
+            } else {
+                // For other non-ok responses, throw an error to be caught by the catch block
+                return response.text().then(text => Promise.reject(new Error('There was an issue with your signup. Please try again.')));
+            }
         }
-        // Parse successful response to JSON.
         return response.json();
     })
     .then(data => {
-        // Handle success
-        console.log('Success:', data);
         alert('Thank you for signing up!');
     })
     .catch(error => {
-        // Handle errors from server and network errors
         console.error('Error:', error);
-        if (error.status === 409) {
-            alert('This email is already signed up.');
-        } else {
-            alert('There was an issue with your signup. Please try again.');
-        }
+        alert(error.message);
     });
 });
