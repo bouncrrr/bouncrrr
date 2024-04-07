@@ -66,7 +66,8 @@ footer {
     width: 100%;
     background: rgba(0, 0, 0, 0.5);
     text-align: center;
-    padding: 10px;
+    padding: 10px 20px; /* Adjust padding to ensure content fits */
+    box-sizing: border-box; /* This ensures padding is included in the width */
     z-index: 10;
 }
 
@@ -334,6 +335,10 @@ a[href^="mailto:"] {
     padding: 10px 15px; /* Tightens the button around the text */
     border-radius: 5px; /* Rounds the corners of the button */
     height: 40px; /* Matches the height of the email input field */
+    white-space: nowrap; /* Prevents the text from wrapping */
+    overflow: hidden; /* Keeps the text within the button */
+    text-overflow: ellipsis; /* Adds an ellipsis if the text is too long */
+}
 }
 
 #signup-form button:hover {
@@ -411,5 +416,21 @@ a[href^="mailto:"] {
 @media (max-width: 768px) {
     #emoji-container, #image-animation-container {
         display: none; /* Hide animation containers on mobile */
+    }
+    footer {
+        padding: 10px 10px; /* Reduce padding on smaller screens */
+        font-size: 14px; /* Adjust font size for smaller screens */
+    }
+    #signup-form button {
+        padding: 10px 10px; /* Adjust padding */
+        font-size: 14px; /* Reduce font size */
+        width: 100%; /* Make the button full width */
+        max-width: 200px; /* But limit its maximum width */
+    }
+
+    #signup-form input[type="email"] {
+        margin-bottom: 10px; /* Add space between input and button */
+        width: 100%; /* Full width to match button */
+        max-width: 200px; /* Limit maximum width */
     }
 }
