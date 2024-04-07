@@ -13,13 +13,13 @@ document.getElementById('signup-form').addEventListener('submit', function(e) {
     })
     .then(response => {
         if (response.ok) {
-            alert('Thank you for signing up!');
+            alert('thank you for signing up!');
         } else {
-            alert('There was an issue with your signup. Please try again.');
+            alert('there was an issue with your signup. please try again');
         }
     })
     .catch((error) => {
-        console.error('Error:', error);
-        alert('Error submitting your email.');
+        console.error('error:', error);
+        alert('error submitting your email');
     });
 });
