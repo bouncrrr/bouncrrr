@@ -310,6 +310,43 @@ a[href^="mailto:"] {
     top: -700px; /* Adjust this value to move the trigger higher */
 }
 
+#signup-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#signup-form input[type="email"] {
+    height: 40px; /* Adjusts the height of the email input field */
+    font-size: 1rem; /* Increases font size */
+    padding: 0 10px;
+    margin-right: 10px; /* Adds a margin between the input field and the button */
+    border: 2px solid #ccc; /* Example border styling */
+    border-radius: 5px; /* Rounds the corners of the input field */
+}
+
+#signup-form button {
+    font-size: 1rem; /* Matches the font size of the input */
+    border: none;
+    background-color: #3399CC; /* Example button color */
+    color: white;
+    cursor: pointer;
+    padding: 10px 15px; /* Tightens the button around the text */
+    border-radius: 5px; /* Rounds the corners of the button */
+    height: 40px; /* Matches the height of the email input field */
+}
+
+#signup-form button:hover {
+    background-color: #2577a9; /* Darker shade on hover */
+}
+
+.emailsignup-page main {
+    max-width: 60%; /* Adjust based on preference */
+    margin: 0 auto; /* Centers the content */
+    padding-bottom: 100px; /* Vertical padding and horizontal for a bit of spacing */
+    box-sizing: border-box; /* Ensures padding doesn't affect the total width */
+}
+
 .emoji {
     position: absolute;
     font-size: 6rem; /* Adjust based on desired size */
