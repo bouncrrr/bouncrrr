@@ -10,7 +10,7 @@
 </head>
 <body class="info-page">
     <div id="background-animation"></div>
-    <div class="navbar navbar-visible" id="navbar"> <!-- Add 'navbar-visible' class for specific pages -->
+    <div class="navbar navbar-visible" id="navbar">
         <a href="index.html">home</a>
     </div>
     <header>
@@ -18,10 +18,15 @@
     </header>
     <main class="info-page">
         <section id="verification-result">
-  <p id="verification-message">verifying your email...</p>
-</section>
-
-<script>
+            <p id="verification-message">Verifying your email...</p>
+        </section>
+    </main>
+    <footer>
+        <a href="privacy.html">privacy notice</a> | 
+        <a href="support.html">support</a> | 
+        <a href="terms.html">terms of use/refund policy</a>
+    </footer>
+    <script>
         function getQueryParam(param) {
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get(param);
@@ -30,27 +35,17 @@
         const token = getQueryParam('token');
         if (token) {
             fetch(`https://paddle-cockroach-bouncrrr.onrender.com/verify?token=${token}`)
-                .then(response => {
-                    if (response.ok) {
-                        document.getElementById('verificationMessage').textContent = 'email verified successfully. you may now log in';
-                    } else {
-                        document.getElementById('verificationMessage').textContent = 'failed to verify email. please try again or contact support@bouncrrr.co';
-                    }
+                .then(response => response.text()) // Assuming your server responds with plain text
+                .then(message => {
+                    document.getElementById('verification-message').textContent = message;
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    document.getElementById('verificationMessage').textContent = 'an error occurred. Please try again later.';
+                    document.getElementById('verification-message').textContent = 'An error occurred. Please try again later.';
                 });
         } else {
-            document.getElementById('verificationMessage').textContent = 'no verification token found.';
+            document.getElementById('verification-message').textContent = 'No verification token found.';
         }
     </script>
-    </main>
-    <footer>
-        <a href="privacy.html">privacy notice</a> | 
-        <a href="support.html">support</a> | 
-        <a href="terms.html">terms of use/refund policy</a>
-    </footer>
-    <script src="script.js"></script>
 </body>
 </html>
