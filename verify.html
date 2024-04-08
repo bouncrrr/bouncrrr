@@ -18,28 +18,33 @@
     </header>
     <main class="info-page">
         <section id="verification-result">
-  <p id="verification-message">Verifying your email...</p>
+  <p id="verification-message">verifying your email...</p>
 </section>
 
 <script>
-window.addEventListener('DOMContentLoaded', (event) => {
-  const params = new URLSearchParams(window.location.search);
-  const token = params.get('token');
-  if (token) {
-    fetch(`https://paddle-cockroach-bouncrrr.onrender.com/verify/${token}`)
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('verification-message').textContent = data;
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        document.getElementById('verification-message').textContent = 'Failed to verify email.';
-      });
-  } else {
-    document.getElementById('verification-message').textContent = 'No verification token provided.';
-  }
-});
-</script>
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        const token = getQueryParam('token');
+        if (token) {
+            fetch(`https://paddle-cockroach-bouncrrr.onrender.com/verify?token=${token}`)
+                .then(response => {
+                    if (response.ok) {
+                        document.getElementById('verificationMessage').textContent = 'email verified successfully. you may now log in';
+                    } else {
+                        document.getElementById('verificationMessage').textContent = 'failed to verify email. please try again or contact support@bouncrrr.co';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('verificationMessage').textContent = 'an error occurred. Please try again later.';
+                });
+        } else {
+            document.getElementById('verificationMessage').textContent = 'no verification token found.';
+        }
+    </script>
     </main>
     <footer>
         <a href="privacy.html">privacy notice</a> | 
