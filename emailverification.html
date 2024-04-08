@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bouncrrr</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="bouncrrr-favicon.ico" type="image/x-icon">
+</head>
+<body class="info-page">
+    <div id="background-animation"></div>
+    <div class="navbar navbar-visible" id="navbar"> <!-- Add 'navbar-visible' class for specific pages -->
+        <a href="index.html">home</a>
+    </div>
+    <header>
+        <h2>email verification</h2>
+    </header>
+    <main class="info-page">
+        <section id="verification-result">
+  <p id="verification-message">Verifying your email...</p>
+</section>
+
+<script>
+window.addEventListener('DOMContentLoaded', (event) => {
+  const params = new URLSearchParams(window.location.search);
+  const token = params.get('token');
+  if (token) {
+    fetch(`https://paddle-cockroach-bouncrrr.onrender.com/verify/${token}`)
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('verification-message').textContent = data;
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('verification-message').textContent = 'Failed to verify email.';
+      });
+  } else {
+    document.getElementById('verification-message').textContent = 'No verification token provided.';
+  }
+});
+</script>
+    </main>
+    <footer>
+        <a href="privacy.html">privacy notice</a> | 
+        <a href="support.html">support</a> | 
+        <a href="terms.html">terms of use/refund policy</a>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
