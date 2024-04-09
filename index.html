@@ -33,23 +33,21 @@ async function fetchAndDisplayStats() {
     try {
         const response = await fetch('https://paddle-cockroach-bouncrrr.onrender.com/api/total-stats');
         const data = await response.json();
-        console.log("Response data:", data); // Additional logging
+        console.log("Response data:", data);
 
-        // Ensure property names match and parse them as integers
-        const totalStems = parseInt(data.totalstems, 10);
-        const totalTimeSeconds = parseInt(data.totaltime, 10); // Assuming total time is in seconds
+        const totalStems = data.totalStems; // Use the correct property name from your server response
+        const totalTimeSeconds = data.totalTime; // Use the correct property name from your server response
 
-        // Calculate days, hours, minutes from totalTimeSeconds
         const days = Math.floor(totalTimeSeconds / 86400);
         const hours = Math.floor((totalTimeSeconds % 86400) / 3600);
         const minutes = Math.floor((totalTimeSeconds % 3600) / 60);
 
         const statsText = `bouncrrr has bounced a total of ${totalStems} stems, saving musicians at least ${days} days, ${hours} hours, and ${minutes} minutes.`;
-        document.getElementById('totalStems').textContent = statsText;
+        document.getElementById('totalStats').textContent = statsText; // Ensure this matches the ID of your element
     } catch (error) {
         console.error("Error fetching or displaying stats:", error);
     }
-    
+
     animateTextChange(document.getElementById('totalStems'), totalStemsText);
 }
 
