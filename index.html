@@ -73,7 +73,21 @@
         <section id="pricing">
     <h2 class="large-heading">pricing</h2>
     
-<h4>coming soon...</h4>
+<div class="pricing-page-container">
+  <h1>Choose Your Subscription</h1>
+  <div class="subscription-toggle">
+    <input type="radio" id="monthly" name="subscription" value="month" onclick="updateSubscription('month')" checked>
+    <label for="monthly">Monthly</label>
+    <input type="radio" id="yearly" name="subscription" value="year" onclick="updateSubscription('year')">
+    <label for="yearly">Yearly</label>
+  </div>
+  <div id="subscription-price">$0.00</div>
+  <button id="subscribe-button">Subscribe Now</button>
+
+  <h2>Or Buy a Lifetime License</h2>
+  <div id="lifetime-price">$0.00</div>
+  <button id="lifetime-button">Purchase Lifetime</button>
+</div>
 
         </section>
         <section id="contact">
@@ -92,35 +106,58 @@
 
 	<script src="https://cdn.paddle.com/paddle/paddle.js"></script>
 <script type="text/javascript">
-Paddle.Environment.set('sandbox');
-Paddle.Initialize({ 
-    token: "test_241b28ddc2c6acc634ee5dd479f"
+Paddle.Environment.set("sandbox");
+Paddle.Initialize({
+  token: 'test_7d279f61a3499fed520f7cd8c08' // replace with your client-side token
 });
 
-	// define products and prices
-  var mainProduct = 'pro_01htk0dsj95k1wafa5tcmvs4dz';
-  var monthItems = [{
-      quantity: 1,
-      priceId: 'pri_01htk0e7exyc33gr8qvaxnf96s',
-    }
-  ];
-  var yearItems = [{
-      quantity: 1,
-      priceId: 'pri_01htk4dhmz6ngkhysj1c8rm6ah',
-    }
-  ];
+// Define price IDs
+var monthlySubscriptionPriceId = 'your_monthly_price_id';
+var yearlySubscriptionPriceId = 'your_yearly_price_id';
+var lifetimePurchasePriceId = 'your_lifetime_price_id';
 
-	// set initial billing cycle
-  var billingCycle = 'year'
-  
-  // get prices
-  function getPrices(cycle) {
-    if (cycle === 'month') {
-      var billingCycle = cycle;
-      var itemsList = monthItems;
-    } else if (cycle === 'year') {
-      var billingCycle = cycle;
-      var itemsList = yearItems;
+// Fetch and display initial prices on load
+document.addEventListener("DOMContentLoaded", function() {
+  updateSubscription('month'); // default to monthly subscription
+  fetchAndDisplayLifetimePrice();
+});
+
+function updateSubscription(cycle) {
+  let priceId = cycle === 'month' ? monthlySubscriptionPriceId : yearlySubscriptionPriceId;
+  fetchAndDisplaySubscriptionPrice(priceId);
+}
+
+function fetchAndDisplaySubscriptionPrice(priceId) {
+  Paddle.PricePreview({
+    items: [{
+      quantity: 1,
+      priceId: priceId,
+    }]
+  }, function(resp) {
+    document.getElementById('subscription-price').textContent = resp.data.details.lineItems[0].formattedTotals.subtotal;
+  });
+}
+
+function fetchAndDisplayLifetimePrice() {
+  Paddle.PricePreview({
+    items: [{
+      quantity: 1,
+      priceId: lifetimePurchasePriceId,
+    }]
+  }, function(resp) {
+    document.getElementById('lifetime-price').textContent = resp.data.details.lineItems[0].formattedTotals.subtotal;
+  });
+}
+
+	document.getElementById('subscribe-button').addEventListener('click', function() {
+  // Assuming 'cycle' holds the current subscription choice ('month' or 'year')
+  let priceId = cycle === 'month' ? monthlySubscriptionPriceId : yearlySubscriptionPriceId;
+  Paddle.Checkout.open({ product: priceId });
+});
+
+document.getElementById('lifetime-button').addEventListener('click', function() {
+  Paddle.Checkout.open({ product: lifetimePurchasePriceId });
+});
 </script>
 </body>
 </html>
