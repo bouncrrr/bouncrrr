@@ -18,6 +18,66 @@
     document.addEventListener('DOMContentLoaded', function() {
     console.log('Document loaded');
     fetchAndDisplayPrices(); // Fetch and display prices on page load
+    updateSubscriptionDetails(); // Initial setup
+
+    document.getElementById('subscription-toggle').addEventListener('change', function() {
+        updateSubscriptionDetails(); // Update on toggle change
+
+ });
+});
+
+function updateSubscriptionDetails() {
+    const isAnnual = document.getElementById('subscription-toggle').checked;
+    const subscriptionDetails = document.getElementById('subscription-details');
+
+    if (isAnnual) {
+        // Annual subscription details
+        subscriptionDetails.innerHTML = `
+            <h4>annual subscription</h4>
+            <p class="small-text">best value for money</p>
+            <p class="small-text">no monthly payments</p>
+            <p class="small-text">all of bouncrrr's current features</p>
+            <p>£6.25/month</p>
+            <p class="small-text">(£75 billed annually)</p>
+            <button id="annual-button" class="paddle_button" data-product="pri_01htk4dhmz6ngkhysj1c8rm6ah">subscribe annually</button>
+        `;
+    } else {
+        // Monthly subscription details
+        subscriptionDetails.innerHTML = `
+            <h4>monthly subscription</h4>
+            <p class="small-text">low monthly cost</p>
+            <p class="small-text">cancel at any time</p>
+            <p class="small-text">all of bouncrrr's current features</p>
+            <p>£10/month</p>
+            <p class="small-text">(billed monthly)</p>
+            <button id="monthly-button" class="paddle_button" data-product="pri_01htk0e7exyc33gr8qvaxnf96s">subscribe monthly</button>
+        `;
+    }
+
+    // Attach event listener to the newly created button
+    attachButtonEventListeners();
+}
+
+function attachButtonEventListeners() {
+    const monthlyButton = document.getElementById('monthly-button');
+    const annualButton = document.getElementById('annual-button');
+
+    if (monthlyButton) {
+        monthlyButton.addEventListener('click', function() {
+            Paddle.Checkout.open({
+                product: monthlyButton.getAttribute('data-product'),
+            });
+        });
+    }
+
+    if (annualButton) {
+        annualButton.addEventListener('click', function() {
+            Paddle.Checkout.open({
+                product: annualButton.getAttribute('data-product'),
+            });
+        });
+    }
+}
 
 function fetchAndDisplayPrices() {
     var request = {
@@ -40,19 +100,25 @@ function fetchAndDisplayPrices() {
 }
 
 function updatePricingDisplays(data) {
-    // Example of updating pricing based on Paddle.PricePreview response
-    // This will need to be adjusted based on how you want to display the data
-    // Assume data contains pricing information similar to Paddle API response
+    // Assuming data.details.lineItems is an array with the pricing information
+    // You might need to adjust the logic to correctly match the items to their types (monthly, annual, lifetime)
 
-    const monthlyPrice = data.details.lineItems.find(item => item.price.id === 'pri_01htk0e7exyc33gr8qvaxnf96s');
-    const annualPrice = data.details.lineItems.find(item => item.price.id === 'pri_01htk4dhmz6ngkhysj1c8rm6ah');
-    const lifetimePrice = data.details.lineItems.find(item => item.price.id === 'pri_01htk4feeptfk9fsw9zevx9mg5');
+    // Example adjustments for demonstration; you'll need to tailor these based on actual response structure
+    const monthlyItem = data.details.lineItems.find(item => item.price.id === "pri_01htk0e7exyc33gr8qvaxnf96s");
+    const annualItem = data.details.lineItems.find(item => item.price.id === "pri_01htk4dhmz6ngkhysj1c8rm6ah");
+    const lifetimeItem = data.details.lineItems.find(item => item.price.id === "pri_01htk4feeptfk9fsw9zevx9mg5");
 
-    if (monthlyPrice) document.getElementById('subscription-price').textContent = monthlyPrice.formattedUnitTotals.total;
-    if (annualPrice) document.getElementById('annual-price').textContent = annualPrice.formattedUnitTotals.total;
-    if (lifetimePrice) document.getElementById('lifetime-price').textContent = lifetimePrice.formattedUnitTotals.total;
-
-    // Update global variables or attributes for checkout
+    // Update pricing text; you need to use the correct path to access formatted total
+    if (monthlyItem) {
+        document.getElementById('subscription-price').textContent = monthlyItem.formattedUnitTotals.total;
+    }
+    if (annualItem) {
+        // If you have a specific spot for annual pricing or if you toggle the display based on the checkbox, adjust here
+        // For this example, it's assumed you're toggling the display, so it might not be directly updated here
+    }
+    if (lifetimeItem) {
+        document.getElementById('lifetime-price').textContent = lifetimeItem.formattedUnitTotals.total;
+    }
 }
 
 function toggleSubscriptionType(isAnnual) {
@@ -62,22 +128,23 @@ function toggleSubscriptionType(isAnnual) {
     const monthlyButton = document.getElementById('subscribe-button');
     const annualButton = document.getElementById('subscribe-button-annual');
 
-    if(isAnnual) {
-        // Update display to show Annual subscription details
+    // Assuming you have stored the pricing information globally or in a way accessible here
+    if (isAnnual) {
+        // Update to display annual subscription details
         subscriptionTitle.textContent = 'annual subscription';
-        subscriptionPrice.textContent = window.annualPrice; // Use global variable set by updatePricingDisplays
+        subscriptionPrice.textContent = window.annualPriceFormatted; // Update this based on where you store the annual price
         subscriptionNote.textContent = '(billed annually)';
         monthlyButton.style.display = 'none';
-        annualButton.style.display = '';
+        annualButton.style.display = 'inline-block'; // Make sure the annual button is shown
     } else {
-        // Revert to Monthly subscription details
+        // Update to display monthly subscription details
         subscriptionTitle.textContent = 'monthly subscription';
-        subscriptionPrice.textContent = window.monthlyPrice; // Use global variable set by updatePricingDisplays
+        subscriptionPrice.textContent = window.monthlyPriceFormatted; // Update this based on where you store the monthly price
         subscriptionNote.textContent = '(billed monthly)';
-        monthlyButton.style.display = '';
-        annualButton.style.display = 'none';
+        monthlyButton.style.display = 'inline-block';
+        annualButton.style.display = 'none'; // Hide the annual button
+        }
     }
-}
 }
 </script>
 </head>
