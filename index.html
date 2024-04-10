@@ -17,7 +17,7 @@
 
     function fetchAndDisplayPrices() {
         // Fetch pricing from your backend
-        fetch('/api/pricing')
+        fetch('https://paddle-cockroach-bouncrrr.onrender.com/api/pricing')
             .then(response => response.json())
             .then(data => {
                 // Assuming the backend response includes monthly and yearly subscription prices
