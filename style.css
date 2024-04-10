@@ -473,7 +473,7 @@ input:checked + .slider:before {
 #monthly-price {
     font-size: 24px;
             font-weight: bold;
-            background: linear-gradient(to right, #add8e6, #ffb6c1, #dda0dd); /* Lighter shades of blue to pink to purple */
+            background: linear-gradient(to right, #007bff, #ff69b4, #8a2be2); /* Bold blue to vivid pink to purple */
             -webkit-background-clip: text;
             color: transparent;
             display: inline;
@@ -482,7 +482,7 @@ input:checked + .slider:before {
 #annual-price {
     font-size: 24px;
             font-weight: bold;
-            background: linear-gradient(to right, #add8e6, #ffb6c1, #dda0dd); /* Lighter shades of blue to pink to purple */
+            background: linear-gradient(to right, #007bff, #ff69b4, #8a2be2); /* Bold blue to vivid pink to purple */
             -webkit-background-clip: text;
             color: transparent;
             display: inline;
@@ -491,7 +491,7 @@ input:checked + .slider:before {
 #lifetime-price {
     font-size: 24px;
             font-weight: bold;
-            background: linear-gradient(to right, #add8e6, #ffb6c1, #dda0dd); /* Lighter shades of blue to pink to purple */
+            background: linear-gradient(to right, #007bff, #ff69b4, #8a2be2); /* Bold blue to vivid pink to purple */
             -webkit-background-clip: text;
             color: transparent;
             display: inline;
@@ -500,7 +500,7 @@ input:checked + .slider:before {
 #free-price {
     font-size: 24px;
             font-weight: bold;
-            background: linear-gradient(to right, #add8e6, #ffb6c1, #dda0dd); /* Lighter shades of blue to pink to purple */
+            background: linear-gradient(to right, #007bff, #ff69b4, #8a2be2); /* Bold blue to vivid pink to purple */
             -webkit-background-clip: text;
             color: transparent;
             display: inline;
