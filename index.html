@@ -17,7 +17,7 @@
 
     function fetchAndDisplayPrices() {
         // Fetch pricing from your backend
-        fetch('https://paddle-cockroach-bouncrrr.onrender.com/api/pricing')
+        fetch('/api/pricing')
             .then(response => response.json())
             .then(data => {
                 // Assuming the backend response includes monthly and yearly subscription prices
@@ -41,29 +41,65 @@
     }
 
     document.addEventListener('DOMContentLoaded', function() {
-        console.log('Document loaded');
-        fetchAndDisplayPrices(); // Fetch and display prices on page load
+    updateSubscriptionDetails(); // Initial setup
 
-        document.getElementById('subscription-toggle').addEventListener('change', function() {
-            console.log('Subscription type changed:', this.checked ? 'Yearly' : 'Monthly');
-            // No need to fetch prices again; simply toggling the display logic could suffice here
-            // unless your pricing structure requires it.
-        });
-
-        document.getElementById('subscribe-button').addEventListener('click', function() {
-            console.log('Subscribe button clicked');
-            Paddle.Checkout.open({
-                product: document.getElementById('subscription-toggle').checked ? window.yearlySubscriptionPriceId : window.monthlySubscriptionPriceId,
-            });
-        });
-
-        document.getElementById('lifetime-button').addEventListener('click', function() {
-            console.log('Lifetime button clicked');
-            Paddle.Checkout.open({
-                product: window.lifetimePurchasePriceId,
-            });
-        });
+    document.getElementById('subscription-toggle').addEventListener('change', function() {
+        updateSubscriptionDetails(); // Update on toggle change
     });
+});
+
+function updateSubscriptionDetails() {
+    const isYearly = document.getElementById('subscription-toggle').checked;
+    const subscriptionDetails = document.getElementById('subscription-details');
+
+    if (isYearly) {
+        // Yearly subscription details
+        subscriptionDetails.innerHTML = `
+            <h4>yearly subscription</h4>
+            <p class="small-text">best value for money</p>
+            <p class="small-text">no monthly payments</p>
+            <p class="small-text">all of bouncrrr's current features</p>
+            <p>£6.25/month (billed yearly)</p>
+            <p class="small-text">(billed yearly)</p>
+            <button id="yearly-button" class="paddle_button" data-product="pri_01htk4dhmz6ngkhysj1c8rm6ah">Subscribe Yearly</button>
+        `;
+    } else {
+        // Monthly subscription details
+        subscriptionDetails.innerHTML = `
+            <h4>monthly subscription</h4>
+            <p class="small-text">low monthly cost</p>
+            <p class="small-text">cancel at any time</p>
+            <p class="small-text">all of bouncrrr's current features</p>
+            <p>£10/month</p>
+            <p class="small-text">(billed monthly)</p>
+            <button id="monthly-button" class="paddle_button" data-product="pri_01htk0e7exyc33gr8qvaxnf96s">Subscribe Monthly</button>
+        `;
+    }
+
+    // Attach event listener to the newly created button
+    attachButtonEventListeners();
+}
+
+function attachButtonEventListeners() {
+    const monthlyButton = document.getElementById('monthly-button');
+    const yearlyButton = document.getElementById('yearly-button');
+
+    if (monthlyButton) {
+        monthlyButton.addEventListener('click', function() {
+            Paddle.Checkout.open({
+                product: monthlyButton.getAttribute('data-product'),
+            });
+        });
+    }
+
+    if (yearlyButton) {
+        yearlyButton.addEventListener('click', function() {
+            Paddle.Checkout.open({
+                product: yearlyButton.getAttribute('data-product'),
+            });
+        });
+    }
+}
 </script>
 </head>
 <body>
@@ -131,36 +167,21 @@
     <h2 class="large-heading">pricing</h2>
     
 <div class="pricing-container">
-
     <div class="pricing-tier" id="subscription-tier">
-    <div class="toggle-container"> <!-- Container for the toggle to control its layout -->
-        <label class="toggle-switch">
-            <input type="checkbox" id="subscription-toggle">
-            <span class="slider round"></span>
-        </label>
-        <span>Monthly</span><span>Yearly</span> <!-- Labels for clarity -->
+        <div class="toggle-container">
+            <label class="toggle-switch">
+                <input type="checkbox" id="subscription-toggle">
+                <span class="slider round"></span>
+            </label>
+            <span id="toggle-label">Toggle Monthly/Yearly</span>
+        </div>
+        <!-- The contents below will be dynamically updated based on the toggle position -->
+        <div id="subscription-details"></div>
     </div>
-    <h4 id="subscription-title">Subscription</h4>
-    <p class="small-text" id="subscription-benefit-1">low monthly cost</p>
-    <p class="small-text" id="subscription-benefit-2">cancel at any time</p>
-    <p class="small-text" id="subscription-benefit-3">all of bouncrrr's current features</p>
-    <p id="subscription-price">£0.00/month</p>
-    <p class="small-text" id="subscription-note">(billed monthly)</p>
-    <!-- Subscription Button -->
-    <button class="paddle_button"
-            data-theme="light"
-            data-locale="en"
-            id="subscribe-button"
-            data-product="pri_01htk0e7exyc33gr8qvaxnf96s">Subscribe Monthly</button>
-    <button class="paddle_button"
-            data-theme="light"
-            data-locale="en"
-            id="subscribe-button-yearly"
-            data-product="pri_01htk4dhmz6ngkhysj1c8rm6ah" style="display: none;">Subscribe Yearly</button>
 </div>
 
 <div class="pricing-tier special">
-    <h4>Lifetime License</h4>
+    <h4>lifetime license</h4>
     <p class="small-text">best value for money</p>
     <p class="small-text">no subscriptions to worry about</p>
     <p class="small-text">unlimited bounces</p>
