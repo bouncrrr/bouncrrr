@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,6 +20,40 @@
         console.log('Document loaded');
         fetchAndDisplayPrices(); // Fetch and display prices on page load
     });
+
+// Event listeners for the buttons
+        document.getElementById('subscribe-button-monthly').addEventListener('click', function() {
+            Paddle.Checkout.open({
+                items: [
+                    {
+                        priceId: 'pri_01htk0e7exyc33gr8qvaxnf96s', // Replace with the actual price ID for monthly subscription
+                        quantity: 1
+                    }
+                ]
+            });
+        });
+
+        document.getElementById('subscribe-button-annual').addEventListener('click', function() {
+            Paddle.Checkout.open({
+                items: [
+                    {
+                        priceId: 'pri_01htk4dhmz6ngkhysj1c8rm6ah', // Replace with the actual price ID for annual subscription
+                        quantity: 1
+                    }
+                ]
+            });
+        });
+
+        document.getElementById('buy-button-lifetime').addEventListener('click', function() {
+            Paddle.Checkout.open({
+                items: [
+                    {
+                        priceId: 'pri_01htk4feeptfk9fsw9zevx9mg5', // Replace with the actual price ID for lifetime purchase
+                        quantity: 1
+                    }
+                ]
+            });
+        });
 
     function fetchAndDisplayPrices() {
         var request = {
@@ -161,8 +196,7 @@
     <div class="pricing-tier">
         <h4>annual subscription</h4>
         <p class="small-text">saves money vs monthly</p>
-        <p class="small-text">no monthly subscription to worry about</p>
-	<p class="small-text">priority support</p>
+        <p class="small-text">no limits on sessions</p>
         <!-- Assign an ID for the annual price paragraph -->
         <p id="annual-price">£75/year (billed annually)</p>
         <p class="small-text">(equivalent of £6.25/month)</p>
@@ -172,22 +206,11 @@
         <h4>lifetime license</h4>
         <p class="small-text">best value for money</p>
         <p class="small-text">no subscriptions to worry about</p>
-        <p class="small-text">new features added as they're released</p>
+        <p class="small-text">unlimited bounces</p>
         <!-- Assign an ID for the lifetime price paragraph -->
         <p id="lifetime-price"><span class="original-price">£150</span> £90</p>
-	<p class="small-text">(one time fee, no hidden costs)</p>
         <div class="badge">★ INTRODUCTORY PRICING!</div>
         <button id="buy-button-lifetime">buy now</button>
-    </div>
-    <div class="pricing-tier">
-        <h4>trial</h4>
-        <p class="small-text">fully featured 7 day trial included with all subscriptions</p>
-        <p class="small-text">try before you buy!</p>
-	<p class="small-text">options to upgrade to subscription or buy a lifetime license</p>
-        <!-- Assign an ID for the annual price paragraph -->
-        <p id="annual-price">free to try!</p>
-        <p class="small-text">(you'll probably want to buy it though!)</p>
-        <button id="subscribe-button-annual">subscribe</button>
     </div>
 
 </div>
