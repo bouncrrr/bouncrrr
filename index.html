@@ -66,10 +66,10 @@ function fetchAndDisplayPrices() {
 
 function updatePricingDisplays(data) {
     const { monthlyPrice, annualPrice, lifetimePrice } = data;
-    document.getElementById('subscription-price').textContent = monthlyPrice.formatted;
+    document.getElementById('subscription-price').textContent = monthlyPrice;
     // Assuming there's a place to display the annual price separately. If not, this will be handled in the toggle function.
-    document.getElementById('annual-price').textContent = annualPrice.formatted; 
-    document.getElementById('lifetime-price').textContent = lifetimePrice.formatted;
+    document.getElementById('annual-price').textContent = annualPrice; 
+    document.getElementById('lifetime-price').textContent = lifetimePrice;
 
     // Update global variables with the actual Paddle price IDs
     window.monthlySubscriptionPriceId = monthlyPrice.priceId;
