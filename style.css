@@ -471,59 +471,39 @@ input:checked + .slider:before {
 }
 
 #monthly-price {
-    /* Define the gradient */
-    background: linear-gradient(to right, blue, purple);
-
-    /* Make the text transparent to show the gradient underneath */
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-
-    /* Optional: other styling */
-    font-size: 20px; /* Change as needed */
-    font-weight: bold; /* Change as needed */
+    font-size: 24px;
+            font-weight: bold;
+            background: linear-gradient(to right, #add8e6, #ffb6c1, #dda0dd); /* Lighter shades of blue to pink to purple */
+            -webkit-background-clip: text;
+            color: transparent;
+            display: inline;
 }
 
 #annual-price {
-    /* Define the gradient */
-    background: linear-gradient(to right, blue, purple);
-
-    /* Make the text transparent to show the gradient underneath */
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-
-    /* Optional: other styling */
-    font-size: 20px; /* Change as needed */
-    font-weight: bold; /* Change as needed */
+    font-size: 24px;
+            font-weight: bold;
+            background: linear-gradient(to right, #add8e6, #ffb6c1, #dda0dd); /* Lighter shades of blue to pink to purple */
+            -webkit-background-clip: text;
+            color: transparent;
+            display: inline;
 }
 
 #lifetime-price {
-    /* Define the gradient */
-    background: linear-gradient(to right, blue, purple);
-
-    /* Make the text transparent to show the gradient underneath */
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-
-    /* Optional: other styling */
-    font-size: 20px; /* Change as needed */
-    font-weight: bold; /* Change as needed */
+    font-size: 24px;
+            font-weight: bold;
+            background: linear-gradient(to right, #add8e6, #ffb6c1, #dda0dd); /* Lighter shades of blue to pink to purple */
+            -webkit-background-clip: text;
+            color: transparent;
+            display: inline;
 }
 
 #free-price {
-    /* Define the gradient */
-    background: linear-gradient(to right, blue, purple);
-
-    /* Make the text transparent to show the gradient underneath */
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-
-    /* Optional: other styling */
-    font-size: 20px; /* Change as needed */
-    font-weight: bold; /* Change as needed */
+    font-size: 24px;
+            font-weight: bold;
+            background: linear-gradient(to right, #add8e6, #ffb6c1, #dda0dd); /* Lighter shades of blue to pink to purple */
+            -webkit-background-clip: text;
+            color: transparent;
+            display: inline;
 }
 
 @keyframes arrow-bounce {
