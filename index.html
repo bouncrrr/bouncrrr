@@ -76,14 +76,13 @@
 <div class="pricing-page-container">
   <h1>choose your plan</h1>
   <div class="subscription-section">
-    <label class="toggle">
+    <label class="switch">
       <input type="checkbox" id="subscription-toggle">
       <span class="slider round"></span>
     </label>
     <div id="subscription-price">$0.00 / month</div>
     <button id="subscribe-button">subscribe now</button>
   </div>
-
   <div class="lifetime-section">
     <h2>lifetime license</h2>
     <div id="lifetime-price">$0.00</div>
@@ -127,6 +126,7 @@ document.addEventListener("DOMContentLoaded", function() {
 function updateSubscription(cycle) {
   let priceId = cycle === 'month' ? monthlySubscriptionPriceId : yearlySubscriptionPriceId;
   fetchAndDisplaySubscriptionPrice(priceId);
+  this.cycle = cycle; // update global cycle variable
 }
 
 function fetchAndDisplaySubscriptionPrice(priceId) {
@@ -152,26 +152,24 @@ function fetchAndDisplayLifetimePrice() {
 }
 
 	document.getElementById('subscribe-button').addEventListener('click', function() {
-  // Assuming 'cycle' holds the current subscription choice ('month' or 'year')
   let priceId = cycle === 'month' ? monthlySubscriptionPriceId : yearlySubscriptionPriceId;
   Paddle.Checkout.open({ product: priceId });
 });
+
 
 document.getElementById('lifetime-button').addEventListener('click', function() {
   Paddle.Checkout.open({ product: lifetimePurchasePriceId });
 });
 	
 document.getElementById('subscription-toggle').addEventListener('change', function() {
-  if (this.checked) {
-    updateSubscription('year');
-  } else {
-    updateSubscription('month');
-  }
+  var cycle = this.checked ? 'year' : 'month';
+  updateSubscription(cycle);
 });
+
 
 // Initialize to month subscription on page load
 document.addEventListener("DOMContentLoaded", function() {
-  updateSubscription('month'); // Default to monthly subscription
+  updateSubscription(cycle); // initialize with default cycle value
   fetchAndDisplayLifetimePrice();
 });
 	
