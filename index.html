@@ -50,13 +50,18 @@
 });
 
 function fetchAndDisplayPrices() {
-    fetch('https://paddle-cockroach-bouncrrr.onrender.com/api/pricing')
-        .then(response => response.json())
-        .then(data => {
-            // Update pricing displays and global variables
-            updatePricingDisplays(data);
-        })
-        .catch(error => console.error('Error fetching pricing:', error));
+    fetch('https://paddle-cockroach-bouncrrr.onrender.com/api/pricing', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        // No body needed if you're obtaining the IP address server-side
+    })
+    .then(response => response.json())
+    .then(data => {
+        updatePricingDisplays(data);
+    })
+    .catch(error => console.error('Error fetching pricing:', error));
 }
 
 function updatePricingDisplays(data) {
