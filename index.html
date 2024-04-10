@@ -100,48 +100,41 @@ function fetchAndDisplayPrices() {
 }
 
 function updatePricingDisplays(data) {
-    // Added logging to see what's received directly from Paddle
-    console.log("Received pricing data from Paddle.PricePreview:", JSON.stringify(data, null, 2));
+    // Assuming 'data' is the object returned from Paddle.PricePreview
+    console.log("Received pricing data:", JSON.stringify(data, null, 2));
 
     if (!data || !data.data || !data.data.details || !data.data.details.lineItems) {
-        console.error("Invalid or incomplete pricing data received from Paddle.");
+        console.error("Invalid or incomplete pricing data received.");
         return; // Exit if the data structure is not as expected
     }
 
-    // Correctly accessing the 'lineItems' based on Paddle's response
     const lineItems = data.data.details.lineItems;
-    console.log("Processed line items:", JSON.stringify(lineItems, null, 2));
 
-    // Extracting specific pricing info from the line items
-    const monthlyItem = lineItems.find(item => item.price.description.includes("Monthly Subscription"));
-    const annualItem = lineItems.find(item => item.price.description.includes("Annual Subscription"));
-    const lifetimeItem = lineItems.find(item => item.price.description.includes("Lifetime Purchase"));
+    // Extract specific pricing information based on 'description' or another identifier that makes sense
+    const monthlyItem = lineItems.find(item => item.price.description === "Monthly Subscription");
+    const annualItem = lineItems.find(item => item.price.description === "Annual Subscription");
 
-    // Logging extracted items for verification
-    console.log("Monthly Item:", monthlyItem ? JSON.stringify(monthlyItem, null, 2) : "Not found");
-    console.log("Annual Item:", annualItem ? JSON.stringify(annualItem, null, 2) : "Not found");
-    console.log("Lifetime Item:", lifetimeItem ? JSON.stringify(lifetimeItem, null, 2) : "Not found");
-
-    // Updating the UI elements with the extracted pricing info
     if (monthlyItem) {
-        document.getElementById('subscription-price').textContent = monthlyItem.formattedUnitTotals.total;
+        // Assuming you have an HTML element with id='monthly-price' to display the monthly price
+        document.getElementById('monthly-price').textContent = monthlyItem.formattedUnitTotals.total;
     } else {
-        console.warn("Monthly subscription pricing details are missing.");
+        console.error("Monthly pricing information is missing.");
     }
 
     if (annualItem) {
-        // Assuming there's an element to display annual pricing specifically
-        // document.getElementById('annual-price').textContent = annualItem.formattedUnitTotals.total;
+        // Assuming you have an HTML element with id='annual-price' to display the annual price
+        document.getElementById('annual-price').textContent = annualItem.formattedUnitTotals.total;
     } else {
-        console.warn("Annual subscription pricing details are missing.");
+        console.error("Annual pricing information is missing.");
     }
 
+    // Additional handling for lifetime purchase if applicable
+    // Assuming 'lifetime-price' is the ID for displaying lifetime purchase information
+    const lifetimeItem = lineItems.find(item => item.price.description === "Lifetime Purchase");
     if (lifetimeItem) {
         document.getElementById('lifetime-price').textContent = lifetimeItem.formattedUnitTotals.total;
-    } else {
-        console.warn("Lifetime purchase pricing details are missing.");
     }
-}
+});
 
 function toggleSubscriptionType(isAnnual) {
     const subscriptionTitle = document.getElementById('subscription-title');
