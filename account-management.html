@@ -12,7 +12,7 @@
 // Function to load the current marketing opt-in status
 async function loadMarketingOptInStatus() {
     // Example endpoint to get current status - you'll need to implement this
-    const response = await fetch('/get-marketing-preferences?customerId=REPLACE_WITH_CUSTOMER_ID');
+    const response = await fetch('https://paddle-cockroach-bouncrrr.onrender.com/get-marketing-preferences?customerId=REPLACE_WITH_CUSTOMER_ID');
     if (!response.ok) {
         throw new Error('Failed to fetch marketing opt-in status');
     }
@@ -28,7 +28,7 @@ async function updateMarketingOptInStatus(e) {
     const paddleCustomerId = 'REPLACE_WITH_CUSTOMER_ID'; // Logic to retrieve customer ID
 
     try {
-        const response = await fetch('/update-marketing-preferences', {
+        const response = await fetch('https://paddle-cockroach-bouncrrr.onrender.com/update-marketing-preferences', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
