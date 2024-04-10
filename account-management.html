@@ -82,6 +82,13 @@ document.getElementById('update-email-preferences').addEventListener('click', up
 // Load the current status when the page loads
 window.onload = loadMarketingOptInStatus;
 
+        document.addEventListener('DOMContentLoaded', () => {
+    const paddleCustomerId = localStorage.getItem('paddleCustomerId');
+    if (!paddleCustomerId) {
+        // Redirect user or handle the missing ID as needed
+        console.error('Customer ID missing');
+    }
+
 </script>
 </body>
 </html>
