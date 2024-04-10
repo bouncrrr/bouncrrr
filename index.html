@@ -18,57 +18,68 @@
     document.addEventListener('DOMContentLoaded', function() {
         console.log('Document loaded');
         fetchAndDisplayPrices(); // Fetch and display prices on page load
+    });
+
+    function fetchAndDisplayPrices() {
+        var request = {
+            items: [
+                { quantity: 1, priceId: 'pri_01htk0e7exyc33gr8qvaxnf96s' },
+                { quantity: 1, priceId: 'pri_01htk4dhmz6ngkhysj1c8rm6ah' },
+                { quantity: 1, priceId: 'pri_01htk4feeptfk9fsw9zevx9mg5' }
+            ],
+            address: { countryCode: 'GB' } // Example; adjust based on user's location or selection
+        };
+
+        Paddle.PricePreview(request)
+            .then((result) => {
+                console.log("Paddle.PricePreview success:", result);
+                updatePricingDisplays(result); // Handle the response
+            })
+            .catch((error) => {
+                console.error('Error fetching pricing from Paddle.PricePreview:', error);
+            });
+    }
+
+    function updatePricingDisplays(data) {
+        console.log("Attempting to update pricing displays with data:", JSON.stringify(data, null, 2));
+
+        if (!data || !data.data || !data.data.details || !data.data.details.lineItems) {
+            console.error("Invalid or incomplete pricing data received.");
+            return; // Exit if the data structure is not as expected
         }
 
-function fetchAndDisplayPrices() {
-    var request = {
-        items: [
-            { quantity: 1, priceId: 'pri_01htk0e7exyc33gr8qvaxnf96s' },
-            { quantity: 1, priceId: 'pri_01htk4dhmz6ngkhysj1c8rm6ah' },
-            { quantity: 1, priceId: 'pri_01htk4feeptfk9fsw9zevx9mg5' }
-        ],
-        address: { countryCode: 'GB' } // Example; adjust based on user's location or selection
-    };
+        const lineItems = data.data.details.lineItems;
 
-    Paddle.PricePreview(request)
-        .then((result) => {
-            console.log(result);
-            updatePricingDisplays(result); // Handle the response
-        })
-        .catch((error) => {
-            console.error('Error fetching pricing:', error);
-        });
-}
+        // Extract specific pricing info
+        const monthlyItem = lineItems.find(item => item.price.id === 'pri_01htk0e7exyc33gr8qvaxnf96s');
+        const annualItem = lineItems.find(item => item.price.id === 'pri_01htk4dhmz6ngkhysj1c8rm6ah');
+        const lifetimeItem = lineItems.find(item => item.price.id === 'pri_01htk4feeptfk9fsw9zevx9mg5');
 
-function updatePricingDisplays(data) {
-    // Assuming 'data' is the object returned from Paddle.PricePreview
-    console.log("Received pricing data:", JSON.stringify(data, null, 2));
+        console.log("Monthly Item:", monthlyItem);
+        console.log("Annual Item:", annualItem);
+        console.log("Lifetime Item:", lifetimeItem);
 
-    if (!data || !data.data || !data.data.details || !data.data.details.lineItems) {
-        console.error("Invalid or incomplete pricing data received.");
-        return; // Exit if the data structure is not as expected
+        if (monthlyItem) {
+            document.getElementById('monthly-price').textContent = monthlyItem.formattedUnitTotals.total + '/month';
+            console.log('Updated monthly price display.');
+        } else {
+            console.warn("Monthly subscription pricing details are missing.");
+        }
+
+        if (annualItem) {
+            document.getElementById('annual-price').textContent = annualItem.formattedUnitTotals.total + '/month (billed annually)';
+            console.log('Updated annual price display.');
+        } else {
+            console.warn("Annual subscription pricing details are missing.");
+        }
+
+        if (lifetimeItem) {
+            document.getElementById('lifetime-price').textContent = lifetimeItem.formattedUnitTotals.total;
+            console.log('Updated lifetime price display.');
+        } else {
+            console.warn("Lifetime purchase pricing details are missing.");
+        }
     }
-
-    const lineItems = data.data.details.lineItems;
-
-    // Find specific pricing information
-    const monthlyItem = lineItems.find(item => item.price.id === 'pri_01htk0e7exyc33gr8qvaxnf96s');
-    const annualItem = lineItems.find(item => item.price.id === 'pri_01htk4dhmz6ngkhysj1c8rm6ah');
-    const lifetimeItem = lineItems.find(item => item.price.id === 'pri_01htk4feeptfk9fsw9zevx9mg5');
-
-    // Update HTML elements with the new pricing information
-    if (monthlyItem) {
-        document.getElementById('monthly-price').textContent = monthlyItem.formattedUnitTotals.total + '/month';
-    }
-    if (annualItem) {
-        document.getElementById('annual-price').textContent = annualItem.formattedUnitTotals.total + '/month (billed annually)';
-    }
-    if (lifetimeItem) {
-        // Assuming the lifetime price does not have a '/month' or annual billing note
-        document.getElementById('lifetime-price').textContent = lifetimeItem.formattedUnitTotals.total;
-    }
-}
-
 </script>
 </head>
 <body>
