@@ -18,8 +18,44 @@
     document.addEventListener('DOMContentLoaded', function() {
         console.log('Document loaded');
         fetchAndDisplayPrices(); // Fetch and display prices on page load
+        updateSubscriptionDetails(); // Initial setup
+
+        document.getElementById('subscription-toggle').addEventListener('change', function() {
+            updateSubscriptionDetails(); // Update on toggle change
         });
     });
+
+    function updateSubscriptionDetails() {
+        const isAnnual = document.getElementById('subscription-toggle').checked;
+        const subscriptionDetails = document.getElementById('subscription-details');
+
+        if (isAnnual) {
+            // Annual subscription details
+            subscriptionDetails.innerHTML = `
+                <h4>annual subscription</h4>
+                <p class="small-text">best value for money</p>
+                <p class="small-text">no monthly payments</p>
+                <p class="small-text">all of bouncrrr's current features</p>
+                <p>£6.25/month</p>
+                <p class="small-text">(£75 billed annually)</p>
+                <button id="annual-button" class="paddle_button" data-product="pri_01htk4dhmz6ngkhysj1c8rm6ah">subscribe annually</button>
+            `;
+        } else {
+            // Monthly subscription details
+            subscriptionDetails.innerHTML = `
+                <h4>monthly subscription</h4>
+                <p class="small-text">low monthly cost</p>
+                <p class="small-text">cancel at any time</p>
+                <p class="small-text">all of bouncrrr's current features</p>
+                <p>£10/month</p>
+                <p class="small-text">(billed monthly)</p>
+                <button id="monthly-button" class="paddle_button" data-product="pri_01htk0e7exyc33gr8qvaxnf96s">subscribe monthly</button>
+            `;
+        }
+
+        // Attach event listener to the newly created button
+        attachButtonEventListeners();
+    }
 
     function attachButtonEventListeners() {
         const monthlyButton = document.getElementById('monthly-button');
@@ -73,56 +109,24 @@ function updatePricingDisplays(data) {
 
     const lineItems = data.data.details.lineItems;
 
-    // Extract specific pricing information based on 'description' or another identifier that makes sense
-    const monthlyItem = lineItems.find(item => item.price.description === "Monthly Subscription");
-    const annualItem = lineItems.find(item => item.price.description === "Annual Subscription");
+    // Find specific pricing information
+    const monthlyItem = lineItems.find(item => item.price.id === 'pri_01htk0e7exyc33gr8qvaxnf96s');
+    const annualItem = lineItems.find(item => item.price.id === 'pri_01htk4dhmz6ngkhysj1c8rm6ah');
+    const lifetimeItem = lineItems.find(item => item.price.id === 'pri_01htk4feeptfk9fsw9zevx9mg5');
 
+    // Update HTML elements with the new pricing information
     if (monthlyItem) {
-        // Assuming you have an HTML element with id='monthly-price' to display the monthly price
-        document.getElementById('monthly-price').textContent = monthlyItem.formattedUnitTotals.total;
-    } else {
-        console.error("Monthly pricing information is missing.");
+        document.getElementById('monthly-price').textContent = monthlyItem.formattedUnitTotals.total + '/month';
     }
-
     if (annualItem) {
-        // Assuming you have an HTML element with id='annual-price' to display the annual price
-        document.getElementById('annual-price').textContent = annualItem.formattedUnitTotals.total;
-    } else {
-        console.error("Annual pricing information is missing.");
+        document.getElementById('annual-price').textContent = annualItem.formattedUnitTotals.total + '/month (billed annually)';
     }
-
-    // Additional handling for lifetime purchase if applicable
-    // Assuming 'lifetime-price' is the ID for displaying lifetime purchase information
-    const lifetimeItem = lineItems.find(item => item.price.description === "Lifetime Purchase");
     if (lifetimeItem) {
+        // Assuming the lifetime price does not have a '/month' or annual billing note
         document.getElementById('lifetime-price').textContent = lifetimeItem.formattedUnitTotals.total;
     }
 }
 
-function toggleSubscriptionType(isAnnual) {
-    const subscriptionTitle = document.getElementById('subscription-title');
-    const subscriptionPrice = document.getElementById('subscription-price');
-    const subscriptionNote = document.getElementById('subscription-note');
-    const monthlyButton = document.getElementById('subscribe-button');
-    const annualButton = document.getElementById('subscribe-button-annual');
-
-    // Assuming you have stored the pricing information globally or in a way accessible here
-    if (isAnnual) {
-        // Update to display annual subscription details
-        subscriptionTitle.textContent = 'annual subscription';
-        subscriptionPrice.textContent = window.annualPriceFormatted; // Update this based on where you store the annual price
-        subscriptionNote.textContent = '(billed annually)';
-        monthlyButton.style.display = 'none';
-        annualButton.style.display = 'inline-block'; // Make sure the annual button is shown
-    } else {
-        // Update to display monthly subscription details
-        subscriptionTitle.textContent = 'monthly subscription';
-        subscriptionPrice.textContent = window.monthlyPriceFormatted; // Update this based on where you store the monthly price
-        subscriptionNote.textContent = '(billed monthly)';
-        monthlyButton.style.display = 'inline-block';
-        annualButton.style.display = 'none'; // Hide the annual button
-        }
-    }
 </script>
 </head>
 <body>
@@ -191,32 +195,35 @@ function toggleSubscriptionType(isAnnual) {
     
 <div class="pricing-container">
 
-            <div class="pricing-tier">
-                <h4>monthly subscription</h4>
-		<p class="small-text">low monthly cost</p>
-		<p class="small-text">cancel at any time</p>
-		<p class="small-text">all of bouncrrr's current features</p>
-                <p>£8.99/month</p>
-                <p class="small-text">(billed monthly)</p>
-                <button>subscribe</button>
-            </div>
-            <div class="pricing-tier">
-                <h4>annual subscription</h4>
-		<p class="small-text">saves money vs monthly</p>
-		<p class="small-text">no limits on sessions</p>
-                <p>£6.25/month</p>
-                <p class="small-text">(billed annually at £75)</p>
-                <button>subscribe</button>
-            </div>
-            <div class="pricing-tier special">
-                <h4>lifetime license</h4>
-		<p class="small-text">best value for money</p>
-		<p class="small-text">no subscriptions to worry about</p>
-		<p class="small-text">unlimited bounces</p>
-                <p><span class="original-price">£150</span> £90</p>
-                <div class="badge">★ INTRODUCTORY PRICING!</div>
-                <button>buy now</button>
-            </div>
+    <div class="pricing-tier">
+        <h4>monthly subscription</h4>
+        <p class="small-text">low monthly cost</p>
+        <p class="small-text">cancel at any time</p>
+        <p class="small-text">all of bouncrrr's current features</p>
+        <!-- Assign an ID for the monthly price paragraph -->
+        <p id="monthly-price">£8.99/month</p>
+        <p class="small-text">(billed monthly)</p>
+        <button id="subscribe-button-monthly">subscribe</button>
+    </div>
+    <div class="pricing-tier">
+        <h4>annual subscription</h4>
+        <p class="small-text">saves money vs monthly</p>
+        <p class="small-text">no limits on sessions</p>
+        <!-- Assign an ID for the annual price paragraph -->
+        <p id="annual-price">£6.25/month</p>
+        <p class="small-text">(billed annually at £75)</p>
+        <button id="subscribe-button-annual">subscribe</button>
+    </div>
+    <div class="pricing-tier special">
+        <h4>lifetime license</h4>
+        <p class="small-text">best value for money</p>
+        <p class="small-text">no subscriptions to worry about</p>
+        <p class="small-text">unlimited bounces</p>
+        <!-- Assign an ID for the lifetime price paragraph -->
+        <p id="lifetime-price"><span class="original-price">£150</span> £90</p>
+        <div class="badge">★ INTRODUCTORY PRICING!</div>
+        <button id="buy-button-lifetime">buy now</button>
+    </div>
 
 </div>
 
