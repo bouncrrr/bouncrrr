@@ -160,6 +160,21 @@ function fetchAndDisplayLifetimePrice() {
 document.getElementById('lifetime-button').addEventListener('click', function() {
   Paddle.Checkout.open({ product: lifetimePurchasePriceId });
 });
+	
+document.getElementById('subscription-toggle').addEventListener('change', function() {
+  if (this.checked) {
+    updateSubscription('year');
+  } else {
+    updateSubscription('month');
+  }
+});
+
+// Initialize to month subscription on page load
+document.addEventListener("DOMContentLoaded", function() {
+  updateSubscription('month'); // Default to monthly subscription
+  fetchAndDisplayLifetimePrice();
+});
+	
 </script>
 </body>
 </html>
