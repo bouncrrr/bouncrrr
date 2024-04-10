@@ -93,9 +93,34 @@
 	<script src="https://cdn.paddle.com/paddle/paddle.js"></script>
 <script type="text/javascript">
 Paddle.Environment.set('sandbox');
-Paddle.Setup({
-    vendor:  18770,
+Paddle.Initialize({ 
+    token: "test_241b28ddc2c6acc634ee5dd479f"
 });
+
+	// define products and prices
+  var mainProduct = 'pro_01htk0dsj95k1wafa5tcmvs4dz';
+  var monthItems = [{
+      quantity: 1,
+      priceId: 'pri_01htk0e7exyc33gr8qvaxnf96s',
+    }
+  ];
+  var yearItems = [{
+      quantity: 1,
+      priceId: 'pri_01htk4dhmz6ngkhysj1c8rm6ah',
+    }
+  ];
+
+	// set initial billing cycle
+  var billingCycle = 'year'
+  
+  // get prices
+  function getPrices(cycle) {
+    if (cycle === 'month') {
+      var billingCycle = cycle;
+      var itemsList = monthItems;
+    } else if (cycle === 'year') {
+      var billingCycle = cycle;
+      var itemsList = yearItems;
 </script>
 </body>
 </html>
