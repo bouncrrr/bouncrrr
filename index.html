@@ -73,7 +73,33 @@
         <section id="pricing">
     <h2 class="large-heading">pricing</h2>
     
-<h2>coming soon...</h2>
+<div class="pricing-container">
+
+    <div class="pricing-tier" id="subscription-tier">
+        <label class="toggle-switch">
+            <input type="checkbox" id="subscription-toggle">
+            <span class="slider"></span>
+        </label>
+        <h4 id="subscription-title">subscription</h4>
+        <p class="small-text" id="subscription-benefit-1">low monthly cost</p>
+        <p class="small-text" id="subscription-benefit-2">cancel at any time</p>
+        <p class="small-text" id="subscription-benefit-3">all of bouncrrr's current features</p>
+        <p id="subscription-price">£0.00/month</p>
+        <p class="small-text" id="subscription-note">(billed monthly)</p>
+        <button id="subscribe-button">subscribe</button>
+    </div>
+
+    <div class="pricing-tier special">
+        <h4>lifetime license</h4>
+        <p class="small-text">best value for money</p>
+        <p class="small-text">no subscriptions to worry about</p>
+        <p class="small-text">unlimited bounces</p>
+        <p id="lifetime-price"><span class="original-price">£150</span> £90</p>
+        <div class="badge">★ INTRODUCTORY PRICING!</div>
+        <button id="lifetime-button">buy now</button>
+    </div>
+
+</div>
 
         </section>
         <section id="contact">
@@ -89,9 +115,58 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/ScrollMagic.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/plugins/debug.addIndicators.min.js"></script>
     <script src="script.js"></script>
+
+	<script src="https://cdn.paddle.com/paddle/paddle.js"></script>
+<script type="text/javascript">
+Paddle.Environment.set("sandbox");
+Paddle.Initialize({
+  token: 'test_241b28ddc2c6acc634ee5dd479f' // replace with your client-side token
+	Paddle.Setup({ vendor: 18770 }); // Ensure you have your vendor ID correctly set up here
+
+});
+
+// Define price IDs
+var monthlySubscriptionPriceId = 'pri_01htk0e7exyc33gr8qvaxnf96s';
+var yearlySubscriptionPriceId = 'pri_01htk4dhmz6ngkhysj1c8rm6ah';
+var lifetimePurchasePriceId = 'pri_01htk4feeptfk9fsw9zevx9mg5';
+
+document.addEventListener('DOMContentLoaded', function() {
+    updatePrices(); // Initial fetch and display of prices
+    
+    document.getElementById('subscription-toggle').addEventListener('change', function() {
+        updatePrices(); // Update prices when the toggle is changed
+    });
+
+    document.getElementById('subscribe-button').addEventListener('click', function() {
+        let isYearly = document.getElementById('subscription-toggle').checked;
+        Paddle.Checkout.open({
+            product: isYearly ? yearlySubscriptionPriceId : monthlySubscriptionPriceId
+        });
+    });
+
+    document.getElementById('lifetime-button').addEventListener('click', function() {
+        Paddle.Checkout.open({
+            product: lifetimePurchasePriceId
+        });
+    });
+});
+
+function updatePrices() {
+    let isYearly = document.getElementById('subscription-toggle').checked;
+    let subscriptionPriceId = isYearly ? yearlySubscriptionPriceId : monthlySubscriptionPriceId;
+
+    // Fetch and display subscription price
+    Paddle.PricePreview({
+        items: [{ quantity: 1, priceId: subscriptionPriceId }]
+    }, function(resp) {
+        document.getElementById('subscription-price').textContent = resp.data.details.lineItems[0].formattedTotals.subtotal;
+        document.getElementById('subscription-note').textContent = isYearly ? '(billed annually)' : '(billed monthly)';
+        document.getElementById('subscription-title').textContent = isYearly ? 'annual subscription' : 'monthly subscription';
+    });
+
+    // Assuming the lifetime price doesn't change, but you could similarly fetch and update it if needed
+}
+	
+</script>
 </body>
 </html>
-
-
-
-
