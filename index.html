@@ -67,7 +67,7 @@
         }
 
         if (annualItem) {
-            document.getElementById('annual-price').textContent = annualItem.formattedUnitTotals.total + '/month (billed annually)';
+            document.getElementById('annual-price').textContent = annualItem.formattedUnitTotals.total + '/year';
             console.log('Updated annual price display.');
         } else {
             console.warn("Annual subscription pricing details are missing.");
@@ -163,8 +163,8 @@
         <p class="small-text">saves money vs monthly</p>
         <p class="small-text">no limits on sessions</p>
         <!-- Assign an ID for the annual price paragraph -->
-        <p id="annual-price">£6.25/month</p>
-        <p class="small-text">(billed annually at £75)</p>
+        <p id="annual-price">£75/year (billed annually)</p>
+        <p class="small-text">(equivalent of £6.25/month)</p>
         <button id="subscribe-button-annual">subscribe</button>
     </div>
     <div class="pricing-tier special">
