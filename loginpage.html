@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bouncrrr</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="bouncrrr-favicon.ico" type="image/x-icon">
+</head>
+<body class="info-page">
+    <div id="background-animation"></div>
+    <div class="navbar navbar-visible" id="navbar"> <!-- Add 'navbar-visible' class for specific pages -->
+        <a href="index.html">home</a>
+    </div>
+    <header>
+	    <h2>login</h2>
+    </header>
+    <div class="container">
+        <center><form id="loginForm">
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div>
+<br>
+                <button type="submit">Login</button>
+            </div>
+        </form></center>
+        <div id="loginError" class="error"></div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            fetch('https://paddle-cockroach-bouncrrr.onrender.com/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Login failed');
+                return response.json();
+            })
+            .then(data => {
+                if (data.token) {
+                    // Save the token and email locally for further operations
+                    localStorage.setItem('userToken', data.token);
+                    localStorage.setItem('userEmail', email);
+                    window.location.href = '/account-management.html'; // Redirect to account management page
+                } else {
+                    document.getElementById('loginError').textContent = 'Login failed. Please check your credentials.';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('loginError').textContent = error.message;
+            });
+        });
+    </script>
+<footer>
+        <a href="privacy.html">privacy notice</a> | 
+        <a href="support.html">support</a> | 
+        <a href="terms.html">terms of use/refund policy</a>
+    </footer>
+</body>
+</html>
