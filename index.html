@@ -15,55 +15,86 @@
     });
     console.log('Paddle.js initialized');
 
-    function fetchAndDisplayPrices() {
-        // Fetch pricing from your backend
-        fetch('https://paddle-cockroach-bouncrrr.onrender.com/api/pricing')
-            .then(response => response.json())
-            .then(data => {
-                // Assuming the backend response includes monthly and annual subscription prices
-                // and a lifetime purchase price in a structured format
-                const monthlyPrice = data.monthlyPrice; // Adjust according to your actual response structure
-                const annualPrice = data.annualPrice;   // Adjust according to your actual response structure
-                const lifetimePrice = data.lifetimePrice; // Adjust according to your actual response structure
-
-                document.getElementById('subscription-price').textContent = monthlyPrice.formatted; // Update monthly price display
-                document.getElementById('annual-price').textContent = annualPrice.formatted; // Update annual price display
-                document.getElementById('lifetime-price').textContent = lifetimePrice.formatted; // Update lifetime price display
-
-                // Update global variables with the actual Paddle price IDs returned from the backend
-                window.monthlySubscriptionPriceId = monthlyPrice.priceId;
-                window.annualSubscriptionPriceId = annualPrice.priceId;
-                window.lifetimePurchasePriceId = lifetimePrice.priceId;
-
-                console.log('Prices updated from backend');
-            })
-            .catch(error => console.error('Error fetching pricing:', error));
-    }
-
     document.addEventListener('DOMContentLoaded', function() {
-        console.log('Document loaded');
-        fetchAndDisplayPrices(); // Fetch and display prices on page load
+    console.log('Document loaded');
+    fetchAndDisplayPrices(); // Fetch and display prices on page load
 
-        document.getElementById('subscription-toggle').addEventListener('change', function() {
-            console.log('Subscription type changed:', this.checked ? 'annual' : 'Monthly');
-            // No need to fetch prices again; simply toggling the display logic could suffice here
-            // unless your pricing structure requires it.
-        });
+    // Toggle between Monthly and Annual subscriptions
+    document.getElementById('subscription-toggle').addEventListener('change', function() {
+        toggleSubscriptionType(this.checked);
+    });
 
-        document.getElementById('subscribe-button').addEventListener('click', function() {
-            console.log('Subscribe button clicked');
-            Paddle.Checkout.open({
-                product: document.getElementById('subscription-toggle').checked ? window.annualSubscriptionPriceId : window.monthlySubscriptionPriceId,
-            });
-        });
-
-        document.getElementById('lifetime-button').addEventListener('click', function() {
-            console.log('Lifetime button clicked');
-            Paddle.Checkout.open({
-                product: window.lifetimePurchasePriceId,
-            });
+    // Event listener for subscribing to Monthly subscription
+    document.getElementById('subscribe-button').addEventListener('click', function() {
+        console.log('Subscribe Monthly button clicked');
+        Paddle.Checkout.open({
+            product: window.monthlySubscriptionPriceId,
         });
     });
+
+    // Event listener for subscribing to Annual subscription
+    document.getElementById('subscribe-button-annual').addEventListener('click', function() {
+        console.log('Subscribe Annual button clicked');
+        Paddle.Checkout.open({
+            product: window.annualSubscriptionPriceId,
+        });
+    });
+
+    // Event listener for buying Lifetime license
+    document.getElementById('lifetime-button').addEventListener('click', function() {
+        console.log('Lifetime button clicked');
+        Paddle.Checkout.open({
+            product: window.lifetimePurchasePriceId,
+        });
+    });
+});
+
+function fetchAndDisplayPrices() {
+    fetch('https://paddle-cockroach-bouncrrr.onrender.com/api/pricing')
+        .then(response => response.json())
+        .then(data => {
+            // Update pricing displays and global variables
+            updatePricingDisplays(data);
+        })
+        .catch(error => console.error('Error fetching pricing:', error));
+}
+
+function updatePricingDisplays(data) {
+    const { monthlyPrice, annualPrice, lifetimePrice } = data;
+    document.getElementById('subscription-price').textContent = monthlyPrice.formatted;
+    // Assuming there's a place to display the annual price separately. If not, this will be handled in the toggle function.
+    document.getElementById('annual-price').textContent = annualPrice.formatted; 
+    document.getElementById('lifetime-price').textContent = lifetimePrice.formatted;
+
+    // Update global variables with the actual Paddle price IDs
+    window.monthlySubscriptionPriceId = monthlyPrice.priceId;
+    window.annualSubscriptionPriceId = annualPrice.priceId;
+    window.lifetimePurchasePriceId = lifetimePrice.priceId;
+}
+
+function toggleSubscriptionType(isAnnual) {
+    const subscriptionTitle = document.getElementById('subscription-title');
+    const subscriptionPrice = document.getElementById('subscription-price');
+    const subscriptionNote = document.getElementById('subscription-note');
+    const monthlyButton = document.getElementById('subscribe-button');
+    const annualButton = document.getElementById('subscribe-button-annual');
+
+    if(isAnnual) {
+        // Update display to show Annual subscription details
+        subscriptionTitle.textContent = 'annual subscription';
+        subscriptionPrice.textContent = window.annualPrice.formatted; // Ensure this is updated when fetching pricing
+        subscriptionNote.textContent = '(billed annually)';
+        monthlyButton.style.display = 'none';
+        annualButton.style.display = '';
+    } else {
+        // Revert to Monthly subscription details
+        subscriptionTitle.textContent = 'monthly subscription';
+        subscriptionPrice.textContent = window.monthlyPrice.formatted; // Ensure this is updated when fetching pricing
+        subscriptionNote.textContent = '(billed monthly)';
+        monthlyButton.style.display = '';
+        annualButton.style.display = 'none';
+    }
+}
 </script>
 </head>
 <body>
