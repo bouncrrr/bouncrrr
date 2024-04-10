@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Management - bouncrrr</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="bouncrrr-favicon.ico" type="image/x-icon">
+
+<script>
+// Function to load the current marketing opt-in status
+async function loadMarketingOptInStatus() {
+    // Example endpoint to get current status - you'll need to implement this
+    const response = await fetch('/get-marketing-preferences?customerId=REPLACE_WITH_CUSTOMER_ID');
+    if (!response.ok) {
+        throw new Error('Failed to fetch marketing opt-in status');
+    }
+    const data = await response.json();
+    document.getElementById('marketing-emails').checked = data.marketingOptIn;
+}
+
+// Function to update the marketing opt-in status
+async function updateMarketingOptInStatus(e) {
+    e.preventDefault(); // Prevent the form from submitting
+
+    const marketingOptIn = document.getElementById('marketing-emails').checked;
+    const paddleCustomerId = 'REPLACE_WITH_CUSTOMER_ID'; // Logic to retrieve customer ID
+
+    try {
+        const response = await fetch('/update-marketing-preferences', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ paddleCustomerId, marketingOptIn }),
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const responseMessage = await response.text();
+        document.getElementById('email-preference-message').textContent = responseMessage;
+    } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('email-preference-message').textContent = 'Failed to update preferences. Please try again later.';
+    }
+}
+
+// Event listener for the update button
+document.getElementById('update-email-preferences').addEventListener('click', updateMarketingOptInStatus);
+
+// Load the current status when the page loads
+window.onload = loadMarketingOptInStatus;
+
+</script>
+</head>
+<body class="info-page">
+    <div id="background-animation"></div>
+    <div class="navbar navbar-visible" id="navbar">
+        <a href="index.html">home</a>
+    </div>
+    <header>
+        <h2>account management</h2>
+    </header>
+    <main>
+        <section id="subscription-details" class="account-section">
+            <h4>subscription details</h4>
+            <p>Status: <span id="subscription-status">loading...</span></p>
+            <button id="manage-subscription" class="account-button">manage subscription</button>
+            <p id="subscription-message"></p>
+        </section>
+        <section id="email-preferences" class="account-section">
+            <h4>email preferences</h4>
+            <label for="marketing-emails" class="account-label">opt in for marketing emails:</label>
+            <input type="checkbox" id="marketing-emails">
+            <button id="update-email-preferences" class="account-button">update preferences</button>
+            <p id="email-preference-message"></p>
+        </section>
+    </main>
+    <footer>
+        <a href="privacy.html">privacy notice</a> | 
+        <a href="support.html">support</a> | 
+        <a href="terms.html">terms of use/refund policy</a>
+    </footer>
+    <script src="account.js"></script>
+</body>
+</html>
