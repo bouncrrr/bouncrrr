@@ -234,33 +234,18 @@ function toggleSubscriptionType(isAnnual) {
     <h2 class="large-heading">pricing</h2>
     
 <div class="pricing-container">
-
     <div class="pricing-tier" id="subscription-tier">
-    <div class="toggle-container"> <!-- Container for the toggle to control its layout -->
-        <label class="toggle-switch">
-            <input type="checkbox" id="subscription-toggle">
-            <span class="slider round"></span>
-        </label>
-        <span>monthly/annual</span> <!-- Labels for clarity -->
+        <div class="toggle-container">
+            <label class="toggle-switch">
+                <input type="checkbox" id="subscription-toggle">
+                <span class="slider round"></span>
+            </label>
+            <span id="toggle-label">Toggle Monthly/Yearly</span>
+        </div>
+        <!-- The contents below will be dynamically updated based on the toggle position -->
+        <div id="subscription-details"></div>
     </div>
-    <h4 id="subscription-title">monthly subscription</h4>
-    <p class="small-text" id="subscription-benefit-1">low monthly cost</p>
-    <p class="small-text" id="subscription-benefit-2">cancel at any time</p>
-    <p class="small-text" id="subscription-benefit-3">all of bouncrrr's current features</p>
-    <p id="subscription-price">£0.00/month</p>
-    <p class="small-text" id="subscription-note">(billed monthly)</p>
-    <!-- Subscription Button -->
-    <button class="paddle_button"
-            data-theme="light"
-            data-locale="en"
-            id="subscribe-button"
-            data-product="pri_01htk0e7exyc33gr8qvaxnf96s">Subscribe Monthly</button>
-    <button class="paddle_button"
-            data-theme="light"
-            data-locale="en"
-            id="subscribe-button-annual"
-            data-product="pri_01htk4dhmz6ngkhysj1c8rm6ah" style="display: none;">Subscribe annual</button>
-    </div>
+</div>
 
 <div class="pricing-tier special">
     <h4>lifetime license</h4>
