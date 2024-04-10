@@ -100,45 +100,46 @@ function fetchAndDisplayPrices() {
 }
 
 function updatePricingDisplays(data) {
-    console.log("Received pricing data:", JSON.stringify(data, null, 2)); // Log the entire response
+    // Added logging to see what's received directly from Paddle
+    console.log("Received pricing data from Paddle.PricePreview:", JSON.stringify(data, null, 2));
 
-    // Access the line_items array from the response with added safety checks
-    if (!data || !data.data || !data.data.details || !data.data.details.line_items) {
-        console.error("Invalid or incomplete pricing data received.");
-        return;
+    if (!data || !data.data || !data.data.details || !data.data.details.lineItems) {
+        console.error("Invalid or incomplete pricing data received from Paddle.");
+        return; // Exit if the data structure is not as expected
     }
 
-    const lineItems = data.data.details.line_items;
-    console.log("Line items extracted:", JSON.stringify(lineItems, null, 2)); // Log the extracted line items
+    // Correctly accessing the 'lineItems' based on Paddle's response
+    const lineItems = data.data.details.lineItems;
+    console.log("Processed line items:", JSON.stringify(lineItems, null, 2));
 
-    // Find the specific items based on identifiable features
-    const monthlyItem = lineItems.find(item => item.price.description.includes("Monthly"));
-    const annualItem = lineItems.find(item => item.price.description.includes("Annual"));
-    const lifetimeItem = lineItems.find(item => item.price.description.includes("Lifetime"));
+    // Extracting specific pricing info from the line items
+    const monthlyItem = lineItems.find(item => item.price.description.includes("Monthly Subscription"));
+    const annualItem = lineItems.find(item => item.price.description.includes("Annual Subscription"));
+    const lifetimeItem = lineItems.find(item => item.price.description.includes("Lifetime Purchase"));
 
-    console.log("Monthly item:", monthlyItem ? JSON.stringify(monthlyItem, null, 2) : "Not found");
-    console.log("Annual item:", annualItem ? JSON.stringify(annualItem, null, 2) : "Not found");
-    console.log("Lifetime item:", lifetimeItem ? JSON.stringify(lifetimeItem, null, 2) : "Not found");
+    // Logging extracted items for verification
+    console.log("Monthly Item:", monthlyItem ? JSON.stringify(monthlyItem, null, 2) : "Not found");
+    console.log("Annual Item:", annualItem ? JSON.stringify(annualItem, null, 2) : "Not found");
+    console.log("Lifetime Item:", lifetimeItem ? JSON.stringify(lifetimeItem, null, 2) : "Not found");
 
-    // Update pricing text with added checks for null/undefined items
-    if (monthlyItem && monthlyItem.formatted_totals && monthlyItem.formatted_totals.total) {
-        document.getElementById('subscription-price').textContent = monthlyItem.formatted_totals.total;
+    // Updating the UI elements with the extracted pricing info
+    if (monthlyItem) {
+        document.getElementById('subscription-price').textContent = monthlyItem.formattedUnitTotals.total;
     } else {
-        console.warn("Monthly pricing information is missing or incomplete.");
+        console.warn("Monthly subscription pricing details are missing.");
     }
 
-    if (annualItem && annualItem.formatted_totals && annualItem.formatted_totals.total) {
-        // Update annual price if applicable
-        console.log("Annual pricing to be updated:", annualItem.formatted_totals.total);
-        // Example: document.getElementById('annual-price').textContent = annualItem.formatted_totals.total;
+    if (annualItem) {
+        // Assuming there's an element to display annual pricing specifically
+        // document.getElementById('annual-price').textContent = annualItem.formattedUnitTotals.total;
     } else {
-        console.warn("Annual pricing information is missing or incomplete.");
+        console.warn("Annual subscription pricing details are missing.");
     }
 
-    if (lifetimeItem && lifetimeItem.formatted_totals && lifetimeItem.formatted_totals.total) {
-        document.getElementById('lifetime-price').textContent = lifetimeItem.formatted_totals.total;
+    if (lifetimeItem) {
+        document.getElementById('lifetime-price').textContent = lifetimeItem.formattedUnitTotals.total;
     } else {
-        console.warn("Lifetime pricing information is missing or incomplete.");
+        console.warn("Lifetime purchase pricing details are missing.");
     }
 }
 
