@@ -506,6 +506,28 @@ input:checked + .slider:before {
             display: inline;
 }
 
+.account-section h4 {
+    font-size: 1.5rem; /* Smaller headings for sections */
+    margin-bottom: 0.5rem; /* Tighter spacing to following content */
+}
+
+.account-section p,
+.account-section label {
+    font-size: 1rem; /* Smaller text for content and labels */
+    margin-top: 0.5rem; /* Reduced spacing from previous elements */
+}
+
+.account-button {
+    font-size: 1rem; /* Smaller button text */
+    padding: 0.5rem 1rem; /* Smaller buttons */
+    margin-top: 0.5rem; /* Reduced spacing from previous elements */
+}
+
+.account-label {
+    display: block; /* Ensure label is on its own line for clarity */
+    margin-bottom: 0.25rem; /* Space before checkbox */
+}
+
 @keyframes arrow-bounce {
     0%, 100% {
         transform: translate(-50%, 0);
