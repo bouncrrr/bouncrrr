@@ -74,19 +74,21 @@
     <h2 class="large-heading">pricing</h2>
     
 <div class="pricing-page-container">
-  <h1>Choose Your Subscription</h1>
-  <div class="subscription-toggle">
-    <input type="radio" id="monthly" name="subscription" value="month" onclick="updateSubscription('month')" checked>
-    <label for="monthly">Monthly</label>
-    <input type="radio" id="yearly" name="subscription" value="year" onclick="updateSubscription('year')">
-    <label for="yearly">Yearly</label>
+  <h1>choose your plan</h1>
+  <div class="subscription-section">
+    <label class="toggle">
+      <input type="checkbox" id="subscription-toggle">
+      <span class="slider round"></span>
+    </label>
+    <div id="subscription-price">$0.00 / month</div>
+    <button id="subscribe-button">subscribe now</button>
   </div>
-  <div id="subscription-price">$0.00</div>
-  <button id="subscribe-button">Subscribe Now</button>
 
-  <h2>Or Buy a Lifetime License</h2>
-  <div id="lifetime-price">$0.00</div>
-  <button id="lifetime-button">Purchase Lifetime</button>
+  <div class="lifetime-section">
+    <h2>lifetime license</h2>
+    <div id="lifetime-price">$0.00</div>
+    <button id="lifetime-button">purchase lifetime</button>
+  </div>
 </div>
 
         </section>
