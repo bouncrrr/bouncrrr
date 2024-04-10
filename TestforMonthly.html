@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout Example</title>
+    <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+</head>
+<body>
+    <!-- Subscription Buttons -->
+<button id="subscribe-button-monthly">Subscribe Monthly</button>
+<button id="subscribe-button-yearly" style="display: none;">Subscribe Yearly</button>
+
+<!-- Lifetime Purchase Button -->
+<button id="lifetime-button">Buy Lifetime</button>
+    
+    <script>
+Paddle.Environment.set('sandbox'); // Ensure you're in the correct environment
+        Paddle.Initialize({
+            token: 'test_241b28ddc2c6acc634ee5dd479f', // Replace with your actual client-side token
+		eventCallback: function(eventData) {
+	        console.log('Event Name:', eventData.event);
+	        console.log('Event Data:', eventData.data);
+        	// Handle specific events here
+    	}
+        });
+
+var monthlySubscriptionPriceId = 'pri_01htk0e7exyc33gr8qvaxnf96s'; // Your actual monthly price ID
+var yearlySubscriptionPriceId = 'pri_01htk4dhmz6ngkhysj1c8rm6ah'; // Your actual yearly price ID
+var lifetimePurchasePriceId = 'pri_01htk4feeptfk9fsw9zevx9mg5'; // Your actual lifetime price ID
+
+
+       document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('subscribe-button-monthly').addEventListener('click', function() {
+        openCheckoutWithItems(monthlySubscriptionPriceId);
+    });
+
+    document.getElementById('subscribe-button-yearly').addEventListener('click', function() {
+        openCheckoutWithItems(yearlySubscriptionPriceId);
+    });
+
+    document.getElementById('lifetime-button').addEventListener('click', function() {
+        openCheckoutWithItems(lifetimePurchasePriceId);
+    });
+
+    function openCheckoutWithItems(priceId) {
+        Paddle.Checkout.open({
+            items: [{
+                priceId: priceId,
+                quantity: 1
+            }]
+        });
+    }
+});
+    </script>
+</body>
+</html>
