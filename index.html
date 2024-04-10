@@ -19,7 +19,6 @@
     document.addEventListener('DOMContentLoaded', function() {
         console.log('Document loaded');
         fetchAndDisplayPrices(); // Fetch and display prices on page load
-    });
 
 // Event listeners for the buttons
         document.getElementById('subscribe-button-monthly').addEventListener('click', function() {
@@ -54,6 +53,7 @@
                 ]
             });
         });
+    });
 
     function fetchAndDisplayPrices() {
         var request = {
