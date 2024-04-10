@@ -18,10 +18,6 @@
     document.addEventListener('DOMContentLoaded', function() {
         console.log('Document loaded');
         fetchAndDisplayPrices(); // Fetch and display prices on page load
-        updateSubscriptionDetails(); // Initial setup
-
-        document.getElementById('subscription-toggle').addEventListener('change', function() {
-            updateSubscriptionDetails(); // Update on toggle change
         });
     });
 
