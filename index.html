@@ -87,14 +87,14 @@ function toggleSubscriptionType(isAnnual) {
     if(isAnnual) {
         // Update display to show Annual subscription details
         subscriptionTitle.textContent = 'annual subscription';
-        subscriptionPrice.textContent = window.annualPrice.formatted; // Ensure this is updated when fetching pricing
+        subscriptionPrice.textContent = window.annualPrice; // Use global variable set by updatePricingDisplays
         subscriptionNote.textContent = '(billed annually)';
         monthlyButton.style.display = 'none';
         annualButton.style.display = '';
     } else {
         // Revert to Monthly subscription details
         subscriptionTitle.textContent = 'monthly subscription';
-        subscriptionPrice.textContent = window.monthlyPrice.formatted; // Ensure this is updated when fetching pricing
+        subscriptionPrice.textContent = window.monthlyPrice; // Use global variable set by updatePricingDisplays
         subscriptionNote.textContent = '(billed monthly)';
         monthlyButton.style.display = '';
         annualButton.style.display = 'none';
