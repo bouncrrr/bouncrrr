@@ -148,7 +148,7 @@ function manageSubscription() {
 }
 
 async function cancelSubscription() {
-    const response = await fetch('/api/cancel-subscription', {
+    const response = await fetch('https://paddle-cockroach-bouncrrr.onrender.com/api/cancel-subscription', {
         method: 'POST',
         headers: {
             'Authorization': `Bearer ${localStorage.getItem('userToken')}`,
