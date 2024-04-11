@@ -557,6 +557,12 @@ input:checked + .slider:before {
     text-decoration: none; /* No underlining */
 }
 
+.manage-account {
+    opacity: 0.6; /* Less visible than other links */
+    color: inherit; /* Inherits the text color from its parent for consistency */
+    text-decoration: none; /* Removes underline from the link */
+}
+
 #logout-text {
     display: block; /* Change to block to have it on a new line */
     margin-top: 5px; /* Optional: Add some space above the logout text */
