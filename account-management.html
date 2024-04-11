@@ -93,10 +93,41 @@ async function updateMarketingOptInStatus(e) {
     }
 }
 
+async function loadSubscriptionStatus() {
+    // No need for customer ID here since the backend uses the token to identify the user
+    const url = 'https://paddle-cockroach-bouncrrr.onrender.com/api/get-subscription-status';
+    try {
+        // Assuming the user's token is stored in localStorage or sessionStorage
+        const token = localStorage.getItem('userToken');
+        if (!token) {
+            console.error('User token is missing.');
+            return; // Handle missing token scenario
+        }
+
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`, // Use the token for authentication
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch subscription status');
+        }
+
+        const { status } = await response.json();
+        document.getElementById('subscription-status').textContent = status;
+    } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('subscription-status').textContent = 'Failed to load status';
+    }
+}
+
 // Attach event listeners after the DOM content has fully loaded to ensure elements are available
 document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('update-email-preferences').addEventListener('click', updateMarketingOptInStatus);
     loadMarketingOptInStatus(); // It's safer to call this here to ensure the DOM is fully loaded
+    loadSubscriptionStatus(); // Add this call to load the subscription status
 });
 </script>
 
