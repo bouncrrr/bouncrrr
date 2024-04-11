@@ -3,10 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>account management - bouncrrr</title>
+    <title>Account Management - bouncrrr</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="bouncrrr-favicon.ico" type="image/x-icon">
+</head>
+<body class="info-page">
+    <div id="background-animation"></div>
+    <div class="navbar navbar-visible" id="navbar">
+        <a href="index.html">home</a>
+    </div>
+    <header>
+        <h2>account management</h2>
+    </header>
+    <main>
+        <section id="subscription-details" class="account-section">
+            <h4>subscription details</h4>
+            <p>Status: <span id="subscription-status">loading...</span></p>
+            <button id="manage-subscription" class="account-button">manage subscription</button>
+            <p id="subscription-message"></p>
+        </section>
+        <section id="email-preferences" class="account-section">
+            <h4>email preferences</h4>
+            <label for="marketing-emails" class="account-label">opt in for marketing emails:</label>
+            <input type="checkbox" id="marketing-emails">
+            <button id="update-email-preferences" class="account-button">update preferences</button>
+            <p id="email-preference-message"></p>
+        </section>
+    </main>
+    <footer>
+        <a href="privacy.html">privacy notice</a> | 
+        <a href="support.html">support</a> | 
+        <a href="terms.html">terms of use/refund policy</a>
+    </footer>
 
 <script>
 // Function to load the current marketing opt-in status
@@ -70,34 +99,6 @@ document.addEventListener('DOMContentLoaded', function () {
     loadMarketingOptInStatus(); // It's safer to call this here to ensure the DOM is fully loaded
 });
 </script>
-</head>
-<body class="info-page">
-    <div id="background-animation"></div>
-    <div class="navbar navbar-visible" id="navbar">
-        <a href="index.html">home</a>
-    </div>
-    <header>
-        <h2>account management</h2>
-    </header>
-    <main>
-        <section id="subscription-details" class="account-section">
-            <h4>subscription details</h4>
-            <p>Status: <span id="subscription-status">loading...</span></p>
-            <button id="manage-subscription" class="account-button">manage subscription</button>
-            <p id="subscription-message"></p>
-        </section>
-        <section id="email-preferences" class="account-section">
-            <h4>email preferences</h4>
-            <label for="marketing-emails" class="account-label">opt in for marketing emails:</label>
-            <input type="checkbox" id="marketing-emails">
-            <button id="update-email-preferences" class="account-button">update preferences</button>
-            <p id="email-preference-message"></p>
-        </section>
-    </main>
-    <footer>
-        <a href="privacy.html">privacy notice</a> | 
-        <a href="support.html">support</a> | 
-        <a href="terms.html">terms of use/refund policy</a>
-    </footer>
+
 </body>
 </html>
