@@ -134,13 +134,6 @@ function handleLogout() {
     window.location.href = 'index.html';
 }
 
-// Handle logout
-    document.getElementById('logout-link').addEventListener('click', function(e) {
-        e.preventDefault(); // Prevent default link action
-        localStorage.removeItem('userEmail'); // Clear user email from storage
-        window.location.href = 'index.html'; // Redirect to homepage or login page
-    });
-
 // Attach event listeners after the DOM content has fully loaded to ensure elements are available
 document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('update-email-preferences').addEventListener('click', updateMarketingOptInStatus);
