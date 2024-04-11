@@ -113,9 +113,25 @@ async function loadSubscriptionStatus() {
 }
 
 function handleLogout() {
+    console.log('Initiating logout process...');
+
+    // Remove user-related information from local storage
     localStorage.removeItem('userToken');
     localStorage.removeItem('paddleCustomerId');
-    window.location.href = 'index.html';
+
+    console.log('User credentials removed from local storage.');
+
+    // Optional: Confirm the local storage is cleared
+    if (!localStorage.getItem('userToken') && !localStorage.getItem('paddleCustomerId')) {
+        console.log('All user tokens cleared, redirecting to homepage.');
+        window.location.href = 'index.html';
+    } else {
+        console.error('Failed to clear some user tokens:', {
+            userToken: localStorage.getItem('userToken'),
+            paddleCustomerId: localStorage.getItem('paddleCustomerId')
+        });
+        alert('Error logging out. Please try again or clear your browser cache.');
+    }
 }
 </script>
 
