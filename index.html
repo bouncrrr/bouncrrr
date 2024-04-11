@@ -318,19 +318,26 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     document.querySelectorAll('.subscribe-button').forEach(button => {
-        button.addEventListener('click', function() {
-            const isLoggedIn = localStorage.getItem('userToken');
-            if (!isLoggedIn) {
-                modal.style.display = 'block';
-                return;
-            }
-            
-            const priceId = this.getAttribute('data-price-id');
-            Paddle.Checkout.open({
-                items: [{ priceId: priceId, quantity: 1 }]
-            });
+    console.log('Button found:', button); // Check if buttons are correctly selected
+    button.addEventListener('click', function() {
+        console.log('Button clicked:', this.getAttribute('data-price-id')); // Check if clicks are registered
+        const isLoggedIn = localStorage.getItem('userToken');
+        console.log('Is Logged In:', isLoggedIn); // Verify logged-in status
+        
+        if (!isLoggedIn) {
+            console.log('Not logged in, showing modal'); // Check modal trigger
+            const modal = document.getElementById('signInModal');
+            modal.style.display = 'block';
+            return;
+        }
+        
+        console.log('Logged in, processing checkout'); // Check checkout process
+        const priceId = this.getAttribute('data-price-id');
+        Paddle.Checkout.open({
+            items: [{ priceId: priceId, quantity: 1 }]
         });
     });
+});
 
     // Handling login from the modal
     document.getElementById('modalLoginForm').addEventListener('submit', function(e) {
