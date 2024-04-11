@@ -304,72 +304,54 @@
     </footer>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const modal = document.getElementById('signInModal');
-    const closeModal = function() {
-        modal.style.display = 'none';
-    };
-    const openModal = function() {
-        modal.style.display = 'block';
-    };
-
-    // Handling closing the modal when clicking on close or outside the modal
-    modal.onclick = function(event) {
-        if (event.target == modal) {
-            closeModal();
-        }
-    };
-    document.querySelector('.close').onclick = closeModal;
-
-    // Function to handle subscription button clicks
-    function handleSubscription(priceId) {
+document.querySelectorAll('.subscribe-button').forEach(button => {
+    button.addEventListener('click', function() {
         const isLoggedIn = localStorage.getItem('userToken');
         if (!isLoggedIn) {
             openModal();
-        } else {
-            Paddle.Checkout.open({
-                items: [{ priceId: priceId, quantity: 1 }]
-            });
+            // Store the price ID in the modal for use after login
+            modal.setAttribute('data-price-id', this.getAttribute('data-price-id'));
+            return;
         }
-    }
+        openCheckout(this.getAttribute('data-price-id'));
+    });
+});
 
-    // Attach event listeners to each button
-    document.getElementById('subscribe-button-monthly').addEventListener('click', () => handleSubscription('pri_01htk0e7exyc33gr8qvaxnf96s'));
-    document.getElementById('subscribe-button-annual').addEventListener('click', () => handleSubscription('pri_01htk4dhmz6ngkhysj1c8rm6ah'));
-    document.getElementById('buy-button-lifetime').addEventListener('click', () => handleSubscription('pri_01htk4feeptfk9fsw9zevx9mg5'));
-    document.getElementById('subscribe-button-trial').addEventListener('click', () => handleSubscription('pri_01htk0e7exyc33gr8qvaxnf96s')); // Assuming it uses the same price ID
+function openCheckout(priceId) {
+    Paddle.Checkout.open({
+        items: [{ priceId: priceId, quantity: 1 }]
+    });
+}
 
-    // Handling login from the modal
-    document.getElementById('modalLoginForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const email = document.getElementById('modalEmail').value;
-        const password = document.getElementById('modalPassword').value;
+// Handling login from the modal
+document.getElementById('modalLoginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const email = document.getElementById('modalEmail').value;
+    const password = document.getElementById('modalPassword').value;
+    const priceId = document.getElementById('signInModal').getAttribute('data-price-id'); // Get price ID after successful login
 
-        // Assume login API and local storage setting as previously described
-        fetch('https://paddle-cockroach-bouncrrr.onrender.com/api/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email, password })
-        })
-        .then(response => {
-            if (!response.ok) throw new Error('Login failed');
-            return response.json();
-        })
-        .then(data => {
-            if (data.token) {
-                localStorage.setItem('userToken', data.token);
-                localStorage.setItem('userEmail', email);
-                closeModal(); // Close the modal after successful login
-            } else {
-                document.getElementById('modalError').textContent = 'Login failed. Please check your credentials.';
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            document.getElementById('modalError').textContent = error.message;
-        });
+    fetch('https://paddle-cockroach-bouncrrr.onrender.com/api/login', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ email, password })
+    })
+    .then(response => {
+        if (!response.ok) throw new Error('Login failed');
+        return response.json();
+    })
+    .then(data => {
+        if (data.token) {
+            localStorage.setItem('userToken', data.token);
+            localStorage.setItem('userEmail', email);
+            closeModal();
+            openCheckout(priceId); // Open checkout after successful login
+        } else {
+            document.getElementById('modalError').textContent = 'Login failed. Please check your credentials.';
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('modalError').textContent = error.message;
     });
 });
 </script>
