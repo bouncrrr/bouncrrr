@@ -1,4 +1,3 @@
-<script>
 // Handle Password Reset Request
 document.getElementById('password-reset-request-form').addEventListener('submit', function(event) {
     event.preventDefault();
@@ -46,4 +45,3 @@ document.getElementById('password-reset-form').addEventListener('submit', functi
         console.error('Error:', error);
     });
 });
-</script>
