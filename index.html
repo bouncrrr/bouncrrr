@@ -276,6 +276,19 @@
 
 </div>
 
+<div id="signInModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <form id="modalLoginForm">
+            <label for="modalEmail">Email:</label>
+            <input type="email" id="modalEmail" required>
+            <label for="modalPassword">Password:</label>
+            <input type="password" id="modalPassword" required>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+</div>
+
         </section>
         <section id="contact">
             <h2>contact</h2>
@@ -287,6 +300,42 @@
         <a href="support.html">support</a> | 
         <a href="terms.html">terms of use/refund policy</a>
     </footer>
+
+document.querySelectorAll('.subscribe-button').forEach(button => {
+    button.addEventListener('click', function() {
+        const isLoggedIn = localStorage.getItem('userToken');
+        if (!isLoggedIn) {
+            const modal = document.getElementById('signInModal');
+            modal.style.display = 'block';
+            const closeButton = document.querySelector('.close');
+            closeButton.onclick = function() {
+                modal.style.display = 'none';
+            };
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = 'none';
+                }
+            };
+            return;
+        }
+        
+        const priceId = this.getAttribute('data-price-id');
+        Paddle.Checkout.open({
+            items: [{ priceId: priceId, quantity: 1 }]
+        });
+    });
+});
+
+// Handling login from the modal
+document.getElementById('modalLoginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const email = document.getElementById('modalEmail').value;
+    const password = document.getElementById('modalPassword').value;
+    // Assume login API and local storage setting as previously described
+});
+
+
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/ScrollMagic.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/plugins/debug.addIndicators.min.js"></script>
     <script src="script.js"></script>
