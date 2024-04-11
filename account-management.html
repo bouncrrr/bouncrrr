@@ -124,11 +124,22 @@ async function loadSubscriptionStatus() {
     }
 }
 
+    // Function to handle logout
+function handleLogout() {
+    // Clear user details from local storage
+    localStorage.removeItem('userToken');
+    localStorage.removeItem('paddleCustomerId'); // Remove any other stored user information as needed
+
+    // Redirect to the homepage
+    window.location.href = 'index.html';
+}
+
 // Attach event listeners after the DOM content has fully loaded to ensure elements are available
 document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('update-email-preferences').addEventListener('click', updateMarketingOptInStatus);
     loadMarketingOptInStatus(); // It's safer to call this here to ensure the DOM is fully loaded
     loadSubscriptionStatus(); // Add this call to load the subscription status
+    document.getElementById('logout-button').addEventListener('click', handleLogout);
 });
 </script>
 
