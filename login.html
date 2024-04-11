@@ -17,33 +17,26 @@
         <h2 id="formTitle">login to get started!</h2>
     </header>
     <div class="login-container">
-        <center>
-            <form id="loginForm">
-                <div>
-                    <label for="email">email:</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                <div>
-                    <label for="password">password:</label>
-                    <input type="password" id="password" name="password" required>
-                </div>
-                <div id="confirmPasswordContainer" style="display: none;">
-                    <label for="confirmPassword">confirm password:</label>
-                    <input type="password" id="confirmPassword" name="confirmPassword">
-                </div>
-    <div id="loginError" class="error"></div> <!-- Ensure this is inside the login-container but outside the center tag -->
-                <div>
-                    <p><a style="text-decoration:none; color:inherit;" href="forgotpassword.html">forgot password?</a></p>
-                    <br>
-                    <button type="submit" id="submitButton">login</button>
-                </div>
-                <div>
-                    <button type="button" id="toggleFormButton">don't have an account? sign up</button>
-                </div>
-            </form>
-        </center>
-        <div id="loginError" class="error"></div>
-    </div>
+    <center>
+        <form id="loginForm">
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div id="confirmPasswordContainer" style="display: none;">
+                <label for="confirmPassword">Confirm password:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword">
+            </div>
+            <div id="loginError" class="error"></div>
+            <button type="submit" id="submitButton">Login</button>
+            <button type="button" id="toggleFormButton">don't have an account? sign up</button>
+        </form>
+    </center>
+</div>
 
     <script>
     document.addEventListener('DOMContentLoaded', function() {
