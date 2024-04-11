@@ -345,6 +345,23 @@ a[href^="mailto:"] {
     background-color: #2577a9; /* Darker shade on hover */
 }
 
+#toggleFormButton {
+    background: none; /* Transparent background */
+    border: none;  /* No border */
+    color: inherit; /* Inherits the text color from its parent or set a specific color */
+    font-size: 0.9em; /* Smaller text than the default */
+    cursor: pointer; /* Makes it clear that it's clickable */
+    text-decoration: underline; /* Optional: underlines the text to indicate it's clickable */
+    padding: 5px 10px; /* Adequate padding */
+    margin-top: 10px; /* Space above the button */
+    display: block; /* Ensures it spans the full width of its container */
+}
+
+/* Optional: Hover effect for better user experience */
+#toggleFormButton:hover {
+    opacity: 0.8; /* Slightly reduce opacity on hover */
+}
+
 .emailsignup-page main {
     max-width: 60%; /* Adjust based on preference */
     margin: 0 auto; /* Centers the content */
