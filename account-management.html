@@ -30,7 +30,7 @@
             <button id="update-email-preferences" class="account-button">update preferences</button>
             <p id="email-preference-message"></p>
         </section>
-<center><button id="logout-button" class="logout-button">log out</button></center>
+<center><button id="logout-button" class="account-button">log out</button></center>
     </main>
     <footer>
         <a href="privacy.html">privacy notice</a> | 
@@ -133,13 +133,6 @@ function handleLogout() {
     // Redirect to the homepage
     window.location.href = 'index.html';
 }
-
-// Handle logout
-    document.getElementById('logout-link').addEventListener('click', function(e) {
-        e.preventDefault(); // Prevent default link action
-        localStorage.removeItem('userEmail'); // Clear user email from storage
-        window.location.href = 'index.html'; // Redirect to homepage or login page
-    });
 
 // Attach event listeners after the DOM content has fully loaded to ensure elements are available
 document.addEventListener('DOMContentLoaded', function () {
