@@ -124,18 +124,10 @@ async function loadSubscriptionStatus() {
     }
 }
 
-    // Function to handle logout
-function handleLogout() {
-    // Clear user details from local storage
-    localStorage.removeItem('userToken');
-    localStorage.removeItem('paddleCustomerId'); // Remove any other stored user information as needed
-
-// Handle logout
     document.getElementById('logout-button').addEventListener('click', function(e) {
         e.preventDefault(); // Prevent default link action
         localStorage.removeItem('userEmail'); // Clear user email from storage
         window.location.href = 'index.html'; // Redirect to homepage or login page
-    });
 
     // Redirect to the homepage
     window.location.href = 'index.html';
