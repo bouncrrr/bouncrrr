@@ -20,7 +20,7 @@
         fetchAndDisplayPrices(); // Fetch and display prices on page load]
         const userEmail = localStorage.getItem('userEmail');
 
-    if(userEmail) {
+   if(userEmail) {
         // User is logged in
         document.getElementById('login-status').textContent = `logged in as ${userEmail}`;
         document.getElementById('login-link').style.display = 'none'; // Hide login link
@@ -30,13 +30,20 @@
         document.getElementById('login-status').style.display = 'none'; // Hide login status
     }
 
-    // Handle logout
-    document.getElementById('logout-link').addEventListener('click', function(e) {
-        e.preventDefault(); // Prevent default link action
-        localStorage.removeItem('userEmail'); // Clear user email from storage
-        window.location.href = 'index.html'; // Redirect to homepage or login page
-    });
+    function handleLogout() {
+    localStorage.removeItem('userEmail');
+    localStorage.removeItem('userToken'); // Add any other local storage keys you need to clear
+    localStorage.removeItem('paddleCustomerId');
 
+    // Redirect to the homepage after clearing local storage
+    window.location.href = 'index.html';
+}
+
+
+	const logoutButton = document.getElementById('logout-button');
+	    if (logoutButton) {
+        	logoutButton.addEventListener('click', handleLogout);
+    }
 
 // Event listeners for the buttons
         document.getElementById('subscribe-button-monthly').addEventListener('click', function() {
@@ -141,7 +148,7 @@
 <div class="login-status-container">
     <span id="login-status">log in</span>
     <a href="loginpage.html" id="login-link">log in</a>
-    <span id="logout-text" style="display:none;"> | <a href="#" id="logout-link">log out</a></span>
+    <span id="logout-text" style="display:none;"> | <a href="#" id="logout-button" class="logout-button">log out</a></span>
 </div>
 
     <div class="navbar" id="navbar">
