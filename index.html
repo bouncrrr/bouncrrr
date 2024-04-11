@@ -33,16 +33,18 @@
     }
 
 	function checkLoginStatus() {
-    	const userEmail = localStorage.getItem('userEmail');
-    	if (userEmail) {
-        	document.getElementById('login-status').textContent = `logged in as ${userEmail}`;
-        	document.getElementById('login-link').style.display = 'none';
-        	document.getElementById('logout-text').style.display = 'inline';
-    	} else {
-        	document.getElementById('login-status').textContent = 'log in';
-        	document.getElementById('login-link').style.display = 'inline';
-        	document.getElementById('logout-text').style.display = 'none';
-    	}
+    const userEmail = localStorage.getItem('userEmail');
+    if (userEmail) {
+        document.getElementById('login-status').textContent = `logged in as ${userEmail}`;
+        document.getElementById('login-link').style.display = 'none';
+        document.getElementById('logout-text').style.display = 'inline';
+        document.getElementById('manage-account').style.display = 'inline'; // Show manage account link
+    } else {
+        document.getElementById('login-status').textContent = 'log in';
+        document.getElementById('login-link').style.display = 'inline';
+        document.getElementById('logout-text').style.display = 'none';
+        document.getElementById('manage-account').style.display = 'none'; // Hide manage account link
+    }
 }
 
     function handleLogout() {
@@ -163,7 +165,7 @@
 <div class="login-status-container">
     <span id="login-status">log in</span>
     <a href="login.html" id="login-link">log in</a>
-    <span id="logout-text" style="display:none;"> | <a href="#" id="logout-button" class="logout-button">log out</a></span>
+    <span id="logout-text" style="display:none;"> | <a href="#" id="logout-button" class="logout-button">log out</a> | <a href="/account-management.html" id="manage-account" class="manage-account" style="display:none;">manage your account/subscription</a></span>
 </div>
 
     <div class="navbar" id="navbar">
