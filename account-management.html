@@ -116,6 +116,7 @@ function handleLogout() {
     console.log('Initiating logout process...');
 
     // Remove user-related information from local storage
+    localStorage.removeItem('userEmail');
     localStorage.removeItem('userToken');
     localStorage.removeItem('paddleCustomerId');
 
