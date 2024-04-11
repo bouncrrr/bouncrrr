@@ -30,7 +30,7 @@
             <button id="update-email-preferences" class="account-button">update preferences</button>
             <p id="email-preference-message"></p>
         </section>
-<center><button id="logout-button" class="account-button">log out</button></center>
+        <center><button id="logout-button" class="account-button">log out</button></center>
     </main>
     <footer>
         <a href="privacy.html">privacy notice</a> | 
@@ -39,14 +39,23 @@
     </footer>
 
 <script>
-// Function to load the current marketing opt-in status
-async function loadMarketingOptInStatus() {
-    const paddleCustomerId = localStorage.getItem('paddleCustomerId'); // Retrieve the customer ID
-    console.log('Loaded Customer ID:', paddleCustomerId); // Log the customer ID for verification
+document.addEventListener('DOMContentLoaded', async function () {
+    try {
+        await loadMarketingOptInStatus();
+        await loadSubscriptionStatus();
+    } catch (error) {
+        console.error('Error during initial data load:', error);
+    }
 
+    document.getElementById('update-email-preferences').addEventListener('click', updateMarketingOptInStatus);
+    document.getElementById('logout-button').addEventListener('click', handleLogout);
+});
+
+async function loadMarketingOptInStatus() {
+    const paddleCustomerId = localStorage.getItem('paddleCustomerId');
     if (!paddleCustomerId) {
         console.error('Customer ID is missing.');
-        return; // Optionally handle this case more gracefully
+        return;
     }
 
     const url = `https://paddle-cockroach-bouncrrr.onrender.com/get-marketing-preferences?customerId=${paddleCustomerId}`;
@@ -58,89 +67,56 @@ async function loadMarketingOptInStatus() {
     document.getElementById('marketing-emails').checked = data.marketingOptIn;
 }
 
-// Function to update the marketing opt-in status
 async function updateMarketingOptInStatus(e) {
-    e.preventDefault(); // Prevent the form from submitting
-
-    const paddleCustomerId = localStorage.getItem('paddleCustomerId'); // Retrieve the customer ID again
-    console.log('Updating for Customer ID:', paddleCustomerId); // Log the customer ID for verification
-
+    e.preventDefault();
+    const paddleCustomerId = localStorage.getItem('paddleCustomerId');
     if (!paddleCustomerId) {
         console.error('Customer ID is missing.');
-        return; // Optionally handle this case more gracefully
+        return;
     }
 
     const marketingOptIn = document.getElementById('marketing-emails').checked;
     const url = `https://paddle-cockroach-bouncrrr.onrender.com/update-marketing-preferences`;
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ paddleCustomerId, marketingOptIn })
+    });
 
-    try {
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ paddleCustomerId, marketingOptIn }),
-        });
-
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-
-        const responseMessage = await response.text();
-        document.getElementById('email-preference-message').textContent = responseMessage;
-    } catch (error) {
-        console.error('Error:', error);
-        document.getElementById('email-preference-message').textContent = 'Failed to update preferences. Please try again later.';
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
     }
+
+    const responseMessage = await response.text();
+    document.getElementById('email-preference-message').textContent = responseMessage;
 }
 
 async function loadSubscriptionStatus() {
-    // No need for customer ID here since the backend uses the token to identify the user
     const url = 'https://paddle-cockroach-bouncrrr.onrender.com/api/get-subscription-status';
-    try {
-        // Assuming the user's token is stored in localStorage or sessionStorage
-        const token = localStorage.getItem('userToken');
-        if (!token) {
-            console.error('User token is missing.');
-            return; // Handle missing token scenario
-        }
-
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`, // Use the token for authentication
-            },
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to fetch subscription status');
-        }
-
-        const { status } = await response.json();
-        document.getElementById('subscription-status').textContent = status;
-    } catch (error) {
-        console.error('Error:', error);
-        document.getElementById('subscription-status').textContent = 'Failed to load status';
+    const token = localStorage.getItem('userToken');
+    if (!token) {
+        console.error('User token is missing.');
+        return;
     }
+
+    const response = await fetch(url, {
+        method: 'GET',
+        headers: { 'Authorization': `Bearer ${token}` }
+    });
+
+    if (!response.ok) {
+        throw new Error('Failed to fetch subscription status');
+    }
+
+    const { status } = await response.json();
+    document.getElementById('subscription-status').textContent = status;
 }
 
-    // Function to handle logout
 function handleLogout() {
-    // Clear user details from local storage
     localStorage.removeItem('userToken');
-    localStorage.removeItem('paddleCustomerId'); // Remove any other stored user information as needed
-
-    // Redirect to the homepage
+    localStorage.removeItem('paddleCustomerId');
     window.location.href = 'index.html';
 }
-
-// Attach event listeners after the DOM content has fully loaded to ensure elements are available
-document.addEventListener('DOMContentLoaded', function () {
-    document.getElementById('update-email-preferences').addEventListener('click', updateMarketingOptInStatus);
-    loadMarketingOptInStatus(); // It's safer to call this here to ensure the DOM is fully loaded
-    loadSubscriptionStatus(); // Add this call to load the subscription status
-    document.getElementById('logout-button').addEventListener('click', handleLogout);
-});
 </script>
 
 </body>
