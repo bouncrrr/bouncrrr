@@ -545,6 +545,11 @@ input:checked + .slider:before {
     text-decoration: none; /* No underlining */
 }
 
+.login-container a {
+    color: inherit; /* Make links use the text color they inherit from the parent */
+    text-decoration: none; /* No underlining */
+}
+
 #logout-text {
     display: block; /* Change to block to have it on a new line */
     margin-top: 5px; /* Optional: Add some space above the logout text */
