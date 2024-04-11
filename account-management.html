@@ -1,46 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Account Management - bouncrrr</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="bouncrrr-favicon.ico" type="image/x-icon">
-</head>
-<body class="info-page">
-    <div id="background-animation"></div>
-    <div class="navbar navbar-visible" id="navbar">
-        <a href="index.html">home</a>
-    </div>
-    <header>
-        <h2>account management</h2>
-    </header>
-    <main>
-        <section id="subscription-details" class="account-section">
-            <h4>subscription details</h4>
-            <p>Status: <span id="subscription-status">loading...</span></p>
-            <button id="manage-subscription" class="account-button">manage subscription</button>
-            <p id="subscription-message"></p>
-        </section>
-        <section id="email-preferences" class="account-section">
-            <h4>email preferences</h4>
-            <label for="marketing-emails" class="account-label">opt in for marketing emails:</label>
-            <input type="checkbox" id="marketing-emails">
-            <button id="update-email-preferences" class="account-button">update preferences</button>
-            <p id="email-preference-message"></p>
-        </section>
-    </main>
-    <footer>
-        <a href="privacy.html">privacy notice</a> | 
-        <a href="support.html">support</a> | 
-        <a href="terms.html">terms of use/refund policy</a>
-    </footer>
-    <script>
+<script>
 // Function to load the current marketing opt-in status
 async function loadMarketingOptInStatus() {
-    // Example endpoint to get current status - you'll need to implement this
-    const response = await fetch('https://paddle-cockroach-bouncrrr.onrender.com/get-marketing-preferences?customerId=REPLACE_WITH_CUSTOMER_ID');
+    const paddleCustomerId = localStorage.getItem('paddleCustomerId'); // Retrieve the customer ID
+    console.log('Loaded Customer ID:', paddleCustomerId); // Log the customer ID for verification
+
+    if (!paddleCustomerId) {
+        console.error('Customer ID is missing.');
+        return; // Optionally handle this case more gracefully
+    }
+
+    const url = `https://paddle-cockroach-bouncrrr.onrender.com/get-marketing-preferences?customerId=${paddleCustomerId}`;
+    const response = await fetch(url);
     if (!response.ok) {
         throw new Error('Failed to fetch marketing opt-in status');
     }
@@ -52,11 +22,19 @@ async function loadMarketingOptInStatus() {
 async function updateMarketingOptInStatus(e) {
     e.preventDefault(); // Prevent the form from submitting
 
+    const paddleCustomerId = localStorage.getItem('paddleCustomerId'); // Retrieve the customer ID again
+    console.log('Updating for Customer ID:', paddleCustomerId); // Log the customer ID for verification
+
+    if (!paddleCustomerId) {
+        console.error('Customer ID is missing.');
+        return; // Optionally handle this case more gracefully
+    }
+
     const marketingOptIn = document.getElementById('marketing-emails').checked;
-    const paddleCustomerId = 'REPLACE_WITH_CUSTOMER_ID'; // Logic to retrieve customer ID
+    const url = `https://paddle-cockroach-bouncrrr.onrender.com/update-marketing-preferences`;
 
     try {
-        const response = await fetch('https://paddle-cockroach-bouncrrr.onrender.com/update-marketing-preferences', {
+        const response = await fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -76,19 +54,9 @@ async function updateMarketingOptInStatus(e) {
     }
 }
 
-// Event listener for the update button
-document.getElementById('update-email-preferences').addEventListener('click', updateMarketingOptInStatus);
-
-// Load the current status when the page loads
-window.onload = loadMarketingOptInStatus;
-
-        document.addEventListener('DOMContentLoaded', () => {
-    const paddleCustomerId = localStorage.getItem('paddleCustomerId');
-    if (!paddleCustomerId) {
-        // Redirect user or handle the missing ID as needed
-        console.error('Customer ID missing');
-    }
-        })
+// Attach event listeners after the DOM content has fully loaded to ensure elements are available
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('update-email-preferences').addEventListener('click', updateMarketingOptInStatus);
+    loadMarketingOptInStatus(); // It's safer to call this here to ensure the DOM is fully loaded
+});
 </script>
-</body>
-</html>
