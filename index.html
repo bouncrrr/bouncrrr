@@ -302,39 +302,65 @@
     </footer>
 
 <script>
-document.querySelectorAll('.subscribe-button').forEach(button => {
-    button.addEventListener('click', function() {
-        const isLoggedIn = localStorage.getItem('userToken');
-        if (!isLoggedIn) {
-            const modal = document.getElementById('signInModal');
-            modal.style.display = 'block';
-            const closeButton = document.querySelector('.close');
-            closeButton.onclick = function() {
-                modal.style.display = 'none';
-            };
-            window.onclick = function(event) {
-                if (event.target == modal) {
-                    modal.style.display = 'none';
-                }
-            };
-            return;
+document.addEventListener('DOMContentLoaded', function() {
+    // Setup modal interactions just once
+    const modal = document.getElementById('signInModal');
+    const closeButton = document.querySelector('.close');
+    
+    closeButton.onclick = function() {
+        modal.style.display = 'none';
+    };
+
+    window.onclick = function(event) {
+        if (event.target === modal) {
+            modal.style.display = 'none';
         }
-        
-        const priceId = this.getAttribute('data-price-id');
-        Paddle.Checkout.open({
-            items: [{ priceId: priceId, quantity: 1 }]
+    };
+
+    document.querySelectorAll('.subscribe-button').forEach(button => {
+        button.addEventListener('click', function() {
+            const isLoggedIn = localStorage.getItem('userToken');
+            if (!isLoggedIn) {
+                modal.style.display = 'block';
+                return;
+            }
+            
+            const priceId = this.getAttribute('data-price-id');
+            Paddle.Checkout.open({
+                items: [{ priceId: priceId, quantity: 1 }]
+            });
+        });
+    });
+
+    // Handling login from the modal
+    document.getElementById('modalLoginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const email = document.getElementById('modalEmail').value;
+        const password = document.getElementById('modalPassword').value;
+
+        fetch('https://paddle-cockroach-bouncrrr.onrender.com/api/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, password }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.token) {
+                localStorage.setItem('userToken', data.token);
+                modal.style.display = 'none';
+                location.reload(); // Reload page to reflect login state
+            } else {
+                alert('Login failed. Please check your credentials.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Login error.');
         });
     });
 });
-
-// Handling login from the modal
-document.getElementById('modalLoginForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const email = document.getElementById('modalEmail').value;
-    const password = document.getElementById('modalPassword').value;
-    // Assume login API and local storage setting as previously described
-});
-
 </script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/ScrollMagic.min.js"></script>
