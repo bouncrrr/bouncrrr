@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bouncrrr</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="bouncrrr-favicon.ico" type="image/x-icon">
+</head>
+<body class="info-page">
+    <div id="background-animation"></div>
+    <div class="navbar navbar-visible" id="navbar">
+        <a href="index.html">home</a>
+    </div>
+    <header>
+        <h2 id="formTitle">login to get started!</h2>
+    </header>
+    <div class="login-container">
+        <center>
+            <form id="loginForm">
+                <div>
+                    <label for="email">email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div>
+                    <label for="password">password:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div id="confirmPasswordContainer" style="display: none;">
+                    <label for="confirmPassword">confirm password:</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword">
+                </div>
+                <div>
+                    <p><a style="text-decoration:none; color:inherit;" href="forgotpassword.html">forgot password?</a></p>
+                    <br>
+                    <button type="submit" id="submitButton">login</button>
+                </div>
+                <div>
+                    <button type="button" id="toggleFormButton">don't have an account? sign up</button>
+                </div>
+            </form>
+        </center>
+        <div id="loginError" class="error"></div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const toggleButton = document.getElementById('toggleFormButton');
+    const formTitle = document.getElementById('formTitle'); // Ensure this ID is correctly set in your HTML
+    const confirmPasswordContainer = document.getElementById('confirmPasswordContainer'); // Adjust ID as necessary
+    const submitButton = document.getElementById('submitButton'); // Adjust ID as necessary
+
+    toggleButton.addEventListener('click', function() {
+        // Check if we are currently on the login form
+        if (formTitle.innerText.includes('login')) {
+            formTitle.innerText = 'sign up to get started!';
+            confirmPasswordContainer.style.display = 'block'; // Make the confirm password field visible
+            submitButton.textContent = 'sign Up';
+            toggleButton.textContent = 'already have an account? log in';
+        } else {
+            formTitle.innerText = 'login to get started!';
+            confirmPasswordContainer.style.display = 'none'; // Hide the confirm password field
+            submitButton.textContent = 'login';
+            toggleButton.textContent = "don't have an account? sign up";
+        }
+    });
+
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword') ? document.getElementById('confirmPassword').value : null;
+
+            let apiEndpoint = 'https://paddle-cockroach-bouncrrr.onrender.com/api/login';
+            let payload = JSON.stringify({ email, password });
+
+            if (confirmPassword) { // If the confirmPassword field is visible, it's a sign up attempt
+                apiEndpoint = 'https://paddle-cockroach-bouncrrr.onrender.com/api/signup';
+                payload = JSON.stringify({ email, password, confirmPassword });
+            }
+
+            fetch(apiEndpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: payload,
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Authentication failed');
+                return response.json();
+            })
+            .then(data => {
+                if (data.token) {
+                    localStorage.setItem('userToken', data.token);
+                    localStorage.setItem('userEmail', email);
+                    window.location.href = '/index.html'; // Redirect to index.html
+                } else {
+                    document.getElementById('loginError').textContent = data.error || 'Authentication failed. Please check your credentials.';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('loginError').textContent = error.message;
+            });
+        });
+    });
+</script>
+<footer>
+        <a href="privacy.html">privacy notice</a> | 
+        <a href="support.html">support</a> | 
+        <a href="terms.html">terms of use/refund policy</a>
+    </footer>
+</body>
+</html>
