@@ -17,6 +17,8 @@
 
     document.addEventListener('DOMContentLoaded', function() {
         console.log('Document loaded');
+
+	checkLoginStatus();  // Check login status on page load
         fetchAndDisplayPrices(); // Fetch and display prices on page load]
         const userEmail = localStorage.getItem('userEmail');
 
@@ -29,6 +31,19 @@
         // User is not logged in
         document.getElementById('login-status').style.display = 'none'; // Hide login status
     }
+
+	function checkLoginStatus() {
+    	const userEmail = localStorage.getItem('userEmail');
+    	if (userEmail) {
+        	document.getElementById('login-status').textContent = `logged in as ${userEmail}`;
+        	document.getElementById('login-link').style.display = 'none';
+        	document.getElementById('logout-text').style.display = 'inline';
+    	} else {
+        	document.getElementById('login-status').textContent = 'log in';
+        	document.getElementById('login-link').style.display = 'inline';
+        	document.getElementById('logout-text').style.display = 'none';
+    	}
+}
 
     function handleLogout() {
     localStorage.removeItem('userEmail');
