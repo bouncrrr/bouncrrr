@@ -17,7 +17,26 @@
 
     document.addEventListener('DOMContentLoaded', function() {
         console.log('Document loaded');
-        fetchAndDisplayPrices(); // Fetch and display prices on page load
+        fetchAndDisplayPrices(); // Fetch and display prices on page load]
+        const userEmail = localStorage.getItem('userEmail');
+
+    if(userEmail) {
+        // User is logged in
+        document.getElementById('login-status').textContent = `Logged in as ${userEmail}`;
+        document.getElementById('login-link').style.display = 'none'; // Hide login link
+        document.getElementById('logout-text').style.display = 'inline'; // Show logout option
+    } else {
+        // User is not logged in
+        document.getElementById('login-status').style.display = 'none'; // Hide login status
+    }
+
+    // Handle logout
+    document.getElementById('logout-link').addEventListener('click', function(e) {
+        e.preventDefault(); // Prevent default link action
+        localStorage.removeItem('userEmail'); // Clear user email from storage
+        window.location.href = 'index.html'; // Redirect to homepage or login page
+    });
+
 
 // Event listeners for the buttons
         document.getElementById('subscribe-button-monthly').addEventListener('click', function() {
@@ -118,6 +137,13 @@
 </head>
 <body>
     <div id="background-animation"></div>
+
+<div class="login-status-container">
+    <span id="login-status">log in</span>
+    <a href="loginpage.html" id="login-link">log in</a>
+    <span id="logout-text" style="display:none;"> | <a href="#" id="logout-link">log out</a></span>
+</div>
+
     <div class="navbar" id="navbar">
         <a href="#intro">intro</a>
         <a href="#what-bouncrrr-does">what it does</a>
