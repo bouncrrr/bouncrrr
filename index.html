@@ -271,7 +271,7 @@
         <!-- Assign an ID for the annual price paragraph -->
         <p id="free-price">free!</p>
         <p class="small-text">(you'll want to buy it though!)</p>
-        <button id="subscribe-button-annual">subscribe</button>
+        <button id="subscribe-button-trial">subscribe</button>
     </div>
 
 </div>
@@ -284,6 +284,7 @@
             <input type="email" id="modalEmail" required>
             <label for="modalPassword">Password:</label>
             <input type="password" id="modalPassword" required>
+	    <div id="modalError" class="error"></div>
             <button type="submit">Login</button>
         </form>
     </div>
@@ -303,41 +304,39 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Setup modal interactions just once
     const modal = document.getElementById('signInModal');
-    const closeButton = document.querySelector('.close');
-    
-    closeButton.onclick = function() {
+    const closeModal = function() {
         modal.style.display = 'none';
     };
-
-    window.onclick = function(event) {
-        if (event.target === modal) {
-            modal.style.display = 'none';
-        }
+    const openModal = function() {
+        modal.style.display = 'block';
     };
 
-    document.querySelectorAll('.subscribe-button').forEach(button => {
-    console.log('Button found:', button); // Check if buttons are correctly selected
-    button.addEventListener('click', function() {
-        console.log('Button clicked:', this.getAttribute('data-price-id')); // Check if clicks are registered
-        const isLoggedIn = localStorage.getItem('userToken');
-        console.log('Is Logged In:', isLoggedIn); // Verify logged-in status
-        
-        if (!isLoggedIn) {
-            console.log('Not logged in, showing modal'); // Check modal trigger
-            const modal = document.getElementById('signInModal');
-            modal.style.display = 'block';
-            return;
+    // Handling closing the modal when clicking on close or outside the modal
+    modal.onclick = function(event) {
+        if (event.target == modal) {
+            closeModal();
         }
-        
-        console.log('Logged in, processing checkout'); // Check checkout process
-        const priceId = this.getAttribute('data-price-id');
-        Paddle.Checkout.open({
-            items: [{ priceId: priceId, quantity: 1 }]
-        });
-    });
-});
+    };
+    document.querySelector('.close').onclick = closeModal;
+
+    // Function to handle subscription button clicks
+    function handleSubscription(priceId) {
+        const isLoggedIn = localStorage.getItem('userToken');
+        if (!isLoggedIn) {
+            openModal();
+        } else {
+            Paddle.Checkout.open({
+                items: [{ priceId: priceId, quantity: 1 }]
+            });
+        }
+    }
+
+    // Attach event listeners to each button
+    document.getElementById('subscribe-button-monthly').addEventListener('click', () => handleSubscription('pri_01htk0e7exyc33gr8qvaxnf96s'));
+    document.getElementById('subscribe-button-annual').addEventListener('click', () => handleSubscription('pri_01htk4dhmz6ngkhysj1c8rm6ah'));
+    document.getElementById('buy-button-lifetime').addEventListener('click', () => handleSubscription('pri_01htk4feeptfk9fsw9zevx9mg5'));
+    document.getElementById('subscribe-button-trial').addEventListener('click', () => handleSubscription('pri_01htk0e7exyc33gr8qvaxnf96s')); // Assuming it uses the same price ID
 
     // Handling login from the modal
     document.getElementById('modalLoginForm').addEventListener('submit', function(e) {
@@ -345,26 +344,30 @@ document.addEventListener('DOMContentLoaded', function() {
         const email = document.getElementById('modalEmail').value;
         const password = document.getElementById('modalPassword').value;
 
+        // Assume login API and local storage setting as previously described
         fetch('https://paddle-cockroach-bouncrrr.onrender.com/api/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ email, password }),
+            body: JSON.stringify({ email, password })
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) throw new Error('Login failed');
+            return response.json();
+        })
         .then(data => {
             if (data.token) {
                 localStorage.setItem('userToken', data.token);
-                modal.style.display = 'none';
-                location.reload(); // Reload page to reflect login state
+                localStorage.setItem('userEmail', email);
+                closeModal(); // Close the modal after successful login
             } else {
-                alert('Login failed. Please check your credentials.');
+                document.getElementById('modalError').textContent = 'Login failed. Please check your credentials.';
             }
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('Login error.');
+            document.getElementById('modalError').textContent = error.message;
         });
     });
 });
