@@ -545,6 +545,13 @@ input:checked + .slider:before {
     text-decoration: none; /* No underlining */
 }
 
+.login-container .error {
+    color: red;           /* Error text color */
+    text-align: center;   /* Center the text */
+    margin-top: 10px;     /* Spacing between the form and the error message */
+    font-size: 16px;      /* Make the error message stand out */
+}
+
 .login-container a {
     color: inherit; /* Make links use the text color they inherit from the parent */
     text-decoration: none; /* No underlining */
