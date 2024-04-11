@@ -119,6 +119,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // imageScene.addIndicators({name: "Image Animation"});
 
-    positionImageContainer();
+    
 
 });
