@@ -48,65 +48,69 @@
     <script>
     document.addEventListener('DOMContentLoaded', function() {
     const toggleButton = document.getElementById('toggleFormButton');
-    const formTitle = document.getElementById('formTitle'); // Ensure this ID is correctly set in your HTML
-    const confirmPasswordContainer = document.getElementById('confirmPasswordContainer'); // Adjust ID as necessary
-    const submitButton = document.getElementById('submitButton'); // Adjust ID as necessary
+    const formTitle = document.getElementById('formTitle');
+    const confirmPasswordContainer = document.getElementById('confirmPasswordContainer');
+    const submitButton = document.getElementById('submitButton');
 
     toggleButton.addEventListener('click', function() {
-        // Check if we are currently on the login form
         if (formTitle.innerText.includes('login')) {
             formTitle.innerText = 'sign up to get started!';
-            confirmPasswordContainer.style.display = 'block'; // Make the confirm password field visible
+            confirmPasswordContainer.style.display = 'block';
             submitButton.textContent = 'sign up';
             toggleButton.textContent = 'already have an account? log in';
         } else {
             formTitle.innerText = 'login to get started!';
-            confirmPasswordContainer.style.display = 'none'; // Hide the confirm password field
+            confirmPasswordContainer.style.display = 'none';
             submitButton.textContent = 'login';
             toggleButton.textContent = "don't have an account? sign up";
         }
     });
 
-        loginForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirmPassword') ? document.getElementById('confirmPassword').value : null;
+    loginForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPassword') ? document.getElementById('confirmPassword').value : null;
 
-            let apiEndpoint = 'https://paddle-cockroach-bouncrrr.onrender.com/api/login';
-            let payload = JSON.stringify({ email, password });
+        let apiEndpoint = 'https://paddle-cockroach-bouncrrr.onrender.com/api/login';
+        let payload = JSON.stringify({ email, password });
 
-            if (confirmPassword) { // If the confirmPassword field is visible, it's a sign up attempt
-                apiEndpoint = 'https://paddle-cockroach-bouncrrr.onrender.com/api/signup';
-                payload = JSON.stringify({ email, password, confirmPassword });
+        if (confirmPassword) { // If the confirmPassword field is visible, it's a sign up attempt
+            apiEndpoint = 'https://paddle-cockroach-bouncrrr.onrender.com/api/signup';
+            payload = JSON.stringify({ email, password, confirmPassword });
+        }
+
+        fetch(apiEndpoint, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: payload,
+        })
+        .then(response => {
+            if (!response.ok) throw new Error('incorrect email/password');
+            return response.json();
+        })
+        .then(data => {
+            if (data.token) {
+                localStorage.setItem('userToken', data.token);
+                localStorage.setItem('userEmail', email);
+
+                // Redirect based on returnUrl or default to index.html
+                const params = new URLSearchParams(window.location.search);
+                const returnUrl = params.get('returnUrl');
+                window.location.href = returnUrl || '/index.html'; // If returnUrl is present use it, otherwise redirect to homepage
+
+            } else {
+                document.getElementById('loginError').textContent = data.error || 'incorrect email/password. please check your credentials.';
             }
-
-            fetch(apiEndpoint, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: payload,
-            })
-            .then(response => {
-                if (!response.ok) throw new Error('incorrect email/password');
-                return response.json();
-            })
-            .then(data => {
-                if (data.token) {
-                    localStorage.setItem('userToken', data.token);
-                    localStorage.setItem('userEmail', email);
-                    window.location.href = '/index.html'; // Redirect to index.html
-                } else {
-                    document.getElementById('loginError').textContent = data.error || 'incorrect email/password. please check your credentials.';
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                document.getElementById('loginError').textContent = error.message;
-            });
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('loginError').textContent = error.message;
         });
     });
+});
 </script>
 <footer>
         <a href="privacy.html">privacy notice</a> | 
