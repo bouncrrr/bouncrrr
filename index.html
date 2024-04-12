@@ -281,9 +281,12 @@
         console.log('Passthrough data being sent to Paddle:', passthroughData); // Log the passthrough data
 
         Paddle.Checkout.open({
-            email: userEmail,
-            passthrough: passthroughData,
-            items: [{ priceId: priceId, quantity: 1 }],
+            items: [
+                { priceId: priceId, quantity: 1 }
+            ],
+            customData: JSON.stringify({
+                userEmail: userEmail // Passing the userEmail in customData
+            }),
             successCallback: function(data) {
                 console.log('Checkout success:', data);
             },
