@@ -18,48 +18,35 @@
     document.addEventListener('DOMContentLoaded', function() {
         console.log('Document loaded');
 
-	checkLoginStatus();  // Check login status on page load
-        fetchAndDisplayPrices(); // Fetch and display prices on page load]
+        checkLoginStatus(); // Check login status on page load
+        fetchAndDisplayPrices(); // Fetch and display prices on page load
+
+        const logoutButton = document.getElementById('logout-button');
+        if (logoutButton) {
+            logoutButton.addEventListener('click', handleLogout);
+        }
+    });
+
+    function checkLoginStatus() {
         const userEmail = localStorage.getItem('userEmail');
-
-   if(userEmail) {
-        // User is logged in
-        document.getElementById('login-status').textContent = `logged in as ${userEmail}`;
-        document.getElementById('login-link').style.display = 'none'; // Hide login link
-        document.getElementById('logout-text').style.display = 'inline'; // Show logout option
-    } else {
-        // User is not logged in
-        document.getElementById('login-status').style.display = 'none'; // Hide login status
+        if (userEmail) {
+            document.getElementById('login-status').textContent = `logged in as ${userEmail}`;
+            document.getElementById('login-link').style.display = 'none';
+            document.getElementById('logout-text').style.display = 'inline';
+            document.getElementById('manage-account').style.display = 'inline'; // Show manage account link
+        } else {
+            document.getElementById('login-status').textContent = 'log in';
+            document.getElementById('login-link').style.display = 'inline';
+            document.getElementById('logout-text').style.display = 'none';
+            document.getElementById('manage-account').style.display = 'none'; // Hide manage account link
+        }
     }
-
-	function checkLoginStatus() {
-    const userEmail = localStorage.getItem('userEmail');
-    if (userEmail) {
-        document.getElementById('login-status').textContent = `logged in as ${userEmail}`;
-        document.getElementById('login-link').style.display = 'none';
-        document.getElementById('logout-text').style.display = 'inline';
-        document.getElementById('manage-account').style.display = 'inline'; // Show manage account link
-    } else {
-        document.getElementById('login-status').textContent = 'log in';
-        document.getElementById('login-link').style.display = 'inline';
-        document.getElementById('logout-text').style.display = 'none';
-        document.getElementById('manage-account').style.display = 'none'; // Hide manage account link
-    }
-}
 
     function handleLogout() {
-    localStorage.removeItem('userEmail');
-    localStorage.removeItem('userToken'); // Add any other local storage keys you need to clear
-    localStorage.removeItem('paddleCustomerId');
-
-    // Redirect to the homepage after clearing local storage
-    window.location.href = 'index.html';
-}
-
-
-	const logoutButton = document.getElementById('logout-button');
-	    if (logoutButton) {
-        	logoutButton.addEventListener('click', handleLogout);
+        localStorage.removeItem('userEmail');
+        localStorage.removeItem('userToken'); // Add any other local storage keys you need to clear
+        localStorage.removeItem('paddleCustomerId');
+        window.location.href = 'index.html';
     }
 
     function fetchAndDisplayPrices() {
@@ -69,7 +56,7 @@
                 { quantity: 1, priceId: 'pri_01htk4dhmz6ngkhysj1c8rm6ah' },
                 { quantity: 1, priceId: 'pri_01htk4feeptfk9fsw9zevx9mg5' }
             ],
-            address: { countryCode: 'GB' } // Example; adjust based on user's location or selection
+            address: { countryCode: 'GB' }
         };
 
         Paddle.PricePreview(request)
@@ -83,46 +70,25 @@
     }
 
     function updatePricingDisplays(data) {
-        console.log("Attempting to update pricing displays with data:", JSON.stringify(data, null, 2));
-
         if (!data || !data.data || !data.data.details || !data.data.details.lineItems) {
             console.error("Invalid or incomplete pricing data received.");
             return; // Exit if the data structure is not as expected
         }
 
-        const lineItems = data.data.details.lineItems;
-
-        // Extract specific pricing info
-        const monthlyItem = lineItems.find(item => item.price.id === 'pri_01htk0e7exyc33gr8qvaxnf96s');
-        const annualItem = lineItems.find(item => item.price.id === 'pri_01htk4dhmz6ngkhysj1c8rm6ah');
-        const lifetimeItem = lineItems.find(item => item.price.id === 'pri_01htk4feeptfk9fsw9zevx9mg5');
-
-        console.log("Monthly Item:", monthlyItem);
-        console.log("Annual Item:", annualItem);
-        console.log("Lifetime Item:", lifetimeItem);
+        const monthlyItem = data.data.details.lineItems.find(item => item.price.id === 'pri_01htk0e7exyc33gr8qvaxnf96s');
+        const annualItem = data.data.details.lineItems.find(item => item.price.id === 'pri_01htk4dhmz6ngkhysj1c8rm6ah');
+        const lifetimeItem = data.data.details.lineItems.find(item => item.price.id === 'pri_01htk4feeptfk9fsw9zevx9mg5');
 
         if (monthlyItem) {
             document.getElementById('monthly-price').textContent = monthlyItem.formattedUnitTotals.total + '/month';
-            console.log('Updated monthly price display.');
-        } else {
-            console.warn("Monthly subscription pricing details are missing.");
         }
-
         if (annualItem) {
             document.getElementById('annual-price').textContent = annualItem.formattedUnitTotals.total + '/year';
-            console.log('Updated annual price display.');
-        } else {
-            console.warn("Annual subscription pricing details are missing.");
         }
-
         if (lifetimeItem) {
             document.getElementById('lifetime-price').textContent = lifetimeItem.formattedUnitTotals.total;
-            console.log('Updated lifetime price display.');
-        } else {
-            console.warn("Lifetime purchase pricing details are missing.");
         }
     }
-}
 </script>
 </head>
 <body>
