@@ -55,16 +55,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const loginError = document.getElementById('loginError');
 
     toggleButton.addEventListener('click', function() {
-    const isLogin = formTitle.innerText.includes('login');
-    formTitle.innerText = isLogin ? 'sign up to get started!' : 'login to get started!';
-    confirmPasswordContainer.style.display = isLogin ? 'block' : 'none';
-    submitButton.textContent = isLogin ? 'sign up' : 'login';
-    toggleButton.textContent = isLogin ? 'already have an account? log in' : "don't have an account? sign up";
-    if (!isLogin) {
-        // Reset confirmPassword input when switching back to login
-        document.getElementById('confirmPassword').value = '';
-    }
-});
+        const isLogin = formTitle.innerText.includes('login');
+        formTitle.innerText = isLogin ? 'sign up to get started!' : 'login to get started!';
+        confirmPasswordContainer.style.display = isLogin ? 'block' : 'none';
+        submitButton.textContent = isLogin ? 'sign up' : 'login';
+        toggleButton.textContent = isLogin ? 'already have an account? log in' : "don't have an account? sign up";
+        if (!isLogin) {
+            // Reset confirmPassword input when switching back to login
+            document.getElementById('confirmPassword').value = '';
+        }
+    });
 
     loginForm.addEventListener('submit', function(e) {
         e.preventDefault();
@@ -84,48 +84,34 @@ document.addEventListener('DOMContentLoaded', function() {
             body: payload,
         })
         .then(response => {
-    if (!response.ok) {
-        throw new Error('network response was not ok.');
-    }
-    return response.json();
-})
-.then(data => {
-    if (data.token) {
-        localStorage.setItem('userToken', data.token);
-        localStorage.setItem('userEmail', email);
-        const params = new URLSearchParams(window.location.search);
-        const returnUrl = params.get('returnUrl');
-        window.location.href = returnUrl || '/index.html'; // Redirect after login
-    } else if (data.message) {
-        loginError.innerHTML = data.message; // Show success or informational messages from server
-    } else {
-        throw new Error('unexpected response from server.');
-    }
-})
-.catch(error => {
-    console.error('Error:', error);
-    loginError.textContent = error.message || 'an error occurred. please try again.';
-});
-    });
-    
-    // Function to handle the resend of the verification email
-    window.resendVerification = function(email) {
-        fetch('https://paddle-cockroach-bouncrrr.onrender.com/api/resend-verification', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email })
+            if (!response.ok) {
+                throw new Error('network response was not ok.');
+            }
+            return response.json();
         })
-        .then(response => response.json())
         .then(data => {
-            loginError.textContent = data.message || data.error;
+            if (data.token) {
+                localStorage.setItem('userToken', data.token);
+                localStorage.setItem('userEmail', email);
+                const params = new URLSearchParams(window.location.search);
+                const returnUrl = params.get('returnUrl');
+                window.location.href = returnUrl || '/index.html'; // Redirect after login
+            } else if (data.message) {
+                loginError.innerHTML = data.message; // Show success or informational messages from server
+                if (data.message.includes('signup successful. please check your email to verify your account.')) {
+                    loginError.style.color = 'green'; // Change color to green if signup is successful
+                } else {
+                    loginError.style.color = 'red'; // Keep other messages red
+                }
+            } else {
+                throw new Error('unexpected response from server.');
+            }
         })
         .catch(error => {
             console.error('Error:', error);
-            loginError.textContent = 'an error occurred while resending the verification email. please try again.';
+            loginError.textContent = error.message || 'an error occurred. please try again.';
         });
-    };
+    });
 });
 </script>
 <footer>
