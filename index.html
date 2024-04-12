@@ -261,26 +261,33 @@
         <a href="terms.html">terms of use/refund policy</a>
     </footer>
 	<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Function to handle subscription attempts
-    function handleSubscription(priceId) {
-        const isLoggedIn = localStorage.getItem('userToken');
+	document.addEventListener('DOMContentLoaded', function() {
+    	// Function to handle subscription attempts
+    	function handleSubscription(priceId) {
+        	const isLoggedIn = localStorage.getItem('userToken');
+        	const userEmail = localStorage.getItem('userEmail');  // Retrieve the userEmail from localStorage
+
         if (!isLoggedIn) {
             // Redirect to the login page and append the return URL
             window.location.href = 'login.html?returnUrl=' + encodeURIComponent(window.location.href + '#pricing');
         } else {
+            // Ensure userEmail is retrieved and defined
+            if (!userEmail) {
+                console.error('User email not found in local storage');
+                return;  // Exit the function if userEmail isn't found
+            }
             // Open the Paddle checkout with the specific priceId
             Paddle.Checkout.open({
                 email: userEmail, // Optional, to pre-fill the checkout email field
-    		passthrough: JSON.stringify({ userEmail: userEmail }),
-    		successCallback: function(data) {
-        	console.log('Checkout success:', data);
-        	// Optionally, redirect the user or show a confirmation message
-   	 },
-    closeCallback: function(data) {
-        console.log('Checkout closed.');
-    }
-});
+                passthrough: JSON.stringify({ userEmail: userEmail }),
+                successCallback: function(data) {
+                    console.log('Checkout success:', data);
+                    // Optionally, redirect the user or show a confirmation message
+                },
+                closeCallback: function(data) {
+                    console.log('Checkout closed.');
+                }
+            });
         }
     }
 
