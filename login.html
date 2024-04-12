@@ -46,7 +46,7 @@
     </div>
 
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
     const loginForm = document.getElementById('loginForm');
     const toggleButton = document.getElementById('toggleFormButton');
     const formTitle = document.getElementById('formTitle');
@@ -93,8 +93,9 @@
                 const params = new URLSearchParams(window.location.search);
                 const returnUrl = params.get('returnUrl');
                 window.location.href = returnUrl || '/index.html'; // Redirect after login
-            } else if (data.message && data.status === 'success') {
-                loginError.textContent = data.message; // Success message from server (e.g., check your email)
+            } else if (data.error === 'user not verified.') {
+                const resendLink = '<a href="#" onclick="resendVerification(\'' + email + '\')">Click here to resend verification email.</a>';
+                loginError.innerHTML = 'User not verified. ' + resendLink;
             } else {
                 loginError.textContent = data.error || 'incorrect email/password. please check your credentials.';
             }
@@ -104,6 +105,25 @@
             loginError.textContent = error.message || 'an error occurred. Please try again.';
         });
     });
+    
+    // Function to handle the resend of the verification email
+    window.resendVerification = function(email) {
+        fetch('https://paddle-cockroach-bouncrrr.onrender.com/api/resend-verification', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email })
+        })
+        .then(response => response.json())
+        .then(data => {
+            loginError.textContent = data.message || data.error;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            loginError.textContent = 'An error occurred while resending the verification email. Please try again.';
+        });
+    };
 });
 </script>
 <footer>
