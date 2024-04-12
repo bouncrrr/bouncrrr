@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="bouncrrr-favicon.ico" type="image/x-icon">
     <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
-<script>
+    <script>
     Paddle.Environment.set('sandbox'); // Ensure you're in the correct environment
     Paddle.Initialize({
         token: 'test_241b28ddc2c6acc634ee5dd479f', // Replace with your actual client-side token
@@ -18,19 +18,18 @@
     document.addEventListener('DOMContentLoaded', function() {
         console.log('Document loaded');
 
-        checkLoginStatus();  // Check login status on page load
-        fetchAndDisplayPrices(); // Fetch and display prices on page load
+	checkLoginStatus();  // Check login status on page load
+        fetchAndDisplayPrices(); // Fetch and display prices on page load]
+        const userEmail = localStorage.getItem('userEmail');
 
-        const userEmail = localStorage.getItem('userEmail'); // Retrieve user's email stored during login
-
-        // Configure Paddle checkout
+	// Configure Paddle checkout
         Paddle.Checkout.on('Checkout.Complete', function(data) {
             console.log("Checkout complete!", data);
             // Send the data along with the user's email to your server
             updateUserSubscription(data.checkout.id, userEmail);
         });
 
-        function updateUserSubscription(transactionId, userEmail) {
+	function updateUserSubscription(transactionId, userEmail) {
             fetch('/api/confirm-subscription', {
                 method: 'POST',
                 headers: {
@@ -50,33 +49,48 @@
             .catch(error => console.error('Error updating subscription:', error));
         }
 
-        function checkLoginStatus() {
-            if (userEmail) {
-                document.getElementById('login-status').textContent = `Logged in as ${userEmail}`;
-                document.getElementById('login-link').style.display = 'none';
-                document.getElementById('logout-text').style.display = 'inline';
-                document.getElementById('manage-account').style.display = 'inline'; // Show manage account link
-            } else {
-                document.getElementById('login-status').textContent = 'Log in';
-                document.getElementById('login-link').style.display = 'inline';
-                document.getElementById('logout-text').style.display = 'none';
-                document.getElementById('manage-account').style.display = 'none'; // Hide manage account link
-            }
-        }
+   if(userEmail) {
+        // User is logged in
+        document.getElementById('login-status').textContent = `logged in as ${userEmail} | `;
+        document.getElementById('login-link').style.display = 'none'; // Hide login link
+        document.getElementById('logout-text').style.display = 'inline'; // Show logout option
+    } else {
+        // User is not logged in
+        document.getElementById('login-status').style.display = 'none'; // Hide login status
+    }
 
-        function handleLogout() {
-            localStorage.removeItem('userEmail');
-            localStorage.removeItem('userToken'); // Add any other local storage keys you need to clear
-            localStorage.removeItem('paddleCustomerId');
+	function checkLoginStatus() {
+    const userEmail = localStorage.getItem('userEmail');
+    if (userEmail) {
+        document.getElementById('login-status').textContent = `logged in as ${userEmail}`;
+        document.getElementById('login-link').style.display = 'none';
+        document.getElementById('logout-text').style.display = 'inline';
+        document.getElementById('manage-account').style.display = 'inline'; // Show manage account link
+    } else {
+        document.getElementById('login-status').textContent = 'log in';
+        document.getElementById('login-link').style.display = 'inline';
+        document.getElementById('logout-text').style.display = 'none';
+        document.getElementById('manage-account').style.display = 'none'; // Hide manage account link
+    }
+}
 
-            // Redirect to the homepage after clearing local storage
-            window.location.href = 'index.html';
-        }
+    function handleLogout() {
+    localStorage.removeItem('userEmail');
+    localStorage.removeItem('userToken'); // Add any other local storage keys you need to clear
+    localStorage.removeItem('paddleCustomerId');
 
-        const logoutButton = document.getElementById('logout-button');
-        if (logoutButton) {
-            logoutButton.addEventListener('click', handleLogout);
-        }
+    // Redirect to the homepage after clearing local storage
+    window.location.href = 'index.html';
+}
+
+
+	const logoutButton = document.getElementById('logout-button');
+	    if (logoutButton) {
+        	logoutButton.addEventListener('click', handleLogout);
+    }
+
+
+    });
 
     function fetchAndDisplayPrices() {
         var request = {
