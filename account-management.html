@@ -52,14 +52,18 @@ document.addEventListener('DOMContentLoaded', async function () {
 });
 
 async function loadMarketingOptInStatus() {
-    const paddleCustomerId = localStorage.getItem('paddleCustomerId');
-    if (!paddleCustomerId) {
-        console.error('Customer ID is missing.');
+    const token = localStorage.getItem('userToken');
+    if (!token) {
+        console.error('User token is missing.');
         return;
     }
 
-    const url = `https://paddle-cockroach-bouncrrr.onrender.com/get-marketing-preferences?customerId=${paddleCustomerId}`;
-    const response = await fetch(url);
+    const url = 'https://paddle-cockroach-bouncrrr.onrender.com/api/get-marketing-preferences';
+    const response = await fetch(url, {
+        method: 'GET',
+        headers: { 'Authorization': `Bearer ${token}` }
+    });
+
     if (!response.ok) {
         throw new Error('Failed to fetch marketing opt-in status');
     }
@@ -69,22 +73,26 @@ async function loadMarketingOptInStatus() {
 
 async function updateMarketingOptInStatus(e) {
     e.preventDefault();
-    const paddleCustomerId = localStorage.getItem('paddleCustomerId');
-    if (!paddleCustomerId) {
-        console.error('Customer ID is missing.');
+    const marketingOptIn = document.getElementById('marketing-emails').checked;
+    const token = localStorage.getItem('userToken');
+    if (!token) {
+        console.error('User token is missing.');
         return;
     }
 
-    const marketingOptIn = document.getElementById('marketing-emails').checked;
-    const url = `https://paddle-cockroach-bouncrrr.onrender.com/update-marketing-preferences`;
+    const url = 'https://paddle-cockroach-bouncrrr.onrender.com/api/update-marketing-preferences';
     const response = await fetch(url, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ paddleCustomerId, marketingOptIn })
+        headers: { 
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json' 
+        },
+        body: JSON.stringify({ marketingOptIn })
     });
 
     if (!response.ok) {
-        throw new Error('Network response was not ok');
+        const errMsg = await response.text();
+        throw new Error(`Network response was not ok: ${errMsg}`);
     }
 
     const responseMessage = await response.text();
