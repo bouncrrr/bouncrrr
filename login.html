@@ -47,10 +47,12 @@
 
     <script>
     document.addEventListener('DOMContentLoaded', function() {
+    const loginForm = document.getElementById('loginForm');
     const toggleButton = document.getElementById('toggleFormButton');
     const formTitle = document.getElementById('formTitle');
     const confirmPasswordContainer = document.getElementById('confirmPasswordContainer');
     const submitButton = document.getElementById('submitButton');
+    const loginError = document.getElementById('loginError');
 
     toggleButton.addEventListener('click', function() {
         if (formTitle.innerText.includes('login')) {
@@ -72,13 +74,9 @@
         const password = document.getElementById('password').value;
         const confirmPassword = document.getElementById('confirmPassword') ? document.getElementById('confirmPassword').value : null;
 
-        let apiEndpoint = 'https://paddle-cockroach-bouncrrr.onrender.com/api/login';
-        let payload = JSON.stringify({ email, password });
-
-        if (confirmPassword) { // If the confirmPassword field is visible, it's a sign up attempt
-            apiEndpoint = 'https://paddle-cockroach-bouncrrr.onrender.com/api/signup';
-            payload = JSON.stringify({ email, password, confirmPassword });
-        }
+        // Determine endpoint based on the presence of the confirmPassword
+        let apiEndpoint = confirmPassword ? 'https://paddle-cockroach-bouncrrr.onrender.com/api/signup' : 'https://paddle-cockroach-bouncrrr.onrender.com/api/login';
+        let payload = JSON.stringify({ email, password, confirmPassword });
 
         fetch(apiEndpoint, {
             method: 'POST',
@@ -87,27 +85,23 @@
             },
             body: payload,
         })
-        .then(response => {
-            if (!response.ok) throw new Error('incorrect email/password');
-            return response.json();
-        })
+        .then(response => response.json())
         .then(data => {
             if (data.token) {
                 localStorage.setItem('userToken', data.token);
                 localStorage.setItem('userEmail', email);
-
-                // Redirect based on returnUrl or default to index.html
                 const params = new URLSearchParams(window.location.search);
                 const returnUrl = params.get('returnUrl');
-                window.location.href = returnUrl || '/index.html'; // If returnUrl is present use it, otherwise redirect to homepage
-
+                window.location.href = returnUrl || '/index.html'; // Redirect after login
+            } else if (data.message && data.status === 'success') {
+                loginError.textContent = data.message; // Success message from server (e.g., check your email)
             } else {
-                document.getElementById('loginError').textContent = data.error || 'incorrect email/password. please check your credentials.';
+                loginError.textContent = data.error || 'incorrect email/password. please check your credentials.';
             }
         })
         .catch(error => {
             console.error('Error:', error);
-            document.getElementById('loginError').textContent = error.message;
+            loginError.textContent = error.message || 'an error occurred. Please try again.';
         });
     });
 });
