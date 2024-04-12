@@ -138,9 +138,9 @@ function handleLogout() {
 function updateManageSubscriptionButton(status) {
     const manageButton = document.getElementById('manage-subscription');
     if (status === 'active') {
-        manageButton.textContent = 'Cancel subscription at next billing date';
+        manageButton.textContent = 'cancel subscription at next billing date';
     } else {
-        manageButton.textContent = 'Subscribe';
+        manageButton.textContent = 'subscribe';
     }
 }
 
