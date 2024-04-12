@@ -62,7 +62,39 @@
         	logoutButton.addEventListener('click', handleLogout);
     }
 
+// Event listeners for the buttons
+        document.getElementById('subscribe-button-monthly').addEventListener('click', function() {
+            Paddle.Checkout.open({
+                items: [
+                    {
+                        priceId: 'pri_01htk0e7exyc33gr8qvaxnf96s', // Replace with the actual price ID for monthly subscription
+                        quantity: 1
+                    }
+                ]
+            });
+        });
 
+        document.getElementById('subscribe-button-annual').addEventListener('click', function() {
+            Paddle.Checkout.open({
+                items: [
+                    {
+                        priceId: 'pri_01htk4dhmz6ngkhysj1c8rm6ah', // Replace with the actual price ID for annual subscription
+                        quantity: 1
+                    }
+                ]
+            });
+        });
+
+        document.getElementById('buy-button-lifetime').addEventListener('click', function() {
+            Paddle.Checkout.open({
+                items: [
+                    {
+                        priceId: 'pri_01htk4feeptfk9fsw9zevx9mg5', // Replace with the actual price ID for lifetime purchase
+                        quantity: 1
+                    }
+                ]
+            });
+        });
     });
 
     function fetchAndDisplayPrices() {
@@ -131,14 +163,9 @@
     <div id="background-animation"></div>
 
 <div class="login-status-container">
-    <div>
-        <span id="login-status">log in</span>
-        <a href="login.html" id="login-link">log in</a>
-        <span id="logout-text" style="display:none;"><a href="#" id="logout-button" class="logout-button">log out</a></span>
-    </div>
-    <div style="display:none;" id="manage-account">
-        <a href="/account-management.html" class="manage-account">manage your account/subscription</a>
-    </div>
+    <span id="login-status">log in</span>
+    <a href="login.html" id="login-link">log in</a>
+    <span id="logout-text" style="display:none;"> | <a href="#" id="logout-button" class="logout-button">log out</a> | <a href="/account-management.html" id="manage-account" class="manage-account" style="display:none;">manage your account/subscription</a></span>
 </div>
 
     <div class="navbar" id="navbar">
@@ -244,24 +271,9 @@
         <!-- Assign an ID for the annual price paragraph -->
         <p id="free-price">free!</p>
         <p class="small-text">(you'll want to buy it though!)</p>
-        <button id="subscribe-button-trial">subscribe</button>
+        <button id="subscribe-button-annual">subscribe</button>
     </div>
 
-</div>
-
-<div id="signInModal" class="modal" style="display: none;">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <form id="modalLoginForm">
-	    <h2>you need to login to start a subscription!</h2>
-            <label for="modalEmail">email:</label>
-            <input type="email" id="modalEmail" required>
-            <label for="modalPassword">password:</label>
-            <input type="password" id="modalPassword" required>
-	    <div id="modalError" class="error"></div>
-            <button type="submit">login</button>
-        </form>
-    </div>
 </div>
 
         </section>
@@ -275,88 +287,6 @@
         <a href="support.html">support</a> | 
         <a href="terms.html">terms of use/refund policy</a>
     </footer>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const modal = document.getElementById('signInModal');
-    const body = document.body;
-
-    function openModal(priceId) {
-        modal.style.display = 'block';
-        body.classList.add('blurred');
-        modal.setAttribute('data-price-id', priceId);
-        body.style.overflow = 'hidden'; // Prevent scrolling
-    }
-
-    function closeModal() {
-        modal.style.display = 'none';
-        body.classList.remove('blurred');
-        body.style.overflow = ''; // Re-enable scrolling
-    }
-
-    // Handling closing the modal when clicking on close or outside the modal
-    modal.onclick = function(event) {
-        if (event.target === modal || event.target.classList.contains('close')) {
-            closeModal();
-        }
-    };
-
-    // Function to handle subscription button clicks
-    function handleSubscription(priceId) {
-        const isLoggedIn = localStorage.getItem('userToken');
-        if (!isLoggedIn) {
-            openModal(priceId);
-        } else {
-            Paddle.Checkout.open({
-                items: [{ priceId: priceId, quantity: 1 }]
-            });
-        }
-    }
-
-    // Attach event listeners to each button
-    document.getElementById('subscribe-button-monthly').addEventListener('click', () => handleSubscription('pri_01htk0e7exyc33gr8qvaxnf96s'));
-    document.getElementById('subscribe-button-annual').addEventListener('click', () => handleSubscription('pri_01htk4dhmz6ngkhysj1c8rm6ah'));
-    document.getElementById('buy-button-lifetime').addEventListener('click', () => handleSubscription('pri_01htk4feeptfk9fsw9zevx9mg5'));
-    document.getElementById('subscribe-button-trial').addEventListener('click', () => handleSubscription('pri_01htk0e7exyc33gr8qvaxnf96s')); // Assuming it uses the same price ID
-
-    // Handling login from the modal
-    document.getElementById('modalLoginForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const email = document.getElementById('modalEmail').value;
-        const password = document.getElementById('modalPassword').value;
-        const priceId = modal.getAttribute('data-price-id'); // Retrieve the price ID after login
-
-        fetch('https://paddle-cockroach-bouncrrr.onrender.com/api/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email, password })
-        })
-        .then(response => {
-            if (!response.ok) throw new Error('Login failed');
-            return response.json();
-        })
-        .then(data => {
-            if (data.token) {
-                localStorage.setItem('userToken', data.token);
-                localStorage.setItem('userEmail', email);
-                closeModal(); // Close the modal after successful login
-                Paddle.Checkout.open({ // Open the checkout after successful login
-                    items: [{ priceId: priceId, quantity: 1 }]
-                });
-            } else {
-                document.getElementById('modalError').textContent = 'Login failed. Please check your credentials.';
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            document.getElementById('modalError').textContent = error.message;
-        });
-    });
-});
-</script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/ScrollMagic.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/plugins/debug.addIndicators.min.js"></script>
     <script src="script.js"></script>
