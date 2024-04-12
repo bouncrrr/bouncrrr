@@ -67,6 +67,11 @@
                 // Hide all pricing tiers except for the special lifetime license
                 document.querySelectorAll('.pricing-tier:not(.special)').forEach(el => el.style.display = 'none');
 
+		// Center the lifetime license box
+		const lifetimeTier = document.querySelector('.pricing-tier.special');
+		lifetimeTier.style.margin = '0 auto'; // Center the box
+		lifetimeTier.style.maxWidth = '300px'; // Adjust width as necessary
+		    
                 // Create and insert the subscription message
                 const message = document.createElement('p');
                 message.textContent = "you're already subscribed! but you can still buy a lifetime license...";
