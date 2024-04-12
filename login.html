@@ -61,8 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
         submitButton.textContent = isLogin ? 'sign up' : 'login';
         toggleButton.textContent = isLogin ? 'already have an account? log in' : "don't have an account? sign up";
         if (!isLogin) {
-            // Reset confirmPassword input when switching back to login
-            document.getElementById('confirmPassword').value = '';
+            document.getElementById('confirmPassword').value = '';  // Reset confirmPassword input when switching back to login
         }
     });
 
@@ -72,7 +71,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const password = document.getElementById('password').value;
         const confirmPassword = document.getElementById('confirmPassword') ? document.getElementById('confirmPassword').value : null;
 
-        // Determine endpoint based on the presence of the confirmPassword
         let apiEndpoint = confirmPassword ? 'https://paddle-cockroach-bouncrrr.onrender.com/api/signup' : 'https://paddle-cockroach-bouncrrr.onrender.com/api/login';
         let payload = JSON.stringify({ email, password, confirmPassword });
 
@@ -83,12 +81,13 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             body: payload,
         })
-        .then(response => {
+        .then(response => response.json().then(data => {
             if (!response.ok) {
-                throw new Error('network response was not ok.');
+                // If the response is not ok, display the error message from the server
+                throw new Error(data.error || 'An error occurred, please try again later.');
             }
-            return response.json();
-        })
+            return data;
+        }))
         .then(data => {
             if (data.token) {
                 localStorage.setItem('userToken', data.token);
@@ -96,20 +95,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 const params = new URLSearchParams(window.location.search);
                 const returnUrl = params.get('returnUrl');
                 window.location.href = returnUrl || '/index.html'; // Redirect after login
-            } else if (data.message) {
-                loginError.innerHTML = data.message; // Show success or informational messages from server
-                if (data.message.includes('signup successful')) {
-                    loginError.style.color = 'green'; // Change color to green if signup is successful
-                } else {
-                    loginError.style.color = 'red'; // Keep other messages red
-                }
             } else {
-                throw new Error('unexpected response from server.');
+                loginError.innerHTML = data.message; // Show success or informational messages from server
+                loginError.style.color = data.message.includes('signup successful') ? 'green' : 'red';
             }
         })
         .catch(error => {
             console.error('Error:', error);
-            loginError.textContent = error.message || 'an error occurred. please try again.';
+            loginError.textContent = error.message;
+            loginError.style.color = 'red';
         });
     });
 });
