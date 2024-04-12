@@ -38,7 +38,6 @@
         <a href="terms.html">terms of use/refund policy</a>
     </footer>
 
-<script>
 document.addEventListener('DOMContentLoaded', async function () {
     try {
         await loadMarketingOptInStatus();
@@ -129,16 +128,16 @@ function handleLogout() {
 function updateManageSubscriptionButton(status) {
     const manageButton = document.getElementById('manage-subscription');
     if (status === 'active') {
-        manageButton.textContent = 'cancel subscription';
+        manageButton.textContent = 'Cancel subscription at next billing date';
     } else {
-        manageButton.textContent = 'subscribe';
+        manageButton.textContent = 'Subscribe';
     }
 }
 
 function manageSubscription() {
     const status = document.getElementById('subscription-status').textContent;
     if (status === 'active') {
-        if (confirm('are you sure you want to cancel your subscription? this cannot be undone, and you will have to create a new subscription to continue using bouncrrr.')) {
+        if (confirm('Are you sure you want to cancel your subscription? This will take effect at your next billing date.')) {
             // Call to server to cancel subscription
             cancelSubscription();
         }
@@ -155,19 +154,18 @@ async function cancelSubscription() {
             'Authorization': `Bearer ${localStorage.getItem('userToken')}`,
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ customerId }) // Sending customerId to the server
+        body: JSON.stringify({ customerId, effectiveFrom: 'next_billing_date' }) // Sending customerId and cancellation timing to the server
     });
 
     if (response.ok) {
-        alert('Your subscription has been successfully canceled.');
-        document.getElementById('subscription-status').textContent = 'inactive';
-        updateManageSubscriptionButton('inactive');
+        alert('Your subscription will be canceled at the next billing date.');
+        document.getElementById('subscription-status').textContent = 'pending cancellation';
+        updateManageSubscriptionButton('pending cancellation');
     } else {
         const error = await response.json();
         console.error('Failed to cancel subscription:', error);
         alert('Failed to cancel subscription. Please try again or contact support.');
     }
 }
-</script>
 </body>
 </html>
