@@ -83,25 +83,29 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             body: payload,
         })
-        .then(response => response.json())
-        .then(data => {
-            if (data.token) {
-                localStorage.setItem('userToken', data.token);
-                localStorage.setItem('userEmail', email);
-                const params = new URLSearchParams(window.location.search);
-                const returnUrl = params.get('returnUrl');
-                window.location.href = returnUrl || '/index.html'; // Redirect after login
-            } else if (data.error === 'user not verified.') {
-                const resendLink = '<a href="#" onclick="resendVerification(\'' + email + '\')">Click here to resend verification email.</a>';
-                loginError.innerHTML = 'User not verified. ' + resendLink;
-            } else {
-                loginError.textContent = data.error || 'incorrect email/password. please check your credentials.';
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            loginError.textContent = error.message || 'an error occurred. Please try again.';
-        });
+        .then(response => {
+    if (!response.ok) {
+        throw new Error('Network response was not ok.');
+    }
+    return response.json();
+})
+.then(data => {
+    if (data.token) {
+        localStorage.setItem('userToken', data.token);
+        localStorage.setItem('userEmail', email);
+        const params = new URLSearchParams(window.location.search);
+        const returnUrl = params.get('returnUrl');
+        window.location.href = returnUrl || '/index.html'; // Redirect after login
+    } else if (data.message) {
+        loginError.innerHTML = data.message; // Show success or informational messages from server
+    } else {
+        throw new Error('Unexpected response from server.');
+    }
+})
+.catch(error => {
+    console.error('Error:', error);
+    loginError.textContent = error.message || 'an error occurred. Please try again.';
+});
     });
     
     // Function to handle the resend of the verification email
