@@ -583,7 +583,7 @@ input:checked + .slider:before {
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
-    z-index: 2; /* Sit on top */
+    z-index: 10; /* Sit on top */
     left: 0;
     top: 0;
     width: 100%; /* Full width */
@@ -598,17 +598,8 @@ input:checked + .slider:before {
     padding: 20px;
     border: 1px solid #888;
     width: 80%; /* Could be more or less, depending on screen size */
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    animation: animatetop 0.4s;
-}
-
-@keyframes animatetop {
-    from {top: -300px; opacity: 0}
-    to {top: 0; opacity: 1}
-}
-
-body.blurred {
-    filter: blur(8px);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    position: relative;
 }
 
 .close {
@@ -623,6 +614,18 @@ body.blurred {
     color: black;
     text-decoration: none;
     cursor: pointer;
+}
+
+/* Ensuring the blur effect covers everything but the modal */
+.blurred {
+    filter: blur(8px);
+    pointer-events: none;
+}
+
+.blurred .modal,
+.blurred .modal-content {
+    filter: none;
+    pointer-events: all; /* Allow interaction with the modal */
 }
 
 #logout-text {
