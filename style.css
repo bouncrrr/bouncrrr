@@ -581,66 +581,36 @@ input:checked + .slider:before {
 }
 
 .modal {
-    position: fixed; /* Keep modal positioned relative to the viewport */
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1050; /* Higher than other content but less than the overlay if used */
-    width: 90%;
-    max-width: 600px;
-    background-color: #fff;
-    border-radius: 5px;
-    padding: 20px;
-    display: none; /* Hide by default */
-    box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
-}
-
-/* Blurring the background except the modal */
-body.blurred {
-    filter: blur(5px);
-    overflow: hidden; /* Prevent scrolling while modal is open */
-}
-
-body.blurred *:not(.modal, .modal *) {
-    pointer-events: none; /* Disable interactions with other elements */
-}
-
-body > :not(.modal) {
-    filter: blur(5px);
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4); /* Black with opacity */
 }
 
 .modal-content {
-    position: relative; /* Ensures stacking context starts from here */
-    z-index: 2; /* Above the background overlay */
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
 }
 
-/* Close button styling */
 .close {
-    position: absolute;
-    top: 10px;
-    right: 20px;
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
     cursor: pointer;
-    font-size: 1.5em;
-    color: #333;
-}
-
-/* Ensuring modal overlay covers the entire viewport */
-#background-animation {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: -1; /* Behind everything else */
-    animation: gradientBG 15s ease infinite;
-}
-
-/* Apply the overlay gradient */
-@keyframes gradientBG {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
 }
 
 #logout-text {
