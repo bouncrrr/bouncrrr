@@ -280,6 +280,7 @@
             Paddle.Checkout.open({
                 email: userEmail, // Optional, to pre-fill the checkout email field
                 passthrough: JSON.stringify({ userEmail: userEmail }),
+                items: [{ priceId: priceId, quantity: 1 }],
                 successCallback: function(data) {
                     console.log('Checkout success:', data);
                     // Optionally, redirect the user or show a confirmation message
