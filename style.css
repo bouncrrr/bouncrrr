@@ -581,51 +581,41 @@ input:checked + .slider:before {
 }
 
 .modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 10; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    position: fixed; /* Use fixed to keep the modal in place during scrolling */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1050; /* Ensure it's above other content */
+    display: none;
+    width: 90%; /* Adjust width as necessary */
+    max-width: 600px; /* Maximum width */
+    background-color: #fff; /* Background of the modal */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    padding: 20px;
+}
+
+.blurred {
+    filter: blur(5px); /* Apply blur to the body when modal is active */
+    pointer-events: none; /* Disable interaction with elements under the blur */
 }
 
 .modal-content {
-    background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     position: relative;
+    z-index: 1051; /* Ensure content is above the background */
 }
 
 .close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 24px;
     cursor: pointer;
 }
 
-/* Ensuring the blur effect covers everything but the modal */
-.blurred {
-    filter: blur(8px);
-    pointer-events: none;
-}
-
-.blurred .modal,
-.blurred .modal-content {
-    filter: none;
-    pointer-events: all; /* Allow interaction with the modal */
+body.blurred .modal {
+    filter: none; /* Remove blur from the modal itself */
+    pointer-events: auto; /* Enable interaction with the modal */
 }
 
 #logout-text {
