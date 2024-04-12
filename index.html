@@ -64,25 +64,34 @@
             const pricingSection = document.getElementById('pricing');
             const pricingContainer = document.querySelector('.pricing-container');
             if (status === 'active') {
-                // Hide all pricing tiers except for the special lifetime license
-                document.querySelectorAll('.pricing-tier:not(.special)').forEach(el => el.style.display = 'none');
+        // Hide all other pricing options except for the lifetime license
+        document.querySelectorAll('.pricing-tier:not(.special)').forEach(el => el.style.display = 'none');
 
-		// Center the lifetime license box
-		const lifetimeTier = document.querySelector('.pricing-tier.special');
-		lifetimeTier.style.margin = '0 auto'; // Center the box
-		lifetimeTier.style.maxWidth = '300px'; // Adjust width as necessary
-		    
-                // Create and insert the subscription message
-                const message = document.createElement('p');
-                message.textContent = "you're already subscribed! but you can still buy a lifetime license...";
-                message.style.textAlign = 'center';
-                message.style.color = 'white';
-                message.style.fontSize = '20px';
-                message.style.marginTop = '20px';
+        // Ensure the pricing container is ready to center the remaining visible child
+        pricingContainer.style.display = 'flex';
+        pricingContainer.style.flexDirection = 'column';
+        pricingContainer.style.alignItems = 'center';
+        pricingContainer.style.justifyContent = 'center';
 
-                pricingSection.insertBefore(message, pricingContainer);
-            }
-        }
+        // Create and insert the subscription message
+        const message = document.createElement('p');
+        message.textContent = "You're already subscribed! But you can still buy a lifetime license...";
+        message.style.color = 'white';
+        message.style.fontSize = '20px';
+        message.style.textAlign = 'center';
+        message.style.marginBottom = '20px'; // Space between message and box
+
+        // Insert the message directly inside the pricing container at the top
+        pricingContainer.insertBefore(message, pricingContainer.firstChild);
+    } else {
+        // Restore original styles if needed when the status is not 'active'
+        pricingContainer.style.display = 'grid'; // Assuming the original display was grid
+        pricingContainer.style.flexDirection = '';
+        pricingContainer.style.alignItems = '';
+        pricingContainer.style.justifyContent = '';
+        document.querySelectorAll('.pricing-tier').forEach(el => el.style.display = 'block');
+    }
+}
 
         function handleLogout() {
             localStorage.removeItem('userEmail');
