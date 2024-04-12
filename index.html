@@ -22,33 +22,6 @@
         fetchAndDisplayPrices(); // Fetch and display prices on page load]
         const userEmail = localStorage.getItem('userEmail');
 
-	// Configure Paddle checkout
-        Paddle.Checkout.on('Checkout.Complete', function(data) {
-            console.log("Checkout complete!", data);
-            // Send the data along with the user's email to your server
-            updateUserSubscription(data.checkout.id, userEmail);
-        });
-
-	function updateUserSubscription(transactionId, userEmail) {
-            fetch('/api/confirm-subscription', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('userToken')}` // Use the stored JWT
-                },
-                body: JSON.stringify({ transactionId, userEmail })
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Subscription update response:', data);
-                if (data.message) {
-                    alert('Subscription confirmed and updated!');
-                    // Redirect or update UI accordingly
-                }
-            })
-            .catch(error => console.error('Error updating subscription:', error));
-        }
-
    if(userEmail) {
         // User is logged in
         document.getElementById('login-status').textContent = `logged in as ${userEmail} | `;
@@ -298,8 +271,16 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             // Open the Paddle checkout with the specific priceId
             Paddle.Checkout.open({
-                items: [{ priceId: priceId, quantity: 1 }]
-            });
+                email: userEmail, // Optional, to pre-fill the checkout email field
+    		passthrough: JSON.stringify({ userEmail: userEmail }),
+    		successCallback: function(data) {
+        	console.log('Checkout success:', data);
+        	// Optionally, redirect the user or show a confirmation message
+   	 },
+    closeCallback: function(data) {
+        console.log('Checkout closed.');
+    }
+});
         }
     }
 
