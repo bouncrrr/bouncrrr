@@ -279,16 +279,20 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const modal = document.getElementById('signInModal');
-    const closeModal = function() {
-        modal.style.display = 'none';
-        document.body.classList.remove('blurred'); // Remove blur effect when closing the modal
-    };
+    const body = document.body;
 
-    const openModal = function(priceId) {
+    function openModal(priceId) {
         modal.style.display = 'block';
-        document.body.classList.add('blurred'); // Add blur effect when modal is open
-        modal.setAttribute('data-price-id', priceId); // Store the price ID in the modal for later use
-    };
+        body.classList.add('blurred');
+        modal.setAttribute('data-price-id', priceId);
+        body.style.overflow = 'hidden'; // Prevent scrolling
+    }
+
+    function closeModal() {
+        modal.style.display = 'none';
+        body.classList.remove('blurred');
+        body.style.overflow = ''; // Re-enable scrolling
+    }
 
     // Handling closing the modal when clicking on close or outside the modal
     modal.onclick = function(event) {
