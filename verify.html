@@ -39,17 +39,17 @@
             .then(message => {
                 const messageElement = document.getElementById('verification-message');
                 if (message.includes('email verified successfully')) {
-                    messageElement.innerHTML = 'Email verified successfully. <a href="login.html">You may now log in.</a>';
+                    messageElement.innerHTML = 'email verified successfully. <a href="login.html">you may now log in.</a>';
                 } else {
                     messageElement.textContent = message; // Use textContent for other messages for safety
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                document.getElementById('verification-message').textContent = 'An error occurred. Please try again later.';
+                document.getElementById('verification-message').textContent = 'an error occurred. Please try again later.';
             });
     } else {
-        document.getElementById('verification-message').textContent = 'No verification token found.';
+        document.getElementById('verification-message').textContent = 'no verification token found.';
     }
 </script>
 </body>
