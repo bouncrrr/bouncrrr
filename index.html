@@ -277,18 +277,20 @@
                 return;  // Exit the function if userEmail isn't found
             }
             // Open the Paddle checkout with the specific priceId
-            Paddle.Checkout.open({
-                email: userEmail, // Optional, to pre-fill the checkout email field
-                passthrough: JSON.stringify({ userEmail: userEmail }),
-                items: [{ priceId: priceId, quantity: 1 }],
-                successCallback: function(data) {
-                    console.log('Checkout success:', data);
-                    // Optionally, redirect the user or show a confirmation message
-                },
-                closeCallback: function(data) {
-                    console.log('Checkout closed.');
-                }
-            });
+            const passthroughData = JSON.stringify({ userEmail: userEmail });
+        console.log('Passthrough data being sent to Paddle:', passthroughData); // Log the passthrough data
+
+        Paddle.Checkout.open({
+            email: userEmail,
+            passthrough: passthroughData,
+            items: [{ priceId: priceId, quantity: 1 }],
+            successCallback: function(data) {
+                console.log('Checkout success:', data);
+            },
+            closeCallback: function() {
+                console.log('Checkout closed.');
+            }
+        });
         }
     }
 
