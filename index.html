@@ -62,39 +62,7 @@
         	logoutButton.addEventListener('click', handleLogout);
     }
 
-// Event listeners for the buttons
-        document.getElementById('subscribe-button-monthly').addEventListener('click', function() {
-            Paddle.Checkout.open({
-                items: [
-                    {
-                        priceId: 'pri_01htk0e7exyc33gr8qvaxnf96s', // Replace with the actual price ID for monthly subscription
-                        quantity: 1
-                    }
-                ]
-            });
-        });
 
-        document.getElementById('subscribe-button-annual').addEventListener('click', function() {
-            Paddle.Checkout.open({
-                items: [
-                    {
-                        priceId: 'pri_01htk4dhmz6ngkhysj1c8rm6ah', // Replace with the actual price ID for annual subscription
-                        quantity: 1
-                    }
-                ]
-            });
-        });
-
-        document.getElementById('buy-button-lifetime').addEventListener('click', function() {
-            Paddle.Checkout.open({
-                items: [
-                    {
-                        priceId: 'pri_01htk4feeptfk9fsw9zevx9mg5', // Replace with the actual price ID for lifetime purchase
-                        quantity: 1
-                    }
-                ]
-            });
-        });
     });
 
     function fetchAndDisplayPrices() {
@@ -287,6 +255,29 @@
         <a href="support.html">support</a> | 
         <a href="terms.html">terms of use/refund policy</a>
     </footer>
+	<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Function to handle subscription attempts
+    function handleSubscription(priceId) {
+        const isLoggedIn = localStorage.getItem('userToken');
+        if (!isLoggedIn) {
+            // Redirect to the login page and append the return URL
+            window.location.href = 'login.html?returnUrl=' + encodeURIComponent(window.location.href + '#pricing');
+        } else {
+            // Open the Paddle checkout with the specific priceId
+            Paddle.Checkout.open({
+                items: [{ priceId: priceId, quantity: 1 }]
+            });
+        }
+    }
+
+    // Attach the event listener to each subscription button with their specific priceId
+    document.getElementById('subscribe-button-monthly').addEventListener('click', () => handleSubscription('pri_01htk0e7exyc33gr8qvaxnf96s'));
+    document.getElementById('subscribe-button-annual').addEventListener('click', () => handleSubscription('pri_01htk4dhmz6ngkhysj1c8rm6ah'));
+    document.getElementById('buy-button-lifetime').addEventListener('click', () => handleSubscription('pri_01htk4feeptfk9fsw9zevx9mg5'));
+    document.getElementById('subscribe-button-trial').addEventListener('click', () => handleSubscription('pri_01htk0e7exyc33gr8qvaxnf96s')); // Assuming it uses the same price ID as the monthly one
+});
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/ScrollMagic.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/plugins/debug.addIndicators.min.js"></script>
     <script src="script.js"></script>
