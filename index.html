@@ -9,116 +9,120 @@
     <link rel="icon" href="bouncrrr-favicon.ico" type="image/x-icon">
     <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
     <script>
-    Paddle.Environment.set('sandbox'); // Ensure you're in the correct environment
-    Paddle.Initialize({
-        token: 'test_241b28ddc2c6acc634ee5dd479f', // Replace with your actual client-side token
-    });
-    console.log('Paddle.js initialized');
+        Paddle.Environment.set('sandbox'); // Ensure you're in the correct environment
+        Paddle.Initialize({
+            token: 'test_241b28ddc2c6acc634ee5dd479f', // Replace with your actual client-side token
+        });
+        console.log('Paddle.js initialized');
 
-    document.addEventListener('DOMContentLoaded', function() {
-        console.log('Document loaded');
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Document loaded');
+            checkLoginStatus();  // Check login status on page load
+            fetchAndDisplayPrices(); // Fetch and display prices on page load
 
-        checkLoginStatus();  // Check login status on page load
-        fetchAndDisplayPrices(); // Fetch and display prices on page load
+            const logoutButton = document.getElementById('logout-button');
+            if (logoutButton) {
+                logoutButton.addEventListener('click', handleLogout);
+            }
+        });
 
-        const logoutButton = document.getElementById('logout-button');
-        if (logoutButton) {
-            logoutButton.addEventListener('click', handleLogout);
-        }
-    });
-
-    function checkLoginStatus() {
-        const userEmail = localStorage.getItem('userEmail');
-        if (userEmail) {
-            document.getElementById('login-status').textContent = `logged in as ${userEmail}`;
-            document.getElementById('login-link').style.display = 'none';
-            document.getElementById('logout-text').style.display = 'inline';
-            document.getElementById('manage-account').style.display = 'inline'; // Show manage account link
-            checkSubscriptionStatus();
-        } else {
-            document.getElementById('login-status').textContent = 'log in';
-            document.getElementById('login-link').style.display = 'inline';
-            document.getElementById('logout-text').style.display = 'none';
-            document.getElementById('manage-account').style.display = 'none'; // Hide manage account link
-        }
-    }
-
-    function checkSubscriptionStatus() {
-        const token = localStorage.getItem('userToken');
-        if (!token) {
-            console.error('User token is missing.');
-            return;
-        }
-
-        fetch('https://paddle-cockroach-bouncrrr.onrender.com/api/get-subscription-status', {
-            method: 'GET',
-            headers: { 'Authorization': `Bearer ${token}` }
-        })
-        .then(response => response.json())
-        .then(data => {
-            updatePricingSection(data.status); // Update the pricing section based on subscription status
-        })
-        .catch(error => console.error('Failed to fetch subscription status:', error));
-    }
-
-    function updatePricingSection(status) {
-            const pricingContainer = document.querySelector('.pricing-container');
-            if (status === 'active') {
-                document.querySelectorAll('.pricing-tier:not(.special)').forEach(el => el.style.display = 'none');
-                const message = document.createElement('p');
-                message.textContent = "You're already subscribed! But you can still buy a lifetime license...";
-                message.style.color = 'white';
-                message.style.fontSize = '20px';
-                message.style.textAlign = 'center';
-                const pricingHeader = document.getElementById('pricing-header');
-                pricingHeader.after(message);
+        function checkLoginStatus() {
+            const userEmail = localStorage.getItem('userEmail');
+            if (userEmail) {
+                document.getElementById('login-status').textContent = `logged in as ${userEmail}`;
+                document.getElementById('login-link').style.display = 'none';
+                document.getElementById('logout-text').style.display = 'inline';
+                document.getElementById('manage-account').style.display = 'inline'; // Show manage account link
+                checkSubscriptionStatus();
+            } else {
+                document.getElementById('login-status').textContent = 'log in';
+                document.getElementById('login-link').style.display = 'inline';
+                document.getElementById('logout-text').style.display = 'none';
+                document.getElementById('manage-account').style.display = 'none'; // Hide manage account link
             }
         }
 
-    function handleLogout() {
-        localStorage.removeItem('userEmail');
-        localStorage.removeItem('userToken');
-        localStorage.removeItem('paddleCustomerId');
-        window.location.href = 'index.html';
-    }
+        function checkSubscriptionStatus() {
+            const token = localStorage.getItem('userToken');
+            if (!token) {
+                console.error('User token is missing.');
+                return;
+            }
 
-    function fetchAndDisplayPrices() {
-        var request = {
-            items: [
-                { quantity: 1, priceId: 'pri_01htk0e7exyc33gr8qvaxnf96s' },
-                { quantity: 1, priceId: 'pri_01htk4dhmz6ngkhysj1c8rm6ah' },
-                { quantity: 1, priceId: 'pri_01htk4feeptfk9fsw9zevx9mg5' }
-            ],
-            address: { countryCode: 'GB' }
-        };
-
-        Paddle.PricePreview(request)
-            .then((result) => {
-                console.log("Paddle.PricePreview success:", result);
-                updatePricingDisplays(result);
+            fetch('https://paddle-cockroach-bouncrrr.onrender.com/api/get-subscription-status', {
+                method: 'GET',
+                headers: { 'Authorization': `Bearer ${token}` }
             })
-            .catch((error) => {
-                console.error('Error fetching pricing from Paddle.PricePreview:', error);
-            });
-    }
+            .then(response => response.json())
+            .then(data => {
+                updatePricingSection(data.status); // Update the pricing section based on subscription status
+            })
+            .catch(error => console.error('Failed to fetch subscription status:', error));
+        }
 
-    function updatePricingDisplays(data) {
-        const lineItems = data.data.details.lineItems;
-        const monthlyItem = lineItems.find(item => item.price.id === 'pri_01htk0e7exyc33gr8qvaxnf96s');
-        const annualItem = lineItems.find(item => item.price.id === 'pri_01htk4dhmz6ngkhysj1c8rm6ah');
-        const lifetimeItem = lineItems.find(item => item.price.id === 'pri_01htk4feeptfk9fsw9zevx9mg5');
+        function updatePricingSection(status) {
+            const pricingSection = document.getElementById('pricing');
+            const pricingContainer = document.querySelector('.pricing-container');
+            if (status === 'active') {
+                // Hide all pricing tiers except for the special lifetime license
+                document.querySelectorAll('.pricing-tier:not(.special)').forEach(el => el.style.display = 'none');
 
-        if (monthlyItem) {
-            document.getElementById('monthly-price').textContent = monthlyItem.formattedUnitTotals.total + '/month';
+                // Create and insert the subscription message
+                const message = document.createElement('p');
+                message.textContent = "You're already subscribed! But you can still buy a lifetime license...";
+                message.style.textAlign = 'center';
+                message.style.color = 'white';
+                message.style.fontSize = '20px';
+                message.style.marginTop = '20px';
+
+                pricingSection.insertBefore(message, pricingContainer);
+            }
         }
-        if (annualItem) {
-            document.getElementById('annual-price').textContent = annualItem.formattedUnitTotals.total + '/year';
+
+        function handleLogout() {
+            localStorage.removeItem('userEmail');
+            localStorage.removeItem('userToken');
+            localStorage.removeItem('paddleCustomerId');
+            window.location.href = 'index.html';
         }
-        if (lifetimeItem) {
-            document.getElementById('lifetime-price').textContent = lifetimeItem.formattedUnitTotals.total;
+
+        function fetchAndDisplayPrices() {
+            var request = {
+                items: [
+                    { quantity: 1, priceId: 'pri_01htk0e7exyc33gr8qvaxnf96s' },
+                    { quantity: 1, priceId: 'pri_01htk4dhmz6ngkhysj1c8rm6ah' },
+                    { quantity: 1, priceId: 'pri_01htk4feeptfk9fsw9zevx9mg5' }
+                ],
+                address: { countryCode: 'GB' }
+            };
+
+            Paddle.PricePreview(request)
+                .then((result) => {
+                    console.log("Paddle.PricePreview success:", result);
+                    updatePricingDisplays(result);
+                })
+                .catch((error) => {
+                    console.error('Error fetching pricing from Paddle.PricePreview:', error);
+                });
         }
-    }
-</script>
+
+        function updatePricingDisplays(data) {
+            const lineItems = data.data.details.lineItems;
+            const monthlyItem = lineItems.find(item => item.price.id === 'pri_01htk0e7exyc33gr8qvaxnf96s');
+            const annualItem = lineItems.find(item => item.price.id === 'pri_01htk4dhmz6ngkhysj1c8rm6ah');
+            const lifetimeItem = lineItems.find(item => item.price.id === 'pri_01htk4feeptfk9fsw9zevx9mg5');
+
+            if (monthlyItem) {
+                document.getElementById('monthly-price').textContent = monthlyItem.formattedUnitTotals.total + '/month';
+            }
+            if (annualItem) {
+                document.getElementById('annual-price').textContent = annualItem.formattedUnitTotals.total + '/year';
+            }
+            if (lifetimeItem) {
+                document.getElementById('lifetime-price').textContent = lifetimeItem.formattedUnitTotals.total;
+            }
+        }
+    </script>
 </head>
 <body>
     <div id="background-animation"></div>
