@@ -62,41 +62,6 @@
         	logoutButton.addEventListener('click', handleLogout);
     }
 
-// Event listeners for the buttons
-        document.getElementById('subscribe-button-monthly').addEventListener('click', function() {
-            Paddle.Checkout.open({
-                items: [
-                    {
-                        priceId: 'pri_01htk0e7exyc33gr8qvaxnf96s', // Replace with the actual price ID for monthly subscription
-                        quantity: 1
-                    }
-                ]
-            });
-        });
-
-        document.getElementById('subscribe-button-annual').addEventListener('click', function() {
-            Paddle.Checkout.open({
-                items: [
-                    {
-                        priceId: 'pri_01htk4dhmz6ngkhysj1c8rm6ah', // Replace with the actual price ID for annual subscription
-                        quantity: 1
-                    }
-                ]
-            });
-        });
-
-        document.getElementById('buy-button-lifetime').addEventListener('click', function() {
-            Paddle.Checkout.open({
-                items: [
-                    {
-                        priceId: 'pri_01htk4feeptfk9fsw9zevx9mg5', // Replace with the actual price ID for lifetime purchase
-                        quantity: 1
-                    }
-                ]
-            });
-        });
-    });
-
     function fetchAndDisplayPrices() {
         var request = {
             items: [
@@ -304,54 +269,77 @@
     </footer>
 
 <script>
-document.querySelectorAll('.subscribe-button').forEach(button => {
-    button.addEventListener('click', function() {
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('signInModal');
+    const closeModal = function() {
+        modal.style.display = 'none';
+        document.body.classList.remove('blurred'); // Remove blur effect when closing the modal
+    };
+    const openModal = function(priceId) {
+        modal.style.display = 'block';
+        document.body.classList.add('blurred'); // Add blur effect when modal is open
+        modal.setAttribute('data-price-id', priceId); // Store the price ID in the modal for later use
+    };
+
+    // Handling closing the modal when clicking on close or outside the modal
+    modal.onclick = function(event) {
+        if (event.target === modal || event.target.classList.contains('close')) {
+            closeModal();
+        }
+    };
+
+    // Function to handle subscription button clicks
+    function handleSubscription(priceId) {
         const isLoggedIn = localStorage.getItem('userToken');
         if (!isLoggedIn) {
-            openModal();
-            // Store the price ID in the modal for use after login
-            modal.setAttribute('data-price-id', this.getAttribute('data-price-id'));
-            return;
-        }
-        openCheckout(this.getAttribute('data-price-id'));
-    });
-});
-
-function openCheckout(priceId) {
-    Paddle.Checkout.open({
-        items: [{ priceId: priceId, quantity: 1 }]
-    });
-}
-
-// Handling login from the modal
-document.getElementById('modalLoginForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const email = document.getElementById('modalEmail').value;
-    const password = document.getElementById('modalPassword').value;
-    const priceId = document.getElementById('signInModal').getAttribute('data-price-id'); // Get price ID after successful login
-
-    fetch('https://paddle-cockroach-bouncrrr.onrender.com/api/login', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ email, password })
-    })
-    .then(response => {
-        if (!response.ok) throw new Error('Login failed');
-        return response.json();
-    })
-    .then(data => {
-        if (data.token) {
-            localStorage.setItem('userToken', data.token);
-            localStorage.setItem('userEmail', email);
-            closeModal();
-            openCheckout(priceId); // Open checkout after successful login
+            openModal(priceId);
         } else {
-            document.getElementById('modalError').textContent = 'Login failed. Please check your credentials.';
+            Paddle.Checkout.open({
+                items: [{ priceId: priceId, quantity: 1 }]
+            });
         }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        document.getElementById('modalError').textContent = error.message;
+    }
+
+    // Attach event listeners to each button
+    document.getElementById('subscribe-button-monthly').addEventListener('click', () => handleSubscription('pri_01htk0e7exyc33gr8qvaxnf96s'));
+    document.getElementById('subscribe-button-annual').addEventListener('click', () => handleSubscription('pri_01htk4dhmz6ngkhysj1c8rm6ah'));
+    document.getElementById('buy-button-lifetime').addEventListener('click', () => handleSubscription('pri_01htk4feeptfk9fsw9zevx9mg5'));
+    document.getElementById('subscribe-button-trial').addEventListener('click', () => handleSubscription('pri_01htk0e7exyc33gr8qvaxnf96s')); // Assuming it uses the same price ID
+
+    // Handling login from the modal
+    document.getElementById('modalLoginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const email = document.getElementById('modalEmail').value;
+        const password = document.getElementById('modalPassword').value;
+        const priceId = modal.getAttribute('data-price-id'); // Retrieve the price ID after login
+
+        fetch('https://paddle-cockroach-bouncrrr.onrender.com/api/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, password })
+        })
+        .then(response => {
+            if (!response.ok) throw new Error('Login failed');
+            return response.json();
+        })
+        .then(data => {
+            if (data.token) {
+                localStorage.setItem('userToken', data.token);
+                localStorage.setItem('userEmail', email);
+                closeModal(); // Close the modal after successful login
+                Paddle.Checkout.open({ // Open the checkout after successful login
+                    items: [{ priceId: priceId, quantity: 1 }]
+                });
+            } else {
+                document.getElementById('modalError').textContent = 'Login failed. Please check your credentials.';
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('modalError').textContent = error.message;
+        });
     });
 });
 </script>
