@@ -29,7 +29,7 @@
         function checkLoginStatus() {
             const userEmail = localStorage.getItem('userEmail');
             if (userEmail) {
-                document.getElementById('login-status').textContent = `logged in as ${userEmail}`;
+                document.getElementById('login-status').textContent = `logged in as ${userEmail}` | ;
                 document.getElementById('login-link').style.display = 'none';
                 document.getElementById('logout-text').style.display = 'inline';
                 document.getElementById('manage-account').style.display = 'inline'; // Show manage account link
