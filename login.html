@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 window.location.href = returnUrl || '/index.html'; // Redirect after login
             } else if (data.message) {
                 loginError.innerHTML = data.message; // Show success or informational messages from server
-                if (data.message.includes('signup successful. please check your email to verify your account.')) {
+                if (data.message.includes('signup successful')) {
                     loginError.style.color = 'green'; // Change color to green if signup is successful
                 } else {
                     loginError.style.color = 'red'; // Keep other messages red
