@@ -35,7 +35,6 @@
                     <label for="marketingOptIn">stay in the loop with news and offers!</label>
                     <input type="checkbox" id="marketingOptIn" name="marketingOptIn">
                 </div>
-                <div id="loginError" class="error"></div> <!-- Ensure this is inside the login-container but outside the center tag -->
                 <div>
                     <p><a style="text-decoration:none; color:inherit;" href="forgotpassword.html">forgot password?</a></p>
                     <br>
@@ -48,75 +47,74 @@
         </center>
         <div id="loginError" class="error"></div>
     </div>
-
     <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const loginForm = document.getElementById('loginForm');
-    const toggleButton = document.getElementById('toggleFormButton');
-    const formTitle = document.getElementById('formTitle');
-    const confirmPasswordContainer = document.getElementById('confirmPasswordContainer');
-    const marketingOptInContainer = document.getElementById('marketingOptInContainer');
-    const submitButton = document.getElementById('submitButton');
-    const loginError = document.getElementById('loginError');
+    document.addEventListener('DOMContentLoaded', function() {
+        const loginForm = document.getElementById('loginForm');
+        const toggleButton = document.getElementById('toggleFormButton');
+        const formTitle = document.getElementById('formTitle');
+        const confirmPasswordContainer = document.getElementById('confirmPasswordContainer');
+        const marketingOptInContainer = document.getElementById('marketingOptInContainer');
+        const submitButton = document.getElementById('submitButton');
+        const loginError = document.getElementById('loginError');
 
-    toggleButton.addEventListener('click', function() {
-        const isLogin = formTitle.innerText.includes('login');
-        formTitle.innerText = isLogin ? 'sign up to get started!' : 'login to get started!';
-        confirmPasswordContainer.style.display = isLogin ? 'block' : 'none';
-        marketingOptInContainer.style.display = isLogin ? 'block' : 'none';
-        submitButton.textContent = isLogin ? 'sign up' : 'login';
-        toggleButton.textContent = isLogin ? 'already have an account? log in' : "don't have an account? sign up";
-        if (!isLogin) {
-            document.getElementById('confirmPassword').value = '';  // Reset confirmPassword input when switching back to login
-            document.getElementById('marketingOptIn').checked = false;
-        }
-    });
-
-    loginForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-        const confirmPassword = document.getElementById('confirmPassword') ? document.getElementById('confirmPassword').value : null;
-        const marketingOptIn = document.getElementById('marketingOptIn') ? document.getElementById('marketingOptIn').checked : false;
-
-        let apiEndpoint = confirmPassword ? 'https://paddle-cockroach-bouncrrr.onrender.com/api/signup' : 'https://paddle-cockroach-bouncrrr.onrender.com/api/website-login';
-        let payload = JSON.stringify({ email, password, confirmPassword, marketingOptIn });
-
-        fetch(apiEndpoint, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: payload,
-        })
-        .then(response => response.json().then(data => {
-            if (!response.ok) {
-                // If the response is not ok, display the error message from the server
-                throw new Error(data.error || 'An error occurred, please try again later.');
+        toggleButton.addEventListener('click', function() {
+            const isLogin = formTitle.innerText.includes('login');
+            formTitle.innerText = isLogin ? 'sign up to get started!' : 'login to get started!';
+            confirmPasswordContainer.style.display = isLogin ? 'block' : 'none';
+            marketingOptInContainer.style.display = isLogin ? 'block' : 'none';
+            submitButton.textContent = isLogin ? 'sign up' : 'login';
+            toggleButton.textContent = isLogin ? 'already have an account? log in' : "don't have an account? sign up";
+            if (!isLogin) {
+                document.getElementById('confirmPassword').value = '';  // Reset confirmPassword input when switching back to login
+                document.getElementById('marketingOptIn').checked = false;
             }
-            return data;
-        }))
-        .then(data => {
-            if (data.token) {
-                localStorage.setItem('userToken', data.token);
-                localStorage.setItem('userEmail', email);
-                const params = new URLSearchParams(window.location.search);
-                const returnUrl = params.get('returnUrl');
-                window.location.href = returnUrl || '/index.html'; // Redirect after login
-            } else {
-                loginError.innerHTML = data.message; // Show success or informational messages from server
-                loginError.style.color = data.message.includes('signup successful') ? 'green' : 'red';
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            loginError.textContent = error.message;
-            loginError.style.color = 'red';
+        });
+
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword') ? document.getElementById('confirmPassword').value : null;
+            const marketingOptIn = document.getElementById('marketingOptIn') ? document.getElementById('marketingOptIn').checked : false;
+
+            let apiEndpoint = confirmPassword ? 'https://paddle-cockroach-bouncrrr.onrender.com/api/signup' : 'https://paddle-cockroach-bouncrrr.onrender.com/api/website-login';
+            let payload = JSON.stringify({ email, password, confirmPassword, marketingOptIn });
+
+            fetch(apiEndpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: payload,
+            })
+            .then(response => response.json().then(data => {
+                if (!response.ok) {
+                    // If the response is not ok, display the error message from the server
+                    throw new Error(data.error || 'An error occurred, please try again later.');
+                }
+                return data;
+            }))
+            .then(data => {
+                if (data.token) {
+                    localStorage.setItem('userToken', data.token);
+                    localStorage.setItem('userEmail', email);
+                    const params = new URLSearchParams(window.location.search);
+                    const returnUrl = params.get('redirect');
+                    window.location.href = returnUrl || '/index.html'; // Redirect after login
+                } else {
+                    loginError.innerHTML = data.message; // Show success or informational messages from server
+                    loginError.style.color = data.message.includes('signup successful') ? 'green' : 'red';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                loginError.textContent = error.message;
+                loginError.style.color = 'red';
+            });
         });
     });
-});
-</script>
-<footer>
+    </script>
+    <footer>
         <a href="privacy.html">privacy notice</a> | 
         <a href="support.html">support</a> | 
         <a href="terms.html">terms of use/refund policy</a>
