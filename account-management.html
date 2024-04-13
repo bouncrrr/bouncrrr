@@ -176,7 +176,7 @@ async function cancelSubscription() {
     });
 
     if (response.ok) {
-        alert('Your subscription will be canceled at the next billing date.');
+        alert('your subscription will be canceled at the next billing date.');
         document.getElementById('subscription-status').textContent = 'pending cancellation';
         updateManageSubscriptionButton('pending cancellation');
     } else {
