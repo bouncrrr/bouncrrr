@@ -61,35 +61,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
 });
 
-        function ensureAuthenticated() {
-    const token = localStorage.getItem('userToken');
-    if (!token) {
-        // Redirect to login page with a redirect URL
-        const redirectUrl = encodeURIComponent(window.location.href);
-        window.location.href = `login.html?redirect=${redirectUrl}`;
-    } else {
-        validateToken(token);
-    }
-}
-
-function validateToken(token) {
-    const url = 'https://paddle-cockroach-bouncrrr.onrender.com/api/validate-token';
-    fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        }
-    }).then(response => {
-        if (!response.ok) {
-            // If the token is invalid or expired, redirect to login
-            window.location.href = 'login.html'; // Ensure the path to your login page is correct
-        }
-    }).catch(error => {
-        console.error('Failed to validate token:', error);
-    });
-}
-
 async function loadMarketingOptInStatus() {
     const token = localStorage.getItem('userToken');
     if (!token) {
