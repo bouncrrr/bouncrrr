@@ -31,7 +31,11 @@
                     <label for="confirmPassword">confirm password:</label>
                     <input type="password" id="confirmPassword" name="confirmPassword">
                 </div>
-    <div id="loginError" class="error"></div> <!-- Ensure this is inside the login-container but outside the center tag -->
+                <div id="marketingOptInContainer" style="display: none;">
+                    <label for="marketingOptIn">stay in the loop with news and offers!</label>
+                    <input type="checkbox" id="marketingOptIn" name="marketingOptIn">
+                </div>
+                <div id="loginError" class="error"></div> <!-- Ensure this is inside the login-container but outside the center tag -->
                 <div>
                     <p><a style="text-decoration:none; color:inherit;" href="forgotpassword.html">forgot password?</a></p>
                     <br>
@@ -51,6 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const toggleButton = document.getElementById('toggleFormButton');
     const formTitle = document.getElementById('formTitle');
     const confirmPasswordContainer = document.getElementById('confirmPasswordContainer');
+    const marketingOptInContainer = document.getElementById('marketingOptInContainer');
     const submitButton = document.getElementById('submitButton');
     const loginError = document.getElementById('loginError');
 
@@ -58,10 +63,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const isLogin = formTitle.innerText.includes('login');
         formTitle.innerText = isLogin ? 'sign up to get started!' : 'login to get started!';
         confirmPasswordContainer.style.display = isLogin ? 'block' : 'none';
+        marketingOptInContainer.style.display = isLogin ? 'block' : 'none';
         submitButton.textContent = isLogin ? 'sign up' : 'login';
         toggleButton.textContent = isLogin ? 'already have an account? log in' : "don't have an account? sign up";
         if (!isLogin) {
             document.getElementById('confirmPassword').value = '';  // Reset confirmPassword input when switching back to login
+            document.getElementById('marketingOptIn').checked = false;
         }
     });
 
@@ -70,9 +77,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
         const confirmPassword = document.getElementById('confirmPassword') ? document.getElementById('confirmPassword').value : null;
+        const marketingOptIn = document.getElementById('marketingOptIn') ? document.getElementById('marketingOptIn').checked : false;
 
         let apiEndpoint = confirmPassword ? 'https://paddle-cockroach-bouncrrr.onrender.com/api/signup' : 'https://paddle-cockroach-bouncrrr.onrender.com/api/login';
-        let payload = JSON.stringify({ email, password, confirmPassword });
+        let payload = JSON.stringify({ email, password, confirmPassword, marketingOptIn });
 
         fetch(apiEndpoint, {
             method: 'POST',
