@@ -44,17 +44,49 @@
 
     <script>
 document.addEventListener('DOMContentLoaded', async function () {
+    ensureAuthenticated();
     try {
-        await loadMarketingOptInStatus();
-        await loadSubscriptionStatus();
+        // Existing functions to load data if authenticated
+        loadMarketingOptInStatus();
+        loadSubscriptionStatus();
+        loadRegisteredMachines();
     } catch (error) {
-        console.error('error during initial data load:', error);
+        console.error('Error during initial data load:', error);
     }
 
     document.getElementById('update-email-preferences').addEventListener('click', updateMarketingOptInStatus);
     document.getElementById('logout-button').addEventListener('click', handleLogout);
     document.getElementById('manage-subscription').addEventListener('click', manageSubscription);
 });
+
+        function ensureAuthenticated() {
+    const token = localStorage.getItem('userToken');
+    if (!token) {
+        // Redirect to login page if no token found
+        window.location.href = 'login.html'; // Ensure the path to your login page is correct
+    } else {
+        // Optionally, validate the token with the server
+        validateToken(token);
+    }
+}
+
+function validateToken(token) {
+    const url = 'https://paddle-cockroach-bouncrrr.onrender.com/api/validate-token';
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    }).then(response => {
+        if (!response.ok) {
+            // If the token is invalid or expired, redirect to login
+            window.location.href = 'login.html'; // Ensure the path to your login page is correct
+        }
+    }).catch(error => {
+        console.error('Failed to validate token:', error);
+    });
+}
 
 async function loadMarketingOptInStatus() {
     const token = localStorage.getItem('userToken');
