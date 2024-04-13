@@ -235,7 +235,7 @@ function renameMachine(machineId) {
 }
 
 function unregisterMachine(machineId) {
-    if (!confirm('are you sure you want to unregister this machine?')) return;
+    if (!confirm('Are you sure you want to unregister this machine?')) return;
 
     const token = localStorage.getItem('userToken');
     fetch('https://paddle-cockroach-bouncrrr.onrender.com/api/unregister-machine', {
@@ -245,13 +245,17 @@ function unregisterMachine(machineId) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({ machine_id: machineId })
-    }).then(response => {
+    }).then(async response => {
+        const data = await response.json(); // Assuming the server always sends a JSON response
         if (response.ok) {
             alert('machine unregistered successfully.');
             loadRegisteredMachines(); // Refresh the list
         } else {
-            alert('failed to unregister machine. please try again.');
+            alert(data.message); // Display the server's error message
         }
+    }).catch(error => {
+        console.error('failed to unregister machine:', error);
+        alert('failed to unregister machine. Please try again.');
     });
 }
 
