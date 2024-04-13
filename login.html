@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const confirmPassword = document.getElementById('confirmPassword') ? document.getElementById('confirmPassword').value : null;
         const marketingOptIn = document.getElementById('marketingOptIn') ? document.getElementById('marketingOptIn').checked : false;
 
-        let apiEndpoint = confirmPassword ? 'https://paddle-cockroach-bouncrrr.onrender.com/api/signup' : 'https://paddle-cockroach-bouncrrr.onrender.com/api/login';
+        let apiEndpoint = confirmPassword ? 'https://paddle-cockroach-bouncrrr.onrender.com/api/signup' : 'https://paddle-cockroach-bouncrrr.onrender.com/api/website-login';
         let payload = JSON.stringify({ email, password, confirmPassword, marketingOptIn });
 
         fetch(apiEndpoint, {
