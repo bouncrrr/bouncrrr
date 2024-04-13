@@ -164,7 +164,7 @@ async function cancelSubscription() {
             'Authorization': `Bearer ${localStorage.getItem('userToken')}`,
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ customerId, effectiveFrom: 'next_billing_date' }) // Sending customerId and cancellation timing to the server
+        body: JSON.stringify({ customerId, effectiveFrom: 'next_billing_period' }) // Correct the parameter value here
     });
 
     if (response.ok) {
