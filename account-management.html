@@ -23,6 +23,10 @@
             <button id="manage-subscription" class="account-button">manage subscription</button>
             <p id="subscription-message"></p>
         </section>
+        <section id="registered-machines" class="account-section">
+            <h4>registered devices</h4>
+            <div id="machines-list"></div>
+        </section>
         <section id="email-preferences" class="account-section">
             <h4>email preferences</h4>
             <label for="marketing-emails" class="account-label">opt in for marketing emails:</label>
@@ -44,7 +48,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         await loadMarketingOptInStatus();
         await loadSubscriptionStatus();
     } catch (error) {
-        console.error('Error during initial data load:', error);
+        console.error('error during initial data load:', error);
     }
 
     document.getElementById('update-email-preferences').addEventListener('click', updateMarketingOptInStatus);
@@ -55,7 +59,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 async function loadMarketingOptInStatus() {
     const token = localStorage.getItem('userToken');
     if (!token) {
-        console.error('User token is missing.');
+        console.error('user token is missing.');
         return;
     }
 
@@ -67,7 +71,7 @@ async function loadMarketingOptInStatus() {
 
     if (!response.ok) {
         const errMsg = await response.text();
-        throw new Error(`Failed to fetch marketing opt-in status: ${errMsg}`);
+        throw new Error(`failed to fetch marketing opt-in status: ${errMsg}`);
     }
     const data = await response.json();
     document.getElementById('marketing-emails').checked = data.marketingOptIn;
@@ -78,7 +82,7 @@ async function updateMarketingOptInStatus(e) {
     const marketingOptIn = document.getElementById('marketing-emails').checked;
     const token = localStorage.getItem('userToken');
     if (!token) {
-        console.error('User token is missing.');
+        console.error('user token is missing.');
         return;
     }
 
@@ -94,7 +98,7 @@ async function updateMarketingOptInStatus(e) {
 
     if (!response.ok) {
         const errMsg = await response.text();
-        throw new Error(`Network response was not ok: ${errMsg}`);
+        throw new Error(`network response was not ok: ${errMsg}`);
     }
 
     const responseMessage = await response.text();
@@ -105,7 +109,7 @@ async function loadSubscriptionStatus() {
     const url = 'https://paddle-cockroach-bouncrrr.onrender.com/api/get-subscription-status';
     const token = localStorage.getItem('userToken');
     if (!token) {
-        console.error('User token is missing.');
+        console.error('user token is missing.');
         return;
     }
 
@@ -115,7 +119,7 @@ async function loadSubscriptionStatus() {
     });
 
     if (!response.ok) {
-        throw new Error('Failed to fetch subscription status');
+        throw new Error('failed to fetch subscription status');
     }
 
     const { status } = await response.json();
@@ -131,7 +135,7 @@ function handleLogout() {
     localStorage.removeItem('userToken');
     localStorage.removeItem('paddleCustomerId');
 
-    console.log('User credentials removed from local storage.');
+    console.log('user credentials removed from local storage.');
     window.location.href = 'index.html';
 }
 
@@ -147,7 +151,7 @@ function updateManageSubscriptionButton(status) {
 function manageSubscription() {
     const status = document.getElementById('subscription-status').textContent;
     if (status === 'active') {
-        if (confirm('Are you sure you want to cancel your subscription? This will take effect at your next billing date.')) {
+        if (confirm('are you sure you want to cancel your subscription? this will take effect at your next billing date.')) {
             // Call to server to cancel subscription
             cancelSubscription();
         }
@@ -173,9 +177,93 @@ async function cancelSubscription() {
     } else {
         const error = await response.json();
         console.error('Failed to cancel subscription:', error);
-        alert('Failed to cancel subscription. Please try again or contact support.');
+        alert('failed to cancel subscription. please try again or contact support.');
     }
 }
+
+async function loadRegisteredMachines() {
+    const token = localStorage.getItem('userToken');
+    if (!token) {
+        console.error('user token is missing.');
+        return;
+    }
+
+    const url = 'https://paddle-cockroach-bouncrrr.onrender.com/api/get-registered-machines';
+    const response = await fetch(url, {
+        method: 'GET',
+        headers: { 'Authorization': `Bearer ${token}` }
+    });
+
+    if (!response.ok) {
+        throw new Error('failed to fetch registered machines');
+    }
+
+    const machines = await response.json();
+    const machinesContainer = document.getElementById('machines-list');
+    machinesContainer.innerHTML = ''; // Clear previous entries
+    machines.forEach(machine => {
+        const machineElement = document.createElement('div');
+        machineElement.innerHTML = `
+            <p>${machine.machine_name} (Registered: ${new Date(machine.registered_at).toLocaleDateString()})</p>
+            <button onclick="renameMachine('${machine.machine_id}')">rename</button>
+            <button onclick="unregisterMachine('${machine.machine_id}')">unregister</button>
+        `;
+        machinesContainer.appendChild(machineElement);
+    });
+}
+
+function renameMachine(machineId) {
+    const newName = prompt('Enter new name for the machine:');
+    if (!newName) return; // Exit if no name is entered
+
+    const token = localStorage.getItem('userToken');
+    fetch('https://paddle-cockroach-bouncrrr.onrender.com/api/update-machine-name', {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ machine_id: machineId, new_machine_name: newName })
+    }).then(response => {
+        if (response.ok) {
+            alert('machine name updated successfully.');
+            loadRegisteredMachines(); // Refresh the list
+        } else {
+            alert('failed to update machine name. please try again.');
+        }
+    });
+}
+
+function unregisterMachine(machineId) {
+    if (!confirm('are you sure you want to unregister this machine?')) return;
+
+    const token = localStorage.getItem('userToken');
+    fetch('https://paddle-cockroach-bouncrrr.onrender.com/api/unregister-machine', {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ machine_id: machineId })
+    }).then(response => {
+        if (response.ok) {
+            alert('machine unregistered successfully.');
+            loadRegisteredMachines(); // Refresh the list
+        } else {
+            alert('failed to unregister machine. please try again.');
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', async function () {
+    try {
+        await loadMarketingOptInStatus();
+        await loadSubscriptionStatus();
+        await loadRegisteredMachines(); // Load machines when page loads
+    } catch (error) {
+        console.error('Error during initial data load:', error);
+    }
+});
 </script>
 </body>
 </html>
