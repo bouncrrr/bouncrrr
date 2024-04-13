@@ -204,7 +204,7 @@ async function loadRegisteredMachines() {
     machines.forEach(machine => {
         const machineElement = document.createElement('div');
         machineElement.innerHTML = `
-            <p>${machine.machine_name} (Registered: ${new Date(machine.registered_at).toLocaleDateString()})</p>
+            <p>${machine.machine_name} (registered: ${new Date(machine.registered_at).toLocaleDateString()})</p>
             <button onclick="renameMachine('${machine.machine_id}')">rename</button>
             <button onclick="unregisterMachine('${machine.machine_id}')">unregister</button>
         `;
