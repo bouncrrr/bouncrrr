@@ -87,9 +87,12 @@ function updatePricingSection(hasValidSubscription, status) {
             message.style.color = 'white';
             message.style.fontSize = '20px';
             message.style.textAlign = 'center';
+            message.style.marginTop = '20px';
             message.style.marginBottom = '20px';
 
             pricingContainer.insertBefore(message, lifetimeTier);
+        } else {
+            messageElement.style.textAlign = 'center'; // Ensure text is centered if the element already exists
         }
     } else {
         pricingContainer.style.display = 'grid';
