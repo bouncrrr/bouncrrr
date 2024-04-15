@@ -127,9 +127,9 @@ async function loadSubscriptionStatus() {
         throw new Error('failed to fetch subscription status');
     }
 
-    const { status } = await response.json();
+    const { status, trialStarted } = await response.json();
     document.getElementById('subscription-status').textContent = status;
-    updateManageSubscriptionButton(status);
+    updateManageSubscriptionButton(status, trialStarted);
 }
 
 function handleLogout() {
@@ -144,10 +144,13 @@ function handleLogout() {
     window.location.href = 'index.html';
 }
 
-function updateManageSubscriptionButton(status) {
+function updateManageSubscriptionButton(status, trialStarted) {
     const manageButton = document.getElementById('manage-subscription');
-    if (status === 'active') {
+    if (status === 'active' || (status === 'canceled' && trialStarted)) {
         manageButton.textContent = 'cancel subscription at next billing date';
+    } else if (status === 'pending cancellation') {
+        manageButton.textContent = 'subscription pending cancellation';
+        manageButton.disabled = true; // Disable the button if pending cancellation
     } else {
         manageButton.textContent = 'subscribe';
     }
