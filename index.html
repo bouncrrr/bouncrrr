@@ -160,7 +160,7 @@ function updatePricingOptionsBasedOnTrial(trialStarted) {
             const lineItems = data.data.details.lineItems;
             const monthlyItem = lineItems.find(item => item.price.id === 'pri_01htk0e7exyc33gr8qvaxnf96s');
             const annualItem = lineItems.find(item => item.price.id === 'pri_01htk4dhmz6ngkhysj1c8rm6ah');
-            const lifetimeItem = lineItems.find(item => item.price.id === 'pri_01htk4feeptfk9fsw9zevx9mg5');
+            const lifetimeItem = lineItems.find(item => item.price.id === 'dsc_01hvh5h2ax3r7xr35qhe92j43a');
 
             if (monthlyItem) {
                 document.getElementById('monthly-price').textContent = monthlyItem.formattedUnitTotals.total + '/month';
@@ -350,7 +350,7 @@ function updatePricingOptionsBasedOnTrial(trialStarted) {
         handleSubscription(this.dataset.priceId);
     });
     document.getElementById('buy-button-lifetime').addEventListener('click', function() {
-        handleSubscription('pri_01htk4feeptfk9fsw9zevx9mg5');
+        handleSubscription('dsc_01hvh5h2ax3r7xr35qhe92j43a');
     });
 });
 </script>
