@@ -75,7 +75,7 @@
         if (!messageElement) {
             const message = document.createElement('p');
             message.id = 'subscription-message';
-            message.textContent = status === 'trialing' ? "you're currently trialing bouncrrr!" : "you're already subscribed!";
+            message.textContent = status === 'trialing' ? "you're currently trialing bouncrrr, but if you'd like to upgrade to a lifetime license you can..." : "you're already subscribed, but you can still upgrade to a lifetime license...";
             message.style.color = 'white';
             message.style.fontSize = '20px';
             message.style.textAlign = 'center';
