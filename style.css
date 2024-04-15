@@ -139,10 +139,10 @@ section p {
 
 .pricing-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min-content, 1fr)); /* This change ensures the columns can grow up to 1fr if needed */
+    grid-template-columns: repeat(2, 1fr); /* Always two columns unless overridden */
     gap: 20px;
-    justify-content: center; /* Centers the items horizontally */
-    padding: 20px; /* Ensure padding doesn't squeeze the content too much */
+    justify-content: center; /* Centers the items horizontally if there's extra space */
+    padding: 20px;
 }
 
 .pricing-tier.special {
@@ -155,9 +155,11 @@ section p {
     border-radius: 20px;
     padding: 20px;
     margin: 10px;
-    box-sizing: border-box; /* Ensures padding and border are included in the width */
+    box-sizing: border-box;
     text-align: center;
-    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .pricing-tier h3, .pricing-tier p, .pricing-tier .small-text {
@@ -676,6 +678,6 @@ input:checked + .slider:before {
     }
 
     .pricing-container {
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Smaller min width for smaller screens */
+        grid-template-columns: 1fr 1fr; /* Ensures two columns on smaller screens */
     }
 }
