@@ -84,15 +84,12 @@ function updatePricingSection(hasValidSubscription, status) {
             const message = document.createElement('p');
             message.id = 'subscription-message';
             message.textContent = status === 'trialing' ? "you're currently trialing bouncrrr, but if you'd like to upgrade to a lifetime license you can..." : "you're already subscribed, but you can still upgrade to a lifetime license...";
-            message.style.color = 'white';
-            message.style.fontSize = '20px';
-            message.style.textAlign = 'center';
-            message.style.marginTop = '20px';
-            message.style.marginBottom = '20px';
+            message.className = 'centered-message'; // Assign a class for styling
 
-            pricingContainer.insertBefore(message, lifetimeTier);
+            pricingContainer.insertBefore(message, pricingContainer.firstChild); // Always insert as the first child
         } else {
-            messageElement.style.textAlign = 'center'; // Ensure text is centered if the element already exists
+            messageElement.textContent = status === 'trialing' ? "you're currently trialing bouncrrr, but if you'd like to upgrade to a lifetime license you can..." : "you're already subscribed, but you can still upgrade to a lifetime license...";
+            messageElement.className = 'centered-message'; // Ensure the class is applied if the element already exists
         }
     } else {
         pricingContainer.style.display = 'grid';
@@ -108,6 +105,7 @@ function updatePricingSection(hasValidSubscription, status) {
         }
     }
 }
+
 
 function updatePricingOptionsBasedOnTrial(trialStarted) {
     const monthlyPriceID = trialStarted ? "pri_01hv8xbna1cvm87v15bb0zpr4s" : "pri_01htk0e7exyc33gr8qvaxnf96s";
