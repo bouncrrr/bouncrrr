@@ -94,7 +94,13 @@
 }
 
 function updatePricingOptionsBasedOnTrial(trialStarted) {
+    const monthlyPriceID = trialStarted ? "pri_01hv8xbna1cvm87v15bb0zpr4s" : "pri_01htk0e7exyc33gr8qvaxnf96s";
+    const annualPriceID = trialStarted ? "pri_01hv8xd0jcq9f4k95ry111xkw2" : "pri_01htk4dhmz6ngkhysj1c8rm6ah";
     const subscribeButtons = document.querySelectorAll('[id^="subscribe-button"]');
+
+    document.getElementById('subscribe-button-monthly').dataset.priceId = monthlyPriceID;
+    document.getElementById('subscribe-button-annual').dataset.priceId = annualPriceID;
+	
     subscribeButtons.forEach(button => {
         if (trialStarted) {
             button.textContent = 're-subscribe'; // Change text if trial was already started
