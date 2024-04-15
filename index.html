@@ -43,22 +43,32 @@
         }
 
         function checkSubscriptionStatus() {
-            const token = localStorage.getItem('userToken');
-            if (!token) {
-                console.error('User token is missing.');
-                return;
-            }
+    const token = localStorage.getItem('userToken');
+    if (!token) {
+        console.error('User token is missing.');
+        return;
+    }
 
-            fetch('https://paddle-cockroach-bouncrrr.onrender.com/api/get-subscription-status', {
-                method: 'GET',
-                headers: { 'Authorization': `Bearer ${token}` }
-            })
-            .then(response => response.json())
-            .then(data => {
-                updatePricingSection(data.status); // Update the pricing section based on subscription status
-            })
-            .catch(error => console.error('Failed to fetch subscription status:', error));
-        }
+    fetch('https://paddle-cockroach-bouncrrr.onrender.com/api/check-subscription-status', {
+        method: 'GET',
+        headers: { 'Authorization': `Bearer ${token}` }
+    })
+    .then(response => response.json())
+    .then(data => {
+        updatePricingSection(data.hasValidSubscription);
+        updatePricingOptionsBasedOnTrial(data.trialStarted);
+    })
+    .catch(error => console.error('Failed to fetch subscription status:', error));
+}
+
+	    function updatePricingOptionsBasedOnTrial(trialStarted) {
+    const monthlyPriceID = trialStarted ? "MONTHLY_PRICE_ID_WITHOUT_TRIAL" : "MONTHLY_PRICE_ID_WITH_TRIAL";
+    const annualPriceID = trialStarted ? "ANNUAL_PRICE_ID_WITHOUT_TRIAL" : "ANNUAL_PRICE_ID_WITH_TRIAL";
+
+    document.getElementById('subscribe-button-monthly').dataset.priceId = monthlyPriceID;
+    document.getElementById('subscribe-button-annual').dataset.priceId = annualPriceID;
+    // Update buttons or text elements with the correct price IDs or additional information
+}
 
         function updatePricingSection(status) {
     const pricingContainer = document.querySelector('.pricing-container');
@@ -319,9 +329,15 @@
     }
 
     // Attach the event listener to each subscription button with their specific priceId
-    document.getElementById('subscribe-button-monthly').addEventListener('click', () => handleSubscription('pri_01htk0e7exyc33gr8qvaxnf96s'));
-    document.getElementById('subscribe-button-annual').addEventListener('click', () => handleSubscription('pri_01htk4dhmz6ngkhysj1c8rm6ah'));
-    document.getElementById('buy-button-lifetime').addEventListener('click', () => handleSubscription('pri_01htk4feeptfk9fsw9zevx9mg5'));
+    document.getElementById('subscribe-button-monthly').addEventListener('click', function() {
+        handleSubscription(this.dataset.priceId);
+    });
+    document.getElementById('subscribe-button-annual').addEventListener('click', function() {
+        handleSubscription(this.dataset.priceId);
+    });
+    document.getElementById('buy-button-lifetime').addEventListener('click', function() {
+        handleSubscription('LIFETIME_PRICE_ID');
+    });
 });
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/ScrollMagic.min.js"></script>
