@@ -166,6 +166,7 @@ section p {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    position: relative; /* Ensure this is set for correct badge positioning */
 }
 
 .pricing-tier h3, .pricing-tier p, .pricing-tier .small-text {
