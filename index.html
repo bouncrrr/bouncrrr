@@ -90,6 +90,7 @@
     } else {
         // Restore original styles and display all tiers when status is not 'active'
         pricingContainer.style.display = 'grid'; // Restore grid layout
+	pricingContainer.style.gridTemplateColumns = 'repeat(2, 1fr)';
         pricingContainer.style.flexDirection = '';
         pricingContainer.style.alignItems = '';
         pricingContainer.style.justifyContent = '';
