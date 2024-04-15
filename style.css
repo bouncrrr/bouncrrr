@@ -157,7 +157,7 @@ section p {
     justify-content: center;
     position: relative; /* Ensure this is set for correct badge positioning */
     align-items: center;  /* Centers the content */
-    width: calc(50% - 30px); /* Adjust width - calculate based on container width minus gap */
+    width: calc(100% - 30px); /* Adjust width - calculate based on container width minus gap */
 }
 
 .pricing-tier h3, .pricing-tier p, .pricing-tier .small-text {
