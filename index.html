@@ -111,21 +111,21 @@ function updatePricingSection(hasValidSubscription, status) {
 function updatePricingOptionsBasedOnTrial(trialStarted) {
     const monthlyPriceID = trialStarted ? "pri_01hv8xbna1cvm87v15bb0zpr4s" : "pri_01htk0e7exyc33gr8qvaxnf96s";
     const annualPriceID = trialStarted ? "pri_01hv8xd0jcq9f4k95ry111xkw2" : "pri_01htk4dhmz6ngkhysj1c8rm6ah";
-    const trialTier = document.querySelector('.pricing-tier.trial'); // Select the trial tier box
     const subscribeButtons = document.querySelectorAll('[id^="subscribe-button"]');
 
-    // Update price IDs
     document.getElementById('subscribe-button-monthly').dataset.priceId = monthlyPriceID;
     document.getElementById('subscribe-button-annual').dataset.priceId = annualPriceID;
-    
-    // Update button texts and hide trial box if trial has started
+
     subscribeButtons.forEach(button => {
         button.textContent = trialStarted ? 're-subscribe' : 'subscribe';
     });
 
-    // Hide the trial tier if the trial has already started
-    if (trialTier) {
-        trialTier.style.display = trialStarted ? 'none' : '';
+    // Hide the trial tier if trial has started
+    const trialTier = document.getElementById('trial-tier');
+    if (trialStarted) {
+        trialTier.style.display = 'none';
+    } else {
+        trialTier.style.display = '';  // Restore display
     }
 }
 
@@ -283,15 +283,14 @@ function updatePricingOptionsBasedOnTrial(trialStarted) {
         <div class="badge">★ INTRODUCTORY PRICING!</div>
         <button id="buy-button-lifetime">buy now</button>
     </div>
-    <div class="pricing-tier">
-        <h4>trial</h4>
-        <p class="small-text">free fully functional 7 day trial with each subscription</p>
-        <p class="small-text">try before you buy!</p>
-	<p class="small-text">make sure bouncrrr is for you</p>
-        <!-- Assign an ID for the annual price paragraph -->
-        <p id="free-price">free!</p>
-        <p class="small-text">(you'll want to buy it though!)</p>
-    </div>
+    <div class="pricing-tier" id="trial-tier">
+    <h4>trial</h4>
+    <p class="small-text">free fully functional 7 day trial with each subscription</p>
+    <p class="small-text">try before you buy!</p>
+    <p class="small-text">make sure bouncrrr is for you</p>
+    <p id="free-price">free!</p>
+    <p class="small-text">(you'll want to buy it though!)</p>
+</div>
 
 </div>
 
