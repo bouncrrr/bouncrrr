@@ -235,7 +235,7 @@ section > p:last-child, section > img:last-child {
     align-items: center;
     font-size: 0.75rem;  /* Adjust font size as needed */
     background-color: #FFD700;  /* Example color: gold */
-    rotate: -45deg;
+    rotate: 45deg;
 }
 
 .badge:before {
@@ -246,7 +246,7 @@ section > p:last-child, section > img:last-child {
     font-size: 10px;
     transform: translate(-30%, 60%);
     transform-origin: center center;
-    rotate: -45deg;
+    rotate: 45deg;
 }
 
 button {
