@@ -332,6 +332,7 @@ function updatePricingOptionsBasedOnTrial(trialStarted) {
             customData: JSON.stringify({
                 userEmail: userEmail // Passing the userEmail in customData
             }),
+	    discountCode: discountId,  // Use discountId if it's a discount code string
             successCallback: function(data) {
                 console.log('Checkout success:', data);
             },
@@ -350,8 +351,8 @@ function updatePricingOptionsBasedOnTrial(trialStarted) {
         handleSubscription(this.dataset.priceId);
     });
     document.getElementById('buy-button-lifetime').addEventListener('click', function() {
-        handleSubscription('dsc_01hvh5h2ax3r7xr35qhe92j43a');
-    });
+    handleSubscription('pri_01htk4feeptfk9fsw9zevx9mg5', 'dsc_01hvh5h2ax3r7xr35qhe92j43a');
+});
 });
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/ScrollMagic.min.js"></script>
