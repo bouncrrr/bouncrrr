@@ -139,7 +139,7 @@ section p {
 
 .pricing-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Increase the minimum width to accommodate longer words */
+    grid-template-columns: repeat(auto-fit, min-content); /* Adjust to fit content */
     gap: 20px;
     align-items: start;
     justify-content: center;
@@ -156,10 +156,9 @@ section p {
     border-radius: 20px;
     padding: 20px;
     margin: 10px;
-    box-sizing: border-box; /* Ensures padding is included in the width calculation */
+    box-sizing: border-box; /* Ensures padding and border are included in the width */
     text-align: center;
     position: relative;
-    overflow: hidden; /* Prevents content from leaking outside */
 }
 
 .pricing-tier h3, .pricing-tier p, .pricing-tier .small-text {
@@ -169,6 +168,10 @@ section p {
 .pricing-tier h4 {
     margin-top: 10px; /* Adjust this value as needed to reduce the space */
     margin-bottom: 5px; /* Reduce the bottom margin */
+}
+
+.pricing-tier h4, .pricing-tier p, .pricing-tier .small-text {
+    word-wrap: break-word; /* Ensures text wraps to avoid overflow */
 }
 
 .pricing-tier .small-text {
