@@ -139,11 +139,10 @@ section p {
 
 .pricing-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, min-content); /* Adjust to fit content */
+    grid-template-columns: repeat(auto-fit, minmax(min-content, 1fr)); /* This change ensures the columns can grow up to 1fr if needed */
     gap: 20px;
-    align-items: start;
-    justify-content: center;
-    padding: 20px;
+    justify-content: center; /* Centers the items horizontally */
+    padding: 20px; /* Ensure padding doesn't squeeze the content too much */
 }
 
 .pricing-tier.special {
