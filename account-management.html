@@ -114,7 +114,7 @@ async function loadSubscriptionStatus() {
     const url = 'https://paddle-cockroach-bouncrrr.onrender.com/api/get-subscription-status';
     const token = localStorage.getItem('userToken');
     if (!token) {
-        console.error('user token is missing.');
+        console.error('User token is missing.');
         return;
     }
 
@@ -124,7 +124,7 @@ async function loadSubscriptionStatus() {
     });
 
     if (!response.ok) {
-        throw new Error('failed to fetch subscription status');
+        throw new Error('Failed to fetch subscription status');
     }
 
     const { status, trialStarted } = await response.json();
@@ -134,10 +134,17 @@ async function loadSubscriptionStatus() {
 
 function updateManageSubscriptionButton(status, trialStarted) {
     const manageButton = document.getElementById('manage-subscription');
-    if (status === 'active' || status === 'trialing') {
-        manageButton.textContent = 'cancel subscription at next billing date';
-    } else if (status === 'canceled') {
-        manageButton.textContent = trialStarted ? 're-subscribe' : 'start subscription'; // Consider previous trial usage
+    switch (status) {
+        case 'active':
+        case 'trialing':
+            manageButton.textContent = 'cancel subscription at next billing date';
+            break;
+        case 'canceled':
+            manageButton.textContent = trialStarted ? 're-subscribe' : 'start subscription';
+            break;
+        default:
+            manageButton.textContent = 'manage subscription';
+            break;
     }
 }
 
