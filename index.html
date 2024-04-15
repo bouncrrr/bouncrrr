@@ -62,8 +62,8 @@
 }
 
 	    function updatePricingOptionsBasedOnTrial(trialStarted) {
-    const monthlyPriceID = trialStarted ? "MONTHLY_PRICE_ID_WITHOUT_TRIAL" : "MONTHLY_PRICE_ID_WITH_TRIAL";
-    const annualPriceID = trialStarted ? "ANNUAL_PRICE_ID_WITHOUT_TRIAL" : "ANNUAL_PRICE_ID_WITH_TRIAL";
+    const monthlyPriceID = trialStarted ? "pri_01hv8xbna1cvm87v15bb0zpr4s" : "pri_01htk0e7exyc33gr8qvaxnf96s";
+    const annualPriceID = trialStarted ? "pri_01hv8xd0jcq9f4k95ry111xkw2" : "pri_01htk4dhmz6ngkhysj1c8rm6ah";
 
     document.getElementById('subscribe-button-monthly').dataset.priceId = monthlyPriceID;
     document.getElementById('subscribe-button-annual').dataset.priceId = annualPriceID;
@@ -336,7 +336,7 @@
         handleSubscription(this.dataset.priceId);
     });
     document.getElementById('buy-button-lifetime').addEventListener('click', function() {
-        handleSubscription('LIFETIME_PRICE_ID');
+        handleSubscription('pri_01htk4feeptfk9fsw9zevx9mg5');
     });
 });
 </script>
