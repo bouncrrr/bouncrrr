@@ -63,49 +63,44 @@
 	    
 function updatePricingSection(hasValidSubscription, status) {
     const pricingContainer = document.querySelector('.pricing-container');
-    const pricingTiers = document.querySelectorAll('.pricing-tier');
-    const trialTier = document.querySelector('.pricing-tier.trial'); // Select the trial pricing box
-    const lifetimeTier = document.querySelector('.pricing-tier.special'); // Select the lifetime license pricing box
-    const messageElement = document.querySelector('#subscription-message');
+    const pricingHeader = document.getElementById('pricing-header');
+    const lifetimeTier = document.querySelector('.pricing-tier.special');
+    let messageElement = document.getElementById('subscription-message');
 
     if (status === 'active' || status === 'trialing') {
-        pricingTiers.forEach(el => {
+        // Hide all tiers except the lifetime tier
+        pricingContainer.querySelectorAll('.pricing-tier').forEach(el => {
             if (!el.classList.contains('special')) {
                 el.style.display = 'none';
             }
         });
 
-        // Remove the trial box if the user is already a subscriber or trialing
-        if (trialTier && status !== 'none') {
+        // Remove trial tier if active or trialing
+        const trialTier = document.querySelector('.pricing-tier.trial');
+        if (trialTier) {
             trialTier.style.display = 'none';
         }
 
+        // Create or update the subscription message
         if (!messageElement) {
-            const message = document.createElement('p');
-            message.id = 'subscription-message';
-            message.textContent = status === 'trialing' ? "you're currently trialing bouncrrr, but if you'd like to upgrade to a lifetime license you can..." : "you're already subscribed, but you can still upgrade to a lifetime license...";
-            message.className = 'centered-message'; // Assign a class for styling
-
-            pricingContainer.insertBefore(message, pricingContainer.firstChild); // Always insert as the first child
-        } else {
-            messageElement.textContent = status === 'trialing' ? "you're currently trialing bouncrrr, but if you'd like to upgrade to a lifetime license you can..." : "you're already subscribed, but you can still upgrade to a lifetime license...";
-            messageElement.className = 'centered-message'; // Ensure the class is applied if the element already exists
+            messageElement = document.createElement('p');
+            messageElement.id = 'subscription-message';
+            messageElement.className = 'centered-message';
+            pricingContainer.insertBefore(messageElement, lifetimeTier);
         }
+        messageElement.textContent = status === 'trialing' ?
+            "you're currently trialing bouncrrr, but if you'd like to upgrade to a lifetime license you can..." :
+            "you're already subscribed, but you can still upgrade to a lifetime license...";
     } else {
-        pricingContainer.style.display = 'grid';
-        pricingTiers.forEach(el => el.style.display = 'block');
+        // Show all tiers
+        pricingContainer.querySelectorAll('.pricing-tier').forEach(el => el.style.display = '');
 
-        // Ensure trial box is visible if no subscription is detected
-        if (trialTier) {
-            trialTier.style.display = 'block';
-        }
-
+        // Remove message if subscription status is not active or trialing
         if (messageElement) {
             messageElement.remove();
         }
     }
 }
-
 
 function updatePricingOptionsBasedOnTrial(trialStarted) {
     const monthlyPriceID = trialStarted ? "pri_01hv8xbna1cvm87v15bb0zpr4s" : "pri_01htk0e7exyc33gr8qvaxnf96s";
