@@ -139,10 +139,11 @@ section p {
 
 .pricing-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Adjust the min value to allow two items per row */
     gap: 20px;
     align-items: start;
     justify-content: center;
+    padding: 20px; /* Adds padding inside the container */
 }
 
 .pricing-tier.special {
@@ -156,7 +157,6 @@ section p {
     padding: 20px;
     margin: 10px;
     width: auto; /* Let the grid control the width */
-    min-width: 250px;
     text-align: center;
     box-sizing: border-box;
     position: relative; /* Ensure this is set for correct badge positioning */
@@ -671,5 +671,9 @@ input:checked + .slider:before {
         margin-bottom: 10px; /* Add space between input and button */
         width: 100%; /* Full width to match button */
         max-width: 200px; /* Limit maximum width */
+    }
+
+    .pricing-container {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Smaller min width for smaller screens */
     }
 }
