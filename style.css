@@ -235,6 +235,7 @@ section > p:last-child, section > img:last-child {
     align-items: center;
     font-size: 0.75rem;  /* Adjust font size as needed */
     background-color: #FFD700;  /* Example color: gold */
+    rotate: -45deg;
 }
 
 .badge:before {
