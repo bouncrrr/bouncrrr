@@ -55,7 +55,9 @@
     })
     .then(response => response.json())
     .then(data => {
+        // This function now correctly handles setting the page based on subscription status
         updatePricingSection(data.hasValidSubscription);
+        // Separate function to update based on trial status without interfering with the above
         updatePricingOptionsBasedOnTrial(data.trialStarted);
     })
     .catch(error => console.error('Failed to fetch subscription status:', error));
@@ -70,13 +72,17 @@
     // Update buttons or text elements with the correct price IDs or additional information
 }
 
-        function updatePricingSection(status) {
+        function updatePricingSection(hasValidSubscription) {
     const pricingContainer = document.querySelector('.pricing-container');
+    const pricingTiers = document.querySelectorAll('.pricing-tier');
     const messageElement = document.querySelector('#subscription-message'); // Check if a message already exists
-
-    if (status === 'active') {
+    if (hasValidSubscription) {
         // Hide all other pricing options except for the lifetime license
-        document.querySelectorAll('.pricing-tier:not(.special)').forEach(el => el.style.display = 'none');
+        pricingTiers.forEach(el => {
+            if (!el.classList.contains('special')) {
+                el.style.display = 'none';
+            }
+        });
 
         // Adjust the pricing container to center the lifetime option
         pricingContainer.style.display = 'flex';
@@ -88,7 +94,7 @@
             // Create and insert the subscription message if it doesn't exist
             const message = document.createElement('p');
             message.id = 'subscription-message';
-            message.textContent = "you're already subscribed! but you can still upgrade to a lifetime license...";
+            message.textContent = "You're already subscribed! But you can still upgrade to a lifetime license...";
             message.style.color = 'white';
             message.style.fontSize = '20px';
             message.style.textAlign = 'center';
@@ -100,11 +106,10 @@
     } else {
         // Restore original styles and display all tiers when status is not 'active'
         pricingContainer.style.display = 'grid'; // Restore grid layout
-	pricingContainer.style.gridTemplateColumns = 'repeat(2, 1fr)';
         pricingContainer.style.flexDirection = '';
         pricingContainer.style.alignItems = '';
         pricingContainer.style.justifyContent = '';
-        document.querySelectorAll('.pricing-tier').forEach(el => el.style.display = 'block'); // Show all tiers
+        pricingTiers.forEach(el => el.style.display = 'block'); // Show all tiers
 
         // Remove the subscription message if it exists
         if (messageElement) {
