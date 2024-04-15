@@ -75,7 +75,7 @@
         if (!messageElement) {
             const message = document.createElement('p');
             message.id = 'subscription-message';
-            message.textContent = status === 'trialing' ? "You're currently trialing bouncrrr!" : "You're already subscribed!";
+            message.textContent = status === 'trialing' ? "you're currently trialing bouncrrr!" : "you're already subscribed!";
             message.style.color = 'white';
             message.style.fontSize = '20px';
             message.style.textAlign = 'center';
@@ -97,9 +97,9 @@ function updatePricingOptionsBasedOnTrial(trialStarted) {
     const subscribeButtons = document.querySelectorAll('[id^="subscribe-button"]');
     subscribeButtons.forEach(button => {
         if (trialStarted) {
-            button.textContent = 'Re-subscribe'; // Change text if trial was already started
+            button.textContent = 're-subscribe'; // Change text if trial was already started
         } else {
-            button.textContent = 'Subscribe'; // Default text for new subscription
+            button.textContent = 'subscribe'; // Default text for new subscription
         }
     });
 }
