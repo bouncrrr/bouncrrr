@@ -148,7 +148,10 @@ section p {
 .pricing-tier.special {
     position: relative;  /* This ensures the badge positions itself relative to this container */
     display: flex;
+    padding: 20px;
+    border-radius: 20px;
     flex-direction: column;
+    box-sizing: border-box;
     align-items: center;  /* Centers the content */
     justify-content: center;
     width: auto;  /* Adjust width as necessary, or set to 100% if it should take full width when visible */
