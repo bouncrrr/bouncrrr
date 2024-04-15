@@ -111,18 +111,22 @@ function updatePricingSection(hasValidSubscription, status) {
 function updatePricingOptionsBasedOnTrial(trialStarted) {
     const monthlyPriceID = trialStarted ? "pri_01hv8xbna1cvm87v15bb0zpr4s" : "pri_01htk0e7exyc33gr8qvaxnf96s";
     const annualPriceID = trialStarted ? "pri_01hv8xd0jcq9f4k95ry111xkw2" : "pri_01htk4dhmz6ngkhysj1c8rm6ah";
+    const trialTier = document.querySelector('.pricing-tier.trial'); // Select the trial tier box
     const subscribeButtons = document.querySelectorAll('[id^="subscribe-button"]');
 
+    // Update price IDs
     document.getElementById('subscribe-button-monthly').dataset.priceId = monthlyPriceID;
     document.getElementById('subscribe-button-annual').dataset.priceId = annualPriceID;
-	
+    
+    // Update button texts and hide trial box if trial has started
     subscribeButtons.forEach(button => {
-        if (trialStarted) {
-            button.textContent = 're-subscribe'; // Change text if trial was already started
-        } else {
-            button.textContent = 'subscribe'; // Default text for new subscription
-        }
+        button.textContent = trialStarted ? 're-subscribe' : 'subscribe';
     });
+
+    // Hide the trial tier if the trial has already started
+    if (trialTier) {
+        trialTier.style.display = trialStarted ? 'none' : '';
+    }
 }
 
         function handleLogout() {
