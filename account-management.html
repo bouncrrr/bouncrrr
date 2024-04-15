@@ -132,6 +132,15 @@ async function loadSubscriptionStatus() {
     updateManageSubscriptionButton(status, trialStarted);
 }
 
+function updateManageSubscriptionButton(status, trialStarted) {
+    const manageButton = document.getElementById('manage-subscription');
+    if (status === 'active' || status === 'trialing') {
+        manageButton.textContent = 'cancel subscription at next billing date';
+    } else if (status === 'canceled') {
+        manageButton.textContent = trialStarted ? 're-subscribe' : 'start subscription'; // Consider previous trial usage
+    }
+}
+
 function handleLogout() {
     console.log('Initiating logout process...');
 
@@ -142,18 +151,6 @@ function handleLogout() {
 
     console.log('user credentials removed from local storage.');
     window.location.href = 'index.html';
-}
-
-function updateManageSubscriptionButton(status, trialStarted) {
-    const manageButton = document.getElementById('manage-subscription');
-    if (status === 'active' || (status === 'canceled' && trialStarted)) {
-        manageButton.textContent = 'cancel subscription at next billing date';
-    } else if (status === 'pending cancellation') {
-        manageButton.textContent = 'subscription pending cancellation';
-        manageButton.disabled = true; // Disable the button if pending cancellation
-    } else {
-        manageButton.textContent = 'subscribe';
-    }
 }
 
 function manageSubscription() {
