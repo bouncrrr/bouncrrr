@@ -55,67 +55,53 @@
     })
     .then(response => response.json())
     .then(data => {
-        // This function now correctly handles setting the page based on subscription status
-        updatePricingSection(data.hasValidSubscription);
-        // Separate function to update based on trial status without interfering with the above
+        updatePricingSection(data.hasValidSubscription, data.status);
         updatePricingOptionsBasedOnTrial(data.trialStarted);
     })
     .catch(error => console.error('Failed to fetch subscription status:', error));
 }
 
-	    function updatePricingOptionsBasedOnTrial(trialStarted) {
-    const monthlyPriceID = trialStarted ? "pri_01hv8xbna1cvm87v15bb0zpr4s" : "pri_01htk0e7exyc33gr8qvaxnf96s";
-    const annualPriceID = trialStarted ? "pri_01hv8xd0jcq9f4k95ry111xkw2" : "pri_01htk4dhmz6ngkhysj1c8rm6ah";
-
-    document.getElementById('subscribe-button-monthly').dataset.priceId = monthlyPriceID;
-    document.getElementById('subscribe-button-annual').dataset.priceId = annualPriceID;
-    // Update buttons or text elements with the correct price IDs or additional information
-}
-
-        function updatePricingSection(hasValidSubscription) {
+	    function updatePricingSection(hasValidSubscription, status) {
     const pricingContainer = document.querySelector('.pricing-container');
     const pricingTiers = document.querySelectorAll('.pricing-tier');
-    const messageElement = document.querySelector('#subscription-message'); // Check if a message already exists
-    if (hasValidSubscription) {
-        // Hide all other pricing options except for the lifetime license
+    const messageElement = document.querySelector('#subscription-message');
+    if (status === 'active' || status === 'trialing') {
         pricingTiers.forEach(el => {
             if (!el.classList.contains('special')) {
                 el.style.display = 'none';
             }
         });
 
-        // Adjust the pricing container to center the lifetime option
-        pricingContainer.style.display = 'flex';
-        pricingContainer.style.flexDirection = 'column';
-        pricingContainer.style.alignItems = 'center';
-        pricingContainer.style.justifyContent = 'center';
-
         if (!messageElement) {
-            // Create and insert the subscription message if it doesn't exist
             const message = document.createElement('p');
             message.id = 'subscription-message';
-            message.textContent = "You're already subscribed! But you can still upgrade to a lifetime license...";
+            message.textContent = status === 'trialing' ? "You're currently trialing bouncrrr!" : "You're already subscribed!";
             message.style.color = 'white';
             message.style.fontSize = '20px';
             message.style.textAlign = 'center';
-            message.style.marginBottom = '20px'; // Space between message and box
+            message.style.marginBottom = '20px';
 
-            // Insert the message directly inside the pricing container at the top
             pricingContainer.insertBefore(message, pricingContainer.firstChild);
         }
     } else {
-        // Restore original styles and display all tiers when status is not 'active'
-        pricingContainer.style.display = 'grid'; // Restore grid layout
-        pricingContainer.style.flexDirection = '';
-        pricingContainer.style.alignItems = '';
-        pricingContainer.style.justifyContent = '';
-        pricingTiers.forEach(el => el.style.display = 'block'); // Show all tiers
+        pricingContainer.style.display = 'grid';
+        pricingTiers.forEach(el => el.style.display = 'block');
 
-        // Remove the subscription message if it exists
         if (messageElement) {
             messageElement.remove();
         }
     }
+}
+
+function updatePricingOptionsBasedOnTrial(trialStarted) {
+    const subscribeButtons = document.querySelectorAll('[id^="subscribe-button"]');
+    subscribeButtons.forEach(button => {
+        if (trialStarted) {
+            button.textContent = 'Re-subscribe'; // Change text if trial was already started
+        } else {
+            button.textContent = 'Subscribe'; // Default text for new subscription
+        }
+    });
 }
 
         function handleLogout() {
