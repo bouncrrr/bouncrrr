@@ -60,17 +60,25 @@
     })
     .catch(error => console.error('Failed to fetch subscription status:', error));
 }
-
-	    function updatePricingSection(hasValidSubscription, status) {
+	    
+function updatePricingSection(hasValidSubscription, status) {
     const pricingContainer = document.querySelector('.pricing-container');
     const pricingTiers = document.querySelectorAll('.pricing-tier');
+    const trialTier = document.querySelector('.pricing-tier.trial'); // Select the trial pricing box
+    const lifetimeTier = document.querySelector('.pricing-tier.special'); // Select the lifetime license pricing box
     const messageElement = document.querySelector('#subscription-message');
+
     if (status === 'active' || status === 'trialing') {
         pricingTiers.forEach(el => {
             if (!el.classList.contains('special')) {
                 el.style.display = 'none';
             }
         });
+
+        // Remove the trial box if the user is already a subscriber or trialing
+        if (trialTier && status !== 'none') {
+            trialTier.style.display = 'none';
+        }
 
         if (!messageElement) {
             const message = document.createElement('p');
@@ -81,11 +89,16 @@
             message.style.textAlign = 'center';
             message.style.marginBottom = '20px';
 
-            pricingContainer.insertBefore(message, pricingContainer.firstChild);
+            pricingContainer.insertBefore(message, lifetimeTier);
         }
     } else {
         pricingContainer.style.display = 'grid';
         pricingTiers.forEach(el => el.style.display = 'block');
+
+        // Ensure trial box is visible if no subscription is detected
+        if (trialTier) {
+            trialTier.style.display = 'block';
+        }
 
         if (messageElement) {
             messageElement.remove();
