@@ -145,21 +145,7 @@ section p {
     padding: 20px;
 }
 
-.pricing-tier.special {
-    position: relative;  /* This ensures the badge positions itself relative to this container */
-    display: flex;
-    padding: 20px;
-    border-radius: 20px;
-    flex-direction: column;
-    box-sizing: border-box;
-    align-items: center;  /* Centers the content */
-    justify-content: center;
-    width: auto;  /* Adjust width as necessary, or set to 100% if it should take full width when visible */
-    margin: 0 auto;  /* Centers the box horizontally */
-}
-
-
-.pricing-tier {
+.pricing-tier, .pricing-tier.special {
     background: rgba(255, 255, 255, 0.5);
     border-radius: 20px;
     padding: 20px;
@@ -170,6 +156,8 @@ section p {
     flex-direction: column;
     justify-content: center;
     position: relative; /* Ensure this is set for correct badge positioning */
+    align-items: center;  /* Centers the content */
+    width: calc(50% - 30px); /* Adjust width - calculate based on container width minus gap */
 }
 
 .pricing-tier h3, .pricing-tier p, .pricing-tier .small-text {
