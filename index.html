@@ -306,42 +306,44 @@ function updatePricingOptionsBasedOnTrial(trialStarted) {
         <a href="terms.html">terms of use/refund policy</a>
     </footer>
 	<script>
-	document.addEventListener('DOMContentLoaded', function() {
-    	// Function to handle subscription attempts
-    	function handleSubscription(priceId) {
-        	const isLoggedIn = localStorage.getItem('userToken');
-        	const userEmail = localStorage.getItem('userEmail');  // Retrieve the userEmail from localStorage
+    document.addEventListener('DOMContentLoaded', function() {
+        // Function to handle subscription attempts
+        function handleSubscription(priceId, discountId = null) {  // Added discountId parameter with default null
+            const isLoggedIn = localStorage.getItem('userToken');
+            const userEmail = localStorage.getItem('userEmail');  // Retrieve the userEmail from localStorage
 
-        if (!isLoggedIn) {
-            // Redirect to the login page and append the return URL
-            window.location.href = 'login.html?returnUrl=' + encodeURIComponent(window.location.href + '#pricing');
-        } else {
-            // Ensure userEmail is retrieved and defined
-            if (!userEmail) {
-                console.error('User email not found in local storage');
-                return;  // Exit the function if userEmail isn't found
-            }
-            // Open the Paddle checkout with the specific priceId
-            const passthroughData = JSON.stringify({ userEmail: userEmail });
-        console.log('Passthrough data being sent to Paddle:', passthroughData); // Log the passthrough data
+            if (!isLoggedIn) {
+                // Redirect to the login page and append the return URL
+                window.location.href = 'login.html?returnUrl=' + encodeURIComponent(window.location.href + '#pricing');
+            } else {
+                // Ensure userEmail is retrieved and defined
+                if (!userEmail) {
+                    console.error('User email not found in local storage');
+                    return;  // Exit the function if userEmail isn't found
+                }
+                // Open the Paddle checkout with the specific priceId
+                const passthroughData = JSON.stringify({ userEmail: userEmail });
+                console.log('Passthrough data being sent to Paddle:', passthroughData); // Log the passthrough data
 
-        Paddle.Checkout.open({
-            items: [
-                { priceId: priceId, quantity: 1 }
-            ],
-            customData: JSON.stringify({
-                userEmail: userEmail // Passing the userEmail in customData
-            }),
-	    discountCode: discountId,  // Use discountId if it's a discount code string
-            successCallback: function(data) {
-                console.log('Checkout success:', data);
-            },
-            closeCallback: function() {
-                console.log('Checkout closed.');
+                // Setup checkout options including the discount code if provided
+                let checkoutOptions = {
+                    items: [{ priceId: priceId, quantity: 1 }],
+                    customData: JSON.stringify({ userEmail: userEmail }),
+                    successCallback: function(data) {
+                        console.log('Checkout success:', data);
+                    },
+                    closeCallback: function() {
+                        console.log('Checkout closed.');
+                    }
+                };
+
+                if (discountId) {  // Check if a discountId was provided
+                    checkoutOptions.discountCode = discountId;  // Assign the discount code to the checkout options
+                }
+
+                Paddle.Checkout.open(checkoutOptions);
             }
-        });
         }
-    }
 
     // Attach the event listener to each subscription button with their specific priceId
     document.getElementById('subscribe-button-monthly').addEventListener('click', function() {
