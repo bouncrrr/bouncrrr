@@ -297,7 +297,6 @@ a[href^="mailto:"] {
 }
 
 #emoji-container {
-    overflow: hidden; /* Prevents content from showing outside the container */
     position: fixed;
     top: 0;
     left: 0;
@@ -308,7 +307,6 @@ a[href^="mailto:"] {
 }
 
 #image-animation-container {
-    overflow: hidden; /* Prevents content from showing outside the container */
     position: fixed;
     top: 0;
     left: 0;
