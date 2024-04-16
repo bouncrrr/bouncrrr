@@ -230,8 +230,13 @@ section > p:last-child, section > img:last-child {
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.5); /* Optional shadow for depth */
     transform: translate(0%, -50%); /* Adjust transformation for proper alignment */
     text-align: center; /* Center the text within the badge */
-    line-height: 60px; /* Align the text vertically */
+    line-height: 1; /* Closer line height for compact text */
     padding: 0 5px; /* Ensure text does not overflow */
+}
+
+.badge::before {
+    content: '★ INTRODUCTORY PRICING!'; /* Text displayed in the badge */
+    white-space: nowrap; /* Prevents line breaks */
 }
 
 button {
