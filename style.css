@@ -234,11 +234,6 @@ section > p:last-child, section > img:last-child {
     padding: 0 5px; /* Ensure text does not overflow */
 }
 
-.badge::before {
-    content: '★ INTRODUCTORY PRICING!'; /* Text displayed in the badge */
-    white-space: nowrap; /* Prevents line breaks */
-}
-
 button {
     padding: 10px 20px;
     font-size: 18px;
