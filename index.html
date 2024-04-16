@@ -169,7 +169,7 @@ function updatePricingOptionsBasedOnTrial(trialStarted) {
         document.getElementById('annual-price').textContent = annualItem.formattedUnitTotals.total + '/year';
         // Calculate and update monthly equivalent
         const monthlyEquivalent = (parseFloat(annualItem.formattedUnitTotals.total.replace('£', '')) / 12).toFixed(2);
-        document.getElementById('monthly-equivalent').textContent = `£${monthlyEquivalent}/month (equivalent)`;
+        document.getElementById('monthly-equivalent').textContent = `equivalent of £${monthlyEquivalent}/month`;
     }
             if (lifetimeItem) {
                 document.getElementById('lifetime-price').textContent = lifetimeItem.formattedUnitTotals.total;
