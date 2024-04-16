@@ -83,12 +83,12 @@ document.addEventListener('DOMContentLoaded', function() {
         element.style.transform = `translateY(${translateY}px)`;
 
         let opacity;
-        if (progress < 0.2) {
-            opacity = progress / 0.2;
+        if (progress < 0.1) {
+            opacity = progress / 0.1;
             element.style.visibility = 'visible';
-        } else if (progress > 0.8) {
-            opacity = (1 - progress) / 0.2;
-            element.style.visibility = 'hidden'; // Hides the element completely as it fades out
+        } else if (progress > 0.9) {
+            opacity = (1 - progress) / 0.1;
+            setTimeout(() => { element.style.visibility = 'hidden'; }, 2000); // Delay hiding to ensure they fade out completely
         } else {
             opacity = 1;
             element.style.visibility = 'visible';
