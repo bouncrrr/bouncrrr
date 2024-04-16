@@ -124,12 +124,15 @@ async function loadSubscriptionStatus() {
     });
 
     if (!response.ok) {
-        throw new Error('Failed to fetch subscription status');
+        console.error('Failed to fetch subscription status');
+        document.getElementById('subscription-status').textContent = 'Failed to load';
+        return;
     }
 
-    const { status, trialStarted } = await response.json();
+    const data = await response.json();
+    const status = data.status || 'no subscription'; // Use default value if status is null or undefined
     document.getElementById('subscription-status').textContent = status;
-    updateManageSubscriptionButton(status, trialStarted);
+    updateManageSubscriptionButton(status, data.trialStarted);
 }
 
 function updateManageSubscriptionButton(status, trialStarted) {
@@ -137,13 +140,16 @@ function updateManageSubscriptionButton(status, trialStarted) {
     switch (status) {
         case 'active':
         case 'trialing':
-            manageButton.textContent = 'cancel subscription at next billing date';
+            manageButton.textContent = 'Cancel subscription at next billing date';
             break;
         case 'canceled':
-            manageButton.textContent = trialStarted ? 're-subscribe' : 'start subscription';
+            manageButton.textContent = trialStarted ? 'Re-subscribe' : 'Start subscription';
+            break;
+        case 'no subscription': // Handle no subscription case
+            manageButton.textContent = 'Subscribe';
             break;
         default:
-            manageButton.textContent = 'manage subscription';
+            manageButton.textContent = 'Manage subscription';
             break;
     }
 }
