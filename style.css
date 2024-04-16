@@ -215,29 +215,33 @@ section > p:last-child, section > img:last-child {
 
 .badge {
     position: absolute;
-    top: 0;
-    right: 0;
-    transform: translate(50%, -50%);  /* Adjust to correctly position on the corner */
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
+    top: 10px;  /* Adjust the vertical position as needed */
+    left: -20px; /* Move more to the left */
+    transform: translate(-50%, -50%) rotate(45deg); /* Adjust the translation and rotation */
+    width: 50px; /* Increase the width for a bigger circle */
+    height: 50px; /* Increase the height to match the width */
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 0.75rem;  /* Adjust font size as needed */
-    background-color: #FFD700;  /* Example color: gold */
-    rotate: 45deg;
+    font-size: 0.75rem;
+    background-color: #6a0dad; /* Regal purple color */
+    color: white; /* Ensure text color is white for contrast */
+    border: 3px solid white; /* Optional: add a white border for better visibility */
+    box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Optional: add shadow for 3D effect */
+    z-index: 10; /* Ensure it's above other elements */
 }
 
 .badge:before {
-    content: ""; /* Hide one of the texts if duplicated by CSS */
+    content: "★ INTRODUCTORY PRICING!";
     position: absolute;
-    width: 160%;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     text-align: center;
     font-size: 10px;
-    transform: translate(-30%, 60%);
-    transform-origin: center center;
-    rotate: 45deg;
+    transform: translate(0%, 0%) rotate(0deg); /* Adjust rotation and translation to fit the new badge size */
 }
 
 button {
