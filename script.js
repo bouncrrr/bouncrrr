@@ -76,24 +76,27 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function updatePositions(progress, selector) {
-        const elements = document.querySelectorAll(selector);
-        elements.forEach(element => {
-            const speed = parseFloat(element.dataset.speed);
-            const translateY = (progress * speed * 3000 + 500) * -1;
-            element.style.transform = `translateY(${translateY}px)`;
+    const elements = document.querySelectorAll(selector);
+    elements.forEach(element => {
+        const speed = parseFloat(element.dataset.speed);
+        const translateY = (progress * speed * 3000 + 500) * -1;
+        element.style.transform = `translateY(${translateY}px)`;
 
-            let opacity;
-            if (progress < 0.2) {
-                opacity = progress / 0.2;
-            } else if (progress > 0.8) {
-                opacity = (1 - progress) / 0.2;
-            } else {
-                opacity = 1;
-            }
+        let opacity;
+        if (progress < 0.2) {
+            opacity = progress / 0.2;
+            element.style.visibility = 'visible';
+        } else if (progress > 0.8) {
+            opacity = (1 - progress) / 0.2;
+            element.style.visibility = 'hidden'; // Hides the element completely as it fades out
+        } else {
+            opacity = 1;
+            element.style.visibility = 'visible';
+        }
 
-            element.style.opacity = opacity;
-        });
-    }
+        element.style.opacity = opacity;
+    });
+}
 
     positionContainers();
     createEmojis();
