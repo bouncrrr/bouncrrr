@@ -215,41 +215,23 @@ section > p:last-child, section > img:last-child {
 
 .badge {
     position: absolute;
-    top: -10px;  /* Align to the top edge of the parent */
-    right: -10px; /* Adjust the right position to slightly move it to the left */
-    transform: translate(50%, -50%); /* Correct translation for circular design */
-    width: 60px;  /* Increase the width for a larger circle */
-    height: 60px;  /* Match the height to the width to maintain a circle */
+    top: -10px;  /* Slightly above the top edge of the parent */
+    right: -10px; /* Slightly past the right edge of the parent */
+    width: 60px;  /* Larger circle for visibility */
+    height: 60px;  /* Equal width and height to maintain a circle */
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 12px; /* Adjust font size for visibility within the larger badge */
+    font-size: 0.75rem; /* Adjust font size to fit in the badge */
     background-color: #6a0dad; /* Regal purple color */
-    color: white; /* Ensure text color is white for contrast */
-    border-radius: 50%; /* Make it a perfect circle */
-    border: 2px solid white; /* Optional: add a white border for better visibility */
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.5); /* Optional: add shadow for depth */
-}
-
-.badge:before {
-    content: "★"; /* Only a star before the text */
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 1.5rem; /* Make the star larger */
-    color: white;
-}
-
-.badge:after {
-    content: "INTRODUCTORY PRICING!"; /* Text of the badge */
-    position: absolute;
-    top: 70%; /* Position the text below the star */
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 0.75rem; /* Smaller font size for the text */
-    color: white;
-    width: 100%; /* Ensure text alignment is centered */
+    color: white; /* Text color */
+    border-radius: 50%; /* Ensures it's a circle */
+    border: 2px solid white; /* Adds a white border for better visibility */
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.5); /* Optional shadow for depth */
+    transform: translate(0%, -50%); /* Adjust transformation for proper alignment */
+    text-align: center; /* Center the text within the badge */
+    line-height: 60px; /* Align the text vertically */
+    padding: 0 5px; /* Ensure text does not overflow */
 }
 
 button {
