@@ -140,16 +140,16 @@ function updateManageSubscriptionButton(status, trialStarted) {
     switch (status) {
         case 'active':
         case 'trialing':
-            manageButton.textContent = 'Cancel subscription at next billing date';
+            manageButton.textContent = 'cancel subscription at next billing date';
             break;
         case 'canceled':
-            manageButton.textContent = trialStarted ? 'Re-subscribe' : 'Start subscription';
+            manageButton.textContent = trialStarted ? 're-subscribe' : 'start subscription';
             break;
         case 'no subscription': // Handle no subscription case
-            manageButton.textContent = 'Subscribe';
+            manageButton.textContent = 'subscribe';
             break;
         default:
-            manageButton.textContent = 'Manage subscription';
+            manageButton.textContent = 'manage subscription';
             break;
     }
 }
