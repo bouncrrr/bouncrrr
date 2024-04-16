@@ -216,6 +216,7 @@ section > p:last-child, section > img:last-child {
 .badge {
     position: absolute;
     top: 10px;  /* Adjusted to lower the badge slightly */
+    right: 0px; /* Keep it to the right but move a bit left */
     width: 70px;  /* Increase the size of the circle */
     height: 70px;  /* Maintain the circular shape with equal width and height */
     display: flex;
