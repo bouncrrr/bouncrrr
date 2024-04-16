@@ -130,8 +130,13 @@ async function loadSubscriptionStatus() {
     }
 
     const data = await response.json();
-    const status = data.status || 'no subscription'; // Use default value if status is null or undefined
-    document.getElementById('subscription-status').textContent = status;
+    // Check explicitly for null or 'null' string
+    let status = data.status;
+    if (status === null || status === 'null' || status === 'NULL') {
+        status = 'no subscription';
+    }
+
+    document.getElementById('subscription-status').textContent = status || 'no subscription'; // Further fallback if status is still falsy
     updateManageSubscriptionButton(status, data.trialStarted);
 }
 
