@@ -295,6 +295,10 @@ document.addEventListener('DOMContentLoaded', async function () {
         console.error('Error during initial data load:', error);
     }
 });
+
+        document.getElementById('change-password').addEventListener('click', function() {
+    window.location.href = 'changepassword.html?token=' + localStorage.getItem('userToken');
+});
 </script>
 </body>
 </html>
