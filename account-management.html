@@ -286,6 +286,49 @@ function unregisterMachine(machineId) {
     });
 }
 
+        async function secureFetch(url, options = {}) {
+            let token = await refreshTokenIfNeeded();
+            options.headers = {...options.headers, 'Authorization': `Bearer ${token}`};
+            return fetch(url, options).then(response => {
+                if (!response.ok && response.status === 401) {
+                    // Handle 401 Unauthorized
+                    handleLogout();
+                    throw new Error('Session expired');
+                }
+                return response.json();
+            });
+        }
+
+        async function refreshTokenIfNeeded() {
+            let token = localStorage.getItem('userToken');
+            if (!token || tokenExpiringSoon(token)) {
+                const response = await fetch('https://api.yourdomain.com/refresh-token', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    localStorage.setItem('userToken', data.newToken);
+                    return data.newToken;
+                } else {
+                    console.error('Token refresh failed');
+                    handleLogout();
+                    return null;
+                }
+            }
+            return token;
+        }
+
+        function tokenExpiringSoon(token) {
+            const payload = JSON.parse(atob(token.split('.')[1]));
+            const exp = payload.exp;
+            const now = Date.now() / 1000;
+            return exp < now + 300; // 300 seconds (5 minutes) before expiry
+        }
+
 document.addEventListener('DOMContentLoaded', async function () {
     try {
         await loadMarketingOptInStatus();
