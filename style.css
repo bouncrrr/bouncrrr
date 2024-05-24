@@ -5,6 +5,7 @@ body, html {
     padding: 0;
     overflow-x: hidden;
     font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
     color: white;
     height: 100%;
     width: 100%;
@@ -31,7 +32,7 @@ body, html {
     position: fixed;
     top: -50px; /* Adjusted position to make the navbar slightly higher up */
     width: 100%;
-    background: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.9);
     z-index: 100;
     transition: top 0.3s ease-in-out;
     text-align: center; /* Center-align all text content */
@@ -236,10 +237,10 @@ section > p:last-child, section > img:last-child {
 button {
     padding: 10px 20px;
     font-size: 18px;
-    background: #3399CC;
+    background-color: #007bff;
     border: none;
-    border-radius: 10px;
-    color: white;
+    border-radius: 5px;
+    color: #fff;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
@@ -680,5 +681,10 @@ input:checked + .slider:before {
 
     .pricing-container {
         grid-template-columns: 1fr 1fr; /* Ensures two columns on smaller screens */
+    }
+    
+    .navbar a {
+        display: block;
+        padding: 10px;
     }
 }
