@@ -63,6 +63,29 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
     }
 
+ async function refreshTokenIfNeeded() {
+    let token = localStorage.getItem('userToken');
+    if (!token || tokenExpiringSoon(token)) {
+        const response = await fetch('https://paddle-cockroach-bouncrrr.onrender.com/api/refresh-token', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        const data = await response.json();
+        if (response.ok) {
+            localStorage.setItem('userToken', data.newToken);
+            return data.newToken;
+        } else {
+            console.error('Token refresh failed');
+            handleLogout();
+            return null;
+        }
+    }
+    return token;
+}
+
     async function secureFetch(url, options = {}) {
     let token = await refreshTokenIfNeeded();
     options.headers = {...options.headers, 'Authorization': `Bearer ${token}`};
