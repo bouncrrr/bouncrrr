@@ -1,4 +1,11 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
+ try {
+        await loadMarketingOptInStatus();
+        await loadSubscriptionStatus();
+        await loadRegisteredMachines();
+    } catch (error) {
+        console.error('Error during initial data load:', error);
+    }
     // Check if the screen width is less than or equal to 768 pixels
     if (window.innerWidth <= 768) {
         // Code to disable or not initialise animations
@@ -55,6 +62,18 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => emoji.style.opacity = 1, 100 * i);
         }
     }
+
+    async function secureFetch(url, options = {}) {
+    let token = await refreshTokenIfNeeded();
+    options.headers = {...options.headers, 'Authorization': `Bearer ${token}`};
+    return fetch(url, options).then(response => {
+        if (!response.ok && response.status === 401) {
+            handleLogout();
+            throw new Error('Session expired');
+        }
+        return response.json();
+    });
+}
 
     function createRepeatedImages() {
         const container = document.getElementById('image-animation-container');
