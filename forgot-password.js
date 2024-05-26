@@ -8,9 +8,9 @@ document.getElementById('password-reset-request-form').addEventListener('submit'
         body: JSON.stringify({email: email})
     }).then(response => {
         if(response.ok) {
-            alert('Please check your email to reset your password.');
+            alert('please check your email to reset your password.');
         } else {
-            alert('Failed to send password reset email. Please try again.');
+            alert('failed to send password reset email. please try again.');
         }
     }).catch(error => {
         console.error('Error:', error);
@@ -26,7 +26,7 @@ document.getElementById('password-reset-form').addEventListener('submit', functi
     const token = urlParams.get('token');
 
     if(newPassword !== confirmNewPassword) {
-        alert('Passwords do not match. Please try again.');
+        alert('passwords do not match. please try again.');
         return;
     }
 
@@ -36,10 +36,10 @@ document.getElementById('password-reset-form').addEventListener('submit', functi
         body: JSON.stringify({password: newPassword})
     }).then(response => {
         if(response.ok) {
-            alert('Your password has been successfully reset.');
+            alert('your password has been successfully reset.');
             window.location.href = 'login.html'; // Redirect to login page
         } else {
-            alert('Failed to reset password. Please try again or contact support.');
+            alert('failed to reset password. please try again or contact support.');
         }
     }).catch(error => {
         console.error('Error:', error);
