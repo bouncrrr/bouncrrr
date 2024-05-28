@@ -73,9 +73,10 @@
                 document.getElementById('update-email-preferences').addEventListener('click', updateMarketingOptInStatus);
                 document.getElementById('logout-button').addEventListener('click', handleLogout);
                 document.getElementById('manage-subscription').addEventListener('click', manageSubscription);
-                document.getElementById('reset-password').addEventListener('click', function() {
-                    document.getElementById('password-change-form').style.display = 'block';
-                });
+                document.getElementById('reset-password').addEventListener('click', function(event) {
+    event.preventDefault(); // Prevent the default action
+    document.getElementById('password-change-form').style.display = 'block';
+});
                 document.getElementById('password-change-form').addEventListener('submit', handleChangePassword);
             }
         });
