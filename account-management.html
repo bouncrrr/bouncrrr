@@ -108,7 +108,6 @@
 
                 if (response.ok) {
                     alert('your password has been updated successfully.');
-                    window.location.href = 'login.html'; // Optional: Redirect to login on success
                 } else {
                     const errorMessage = await response.text();
                     alert('failed to update password. please try again or contact support.');
