@@ -74,9 +74,9 @@
                 document.getElementById('logout-button').addEventListener('click', handleLogout);
                 document.getElementById('manage-subscription').addEventListener('click', manageSubscription);
                 document.getElementById('reset-password').addEventListener('click', function(event) {
-    event.preventDefault(); // Prevent the default action
-    document.getElementById('password-change-form').style.display = 'block';
-});
+                    event.preventDefault(); // Prevent the default action
+                    document.getElementById('password-change-form').style.display = 'block';
+                });
                 document.getElementById('password-change-form').addEventListener('submit', handleChangePassword);
             }
         });
@@ -361,8 +361,9 @@
             }
         });
 
-        document.getElementById('reset-password').addEventListener('click', function() {
-            window.location.href = 'reset-password.html?token=' + localStorage.getItem('userToken');
+        document.getElementById('reset-password').addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent the default action
+            document.getElementById('password-change-form').style.display = 'block';
         });
     </script>
 </body>
