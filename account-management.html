@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>account management - bouncrrr</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
     <link rel="icon" href="bouncrrr-favicon.ico" type="image/x-icon">
     <style>
         /* Add styles to hide the form initially */
@@ -60,11 +61,11 @@
         document.addEventListener('DOMContentLoaded', async function () {
             const token = localStorage.getItem('userToken');
             if (!token) {
-                // Redirect to login page with a redirect URL
+                // redirect to login page with a redirect URL
                 const redirectUrl = encodeURIComponent(window.location.href);
                 window.location.href = `login.html?redirect=${redirectUrl}`;
             } else {
-                // Initialize data loading and event listeners
+                // initialize data loading and event listeners
                 loadMarketingOptInStatus();
                 loadSubscriptionStatus();
                 loadRegisteredMachines();
@@ -117,7 +118,252 @@
             }
         }
 
-        // Other functions for loading data, handling logout, etc. (unchanged)
+        async function loadMarketingOptInStatus() {
+            const token = localStorage.getItem('userToken');
+            if (!token) {
+                console.error('user token is missing.');
+                return;
+            }
+
+            const url = 'https://paddle-cockroach-bouncrrr.onrender.com/api/get-marketing-preferences';
+            try {
+                const data = await secureFetch(url, {
+                    method: 'GET'
+                });
+                document.getElementById('marketing-emails').checked = data.marketingOptIn;
+            } catch (error) {
+                console.error(`failed to fetch marketing opt-in status: ${error.message}`);
+            }
+        }
+
+        async function updateMarketingOptInStatus(e) {
+            e.preventDefault();
+            const marketingOptIn = document.getElementById('marketing-emails').checked;
+            const token = localStorage.getItem('userToken');
+            if (!token) {
+                console.error('user token is missing.');
+                return;
+            }
+
+            const url = 'https://paddle-cockroach-bouncrrr.onrender.com/api/update-marketing-preferences';
+            try {
+                const responseMessage = await secureFetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ marketingOptIn })
+                });
+                document.getElementById('email-preference-message').textContent = responseMessage;
+            } catch (error) {
+                console.error(`network response was not ok: ${error.message}`);
+            }
+        }
+
+        async function loadSubscriptionStatus() {
+            const url = 'https://paddle-cockroach-bouncrrr.onrender.com/api/get-subscription-status';
+            try {
+                const data = await secureFetch(url, {
+                    method: 'GET'
+                });
+                let status = data.status;
+                if (status === null || status === 'null' || status === 'NULL') {
+                    status = 'no subscription';
+                }
+                document.getElementById('subscription-status').textContent = status || 'no subscription';
+                updateManageSubscriptionButton(status, data.trialStarted);
+            } catch (error) {
+                console.error('failed to fetch subscription status', error);
+                document.getElementById('subscription-status').textContent = 'failed to load';
+            }
+        }
+
+        function updateManageSubscriptionButton(status, trialStarted) {
+            const manageButton = document.getElementById('manage-subscription');
+            switch (status) {
+                case 'active':
+                case 'trialing':
+                    manageButton.textContent = 'cancel subscription at next billing date';
+                    break;
+                case 'canceled':
+                    manageButton.textContent = trialStarted ? 're-subscribe' : 'start subscription';
+                    break;
+                case 'no subscription': // Handle no subscription case
+                    manageButton.textContent = 'subscribe';
+                    break;
+                default:
+                    manageButton.textContent = 'manage subscription';
+                    break;
+            }
+        }
+
+        function handleLogout() {
+            console.log('initiating logout process...');
+
+            // Remove user-related information from local storage
+            localStorage.removeItem('userEmail');
+            localStorage.removeItem('userToken');
+            localStorage.removeItem('paddleCustomerId');
+
+            console.log('user credentials removed from local storage.');
+            window.location.href = 'index.html';
+        }
+
+        function manageSubscription() {
+            const status = document.getElementById('subscription-status').textContent;
+            if (status === 'active') {
+                if (confirm('are you sure you want to cancel your subscription? this will take effect at your next billing date.')) {
+                    // Call to server to cancel subscription
+                    cancelSubscription();
+                }
+            } else {
+                window.location.href = 'https://bouncrrr.co/index.html#pricing';
+            }
+        }
+
+        async function cancelSubscription() {
+            try {
+                const response = await secureFetch('https://paddle-cockroach-bouncrrr.onrender.com/api/cancel-subscription', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ effectiveFrom: 'next_billing_period' })
+                });
+                alert('your subscription will be canceled at the next billing date.');
+                document.getElementById('subscription-status').textContent = 'pending cancellation';
+                updateManageSubscriptionButton('pending cancellation');
+            } catch (error) {
+                console.error('failed to cancel subscription:', error);
+                alert('failed to cancel subscription. please try again or contact support.');
+            }
+        }
+
+        async function loadRegisteredMachines() {
+            const url = 'https://paddle-cockroach-bouncrrr.onrender.com/api/get-registered-machines';
+            try {
+                const machines = await secureFetch(url, {
+                    method: 'GET'
+                });
+                const machinesContainer = document.getElementById('machines-list');
+                machinesContainer.innerHTML = '';
+                machines.forEach(machine => {
+                    const machineElement = document.createElement('div');
+                    machineElement.innerHTML = `
+                        <p>${machine.machine_name} (registered: ${new Date(machine.registered_at).toLocaleDateString()})</p>
+                        <button onclick="renameMachine('${machine.machine_id}')">rename</button>
+                        <button onclick="unregisterMachine('${machine.machine_id}')">unregister</button>
+                    `;
+                    machinesContainer.appendChild(machineElement);
+                });
+            } catch (error) {
+                console.error('failed to fetch registered machines', error);
+            }
+        }
+
+        function renameMachine(machineId) {
+            const newName = prompt('enter new name for the machine:');
+            if (!newName) return; // Exit if no name is entered
+
+            const token = localStorage.getItem('userToken');
+            fetch('https://paddle-cockroach-bouncrrr.onrender.com/api/update-machine-name', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ machine_id: machineId, new_machine_name: newName })
+            }).then(response => {
+                if (response.ok) {
+                    alert('machine name updated successfully.');
+                    loadRegisteredMachines(); // Refresh the list
+                } else {
+                    alert('failed to update machine name. please try again.');
+                }
+            });
+        }
+
+        function unregisterMachine(machineId) {
+            if (!confirm('are you sure you want to unregister this machine?')) return;
+
+            const token = localStorage.getItem('userToken');
+            fetch('https://paddle-cockroach-bouncrrr.onrender.com/api/unregister-machine', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ machine_id: machineId })
+            }).then(async response => {
+                const data = await response.json(); // Assuming the server always sends a JSON response
+                if (response.ok) {
+                    alert('machine unregistered successfully.');
+                    loadRegisteredMachines(); // Refresh the list
+                } else {
+                    alert(data.message); // Display the server's error message
+                }
+            }).catch(error => {
+                console.error('failed to unregister machine:', error);
+                alert('failed to unregister machine. please try again.');
+            });
+        }
+
+        async function secureFetch(url, options = {}) {
+            let token = await refreshTokenIfNeeded();
+            options.headers = {...options.headers, 'Authorization': `Bearer ${token}`};
+            return fetch(url, options).then(response => {
+                if (!response.ok && response.status === 401) {
+                    // Handle 401 Unauthorized
+                    handleLogout();
+                    throw new Error('session expired');
+                }
+                return response.json();
+            });
+        }
+
+        async function refreshTokenIfNeeded() {
+            let token = localStorage.getItem('userToken');
+            if (!token || tokenExpiringSoon(token)) {
+                const response = await fetch('https://paddle-cockroach-bouncrrr.onrender.com/api/refresh-token', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    localStorage.setItem('userToken', data.newToken);
+                    return data.newToken;
+                } else {
+                    console.error('token refresh failed');
+                    handleLogout();
+                    return null;
+                }
+            }
+            return token;
+        }
+
+        function tokenExpiringSoon(token) {
+            const payload = JSON.parse(atob(token.split('.')[1]));
+            const exp = payload.exp;
+            const now = Date.now() / 1000;
+            return exp < now + 300; // 300 seconds (5 minutes) before expiry
+        }
+
+        document.addEventListener('DOMContentLoaded', async function () {
+            try {
+                await loadMarketingOptInStatus();
+                await loadSubscriptionStatus();
+                await loadRegisteredMachines(); // Load machines when page loads
+            } catch (error) {
+                console.error('error during initial data load:', error);
+            }
+        });
+
+        document.getElementById('reset-password').addEventListener('click', function() {
+            window.location.href = 'reset-password.html?token=' + localStorage.getItem('userToken');
+        });
     </script>
 </body>
 </html>
