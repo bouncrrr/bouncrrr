@@ -8,8 +8,8 @@
     <item>
       <title>version 0.9.3.8</title>
       <description>new features and bug fixes</description>
-      <pubDate>wed, 15 mar 2023 12:00:00 +0000</pubDate>
-      <enclosure url="https://www.dropbox.com/scl/fi/kaldwpvpsqeqxu8wyfx8a/bouncrrr-v0.9.3.8.dmg?rlkey=be9gqsmyxy7rz1pqgci3nzd65&dl=1" sparkle:version="0.9.3.8" sparkle:shortVersionString="0.9.3.8" sparkle:edSignature="your_signature_here" length="12345" type="application/octet-stream"/>
+      <pubDate>Wed, 15 Mar 2023 12:00:00 +0000</pubDate>
+      <enclosure url="https://www.dropbox.com/scl/fi/kaldwpvpsqeqxu8wyfx8a/bouncrrr-v0.9.3.8.dmg?rlkey=be9gqsmyxy7rz1pqgci3nzd65&amp;dl=1" sparkle:version="0.9.3.8" sparkle:shortVersionString="0.9.3.8" sparkle:edSignature="your_signature_here" length="12345" type="application/octet-stream"/>
       <sparkle:releaseNotesLink>https://bouncrrr.co/notes/0.9.3.8.html</sparkle:releaseNotesLink>
     </item>
   </channel>
