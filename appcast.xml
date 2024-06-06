@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+  <channel>
+    <title>bouncrrr updates</title>
+    <link>https://bouncrrr.co/updates</link>
+    <description>updates for bouncrrr</description>
+    <language>en</language>
+    <item>
+      <title>version 1.0</title>
+      <description>new features and bug fixes</description>
+      <pubDate>Wed, 15 Mar 2023 12:00:00 +0000</pubDate>
+      <enclosure url="https://www.dropbox.com/scl/fi/kaldwpvpsqeqxu8wyfx8a/bouncrrr-v0.9.3.8.dmg?rlkey=be9gqsmyxy7rz1pqgci3nzd65&dl=1" sparkle:version="2.0" sparkle:shortVersionString="2.0" length="12345" type="application/octet-stream"/>
+      <sparkle:releaseNotesLink>https://bouncrrr.co/notes/1.0.html</sparkle:releaseNotesLink>
+    </item>
+  </channel>
+</rss>
