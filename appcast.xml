@@ -15,15 +15,15 @@
     <item>
       <title>version 0.9.3.9</title>
       <description>bug fixes</description>
-      <pubDate>fri, 7 jun 2023 17:16:03 +0000</pubDate>
-      <enclosure url="https://www.dropbox.com/scl/fi/vvqprhl4h6dnpzaim542q/bouncrrr-v0.9.3.9.dmg?rlkey=mxzl2f1qs04dhbgibwlf315b3&dl=1" sparkle:version="0.9.3.9" sparkle:shortVersionString="0.9.3.9" sparkle:edSignature="ePxKZIe/lxd17X4BycnK+ohrqkN6GaT627xJMdMxQDhK3SD//qXpViB1jXdo0DmHo9L+xitrMarntzSxZbF8CQ==" length="36415704" type="application/octet-stream"/>
+      <pubDate>Fri, 07 Jun 2023 17:16:03 +0000</pubDate>
+      <enclosure url="https://www.dropbox.com/scl/fi/vvqprhl4h6dnpzaim542q/bouncrrr-v0.9.3.9.dmg?rlkey=mxzl2f1qs04dhbgibwlf315b3&amp;dl=1" sparkle:version="0.9.3.9" sparkle:shortVersionString="0.9.3.9" sparkle:edSignature="ePxKZIe/lxd17X4BycnK+ohrqkN6GaT627xJMdMxQDhK3SD//qXpViB1jXdo0DmHo9L+xitrMarntzSxZbF8CQ==" length="36415704" type="application/octet-stream"/>
       <sparkle:releaseNotesLink>https://bouncrrr.co/notes/0.9.3.9.html</sparkle:releaseNotesLink>
     </item>
     <item>
       <title>version 0.9.3.10</title>
       <description>bug fixes</description>
-      <pubDate>fri, 7 jun 2023 17:25:17 +0000</pubDate>
-      <enclosure url="https://www.dropbox.com/scl/fi/m739alfnprc0zkz5mwbfv/bouncrrr-v0.9.3.10.dmg?rlkey=h4ylwd1l75dz28503bzgqbt3t&dl=1" sparkle:version="0.9.3.10" sparkle:shortVersionString="0.9.3.10" sparkle:edSignature="OhYx44QTMAhfTdc3L6YLETNtOF0I1EkxP3jS54uqaRyB943/CWsbeiYuA9I8a2BvkJ9/iDgjAVbHmpU/pA6KCw==" length="36415949" type="application/octet-stream"/>
+      <pubDate>Fri, 07 Jun 2023 17:25:17 +0000</pubDate>
+      <enclosure url="https://www.dropbox.com/scl/fi/m739alfnprc0zkz5mwbfv/bouncrrr-v0.9.3.10.dmg?rlkey=h4ylwd1l75dz28503bzgqbt3t&amp;dl=1" sparkle:version="0.9.3.10" sparkle:shortVersionString="0.9.3.10" sparkle:edSignature="OhYx44QTMAhfTdc3L6YLETNtOF0I1EkxP3jS54uqaRyB943/CWsbeiYuA9I8a2BvkJ9/iDgjAVbHmpU/pA6KCw==" length="36415949" type="application/octet-stream"/>
       <sparkle:releaseNotesLink>https://bouncrrr.co/notes/0.9.3.10.html</sparkle:releaseNotesLink>
     </item>
   </channel>
