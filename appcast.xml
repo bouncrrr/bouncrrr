@@ -6,11 +6,18 @@
     <description>updates for bouncrrr</description>
     <language>en</language>
     <item>
-      <title>version 0.9.3.8</title>
-      <description>new features and bug fixes</description>
-      <pubDate>Wed, 15 Mar 2023 12:00:00 +0000</pubDate>
-      <enclosure url="https://www.dropbox.com/scl/fi/kaldwpvpsqeqxu8wyfx8a/bouncrrr-v0.9.3.8.dmg?rlkey=be9gqsmyxy7rz1pqgci3nzd65&amp;dl=1" sparkle:version="0.9.3.8" sparkle:shortVersionString="0.9.3.8" sparkle:edSignature="cC7r0ZP9i1YEynI16L/BEkI5ssCAgj56JL8yBe2isz6P5DVY33R1l6JcuMyyRweHD/NECP4KJ8Pgmuj71KYuDQ==" length="36417102" type="application/octet-stream"/>
-      <sparkle:releaseNotesLink>https://bouncrrr.co/notes/0.9.3.8.html</sparkle:releaseNotesLink>
+      <title>version 0.9.4.0</title>
+      <description>bug fixes, including update mechanism and version naming</description>
+      <pubDate>Fri, 07 Jun 2024 17:05:58 +0000</pubDate>
+      <enclosure url="https://www.dropbox.com/scl/fi/wqwi1ybgc75cjjb0jc4jt/bouncrrr-v0.9.4.0.dmg?rlkey=emz1f53fgb28d8xu1ufha4tnn&amp;dl=1" sparkle:version="0.9.4.0" sparkle:shortVersionString="0.9.4.0" sparkle:edSignature="+ZTpozVpgv9Sd7za3eEAfaNUhKUgAq9RdN+3lEF6r8D4Uwg+pIr7TO2JDcTFNSRGXZA8XPhl32oRqiymnf2vCA==" length="36416199" type="application/octet-stream"/>
+      <sparkle:releaseNotesLink>https://bouncrrr.co/notes/0.9.4.0.html</sparkle:releaseNotesLink>
+    </item>
+    <item>
+      <title>version 0.9.3.10</title>
+      <description>bug fixes</description>
+      <pubDate>Fri, 07 Jun 2023 17:25:17 +0000</pubDate>
+      <enclosure url="https://www.dropbox.com/scl/fi/m739alfnprc0zkz5mwbfv/bouncrrr-v0.9.3.10.dmg?rlkey=h4ylwd1l75dz28503bzgqbt3t&amp;dl=1" sparkle:version="0.9.3.10" sparkle:shortVersionString="0.9.3.10" sparkle:edSignature="OhYx44QTMAhfTdc3L6YLETNtOF0I1EkxP3jS54uqaRyB943/CWsbeiYuA9I8a2BvkJ9/iDgjAVbHmpU/pA6KCw==" length="36415949" type="application/octet-stream"/>
+      <sparkle:releaseNotesLink>https://bouncrrr.co/notes/0.9.3.10.html</sparkle:releaseNotesLink>
     </item>
     <item>
       <title>version 0.9.3.9</title>
@@ -20,18 +27,11 @@
       <sparkle:releaseNotesLink>https://bouncrrr.co/notes/0.9.3.9.html</sparkle:releaseNotesLink>
     </item>
     <item>
-      <title>version 0.9.3.10</title>
-      <description>bug fixes</description>
-      <pubDate>Fri, 07 Jun 2023 17:25:17 +0000</pubDate>
-      <enclosure url="https://www.dropbox.com/scl/fi/m739alfnprc0zkz5mwbfv/bouncrrr-v0.9.3.10.dmg?rlkey=h4ylwd1l75dz28503bzgqbt3t&amp;dl=1" sparkle:version="0.9.3.10" sparkle:shortVersionString="0.9.3.10" sparkle:edSignature="OhYx44QTMAhfTdc3L6YLETNtOF0I1EkxP3jS54uqaRyB943/CWsbeiYuA9I8a2BvkJ9/iDgjAVbHmpU/pA6KCw==" length="36415949" type="application/octet-stream"/>
-      <sparkle:releaseNotesLink>https://bouncrrr.co/notes/0.9.3.10.html</sparkle:releaseNotesLink>
+      <title>version 0.9.3.8</title>
+      <description>new features and bug fixes</description>
+      <pubDate>Wed, 15 Mar 2023 12:00:00 +0000</pubDate>
+      <enclosure url="https://www.dropbox.com/scl/fi/kaldwpvpsqeqxu8wyfx8a/bouncrrr-v0.9.3.8.dmg?rlkey=be9gqsmyxy7rz1pqgci3nzd65&amp;dl=1" sparkle:version="0.9.3.8" sparkle:shortVersionString="0.9.3.8" sparkle:edSignature="cC7r0ZP9i1YEynI16L/BEkI5ssCAgj56JL8yBe2isz6P5DVY33R1l6JcuMyyRweHD/NECP4KJ8Pgmuj71KYuDQ==" length="36417102" type="application/octet-stream"/>
+      <sparkle:releaseNotesLink>https://bouncrrr.co/notes/0.9.3.8.html</sparkle:releaseNotesLink>
     </item>
-<item>
-  <title>version 0.9.4.0</title>
-  <description>bug fixes, including update mechanism and version naming</description>
-  <pubDate>Fri, 07 Jun 2024 17:05:58 +0000</pubDate>
-  <enclosure url="https://www.dropbox.com/scl/fi/wqwi1ybgc75cjjb0jc4jt/bouncrrr-v0.9.4.0.dmg?rlkey=emz1f53fgb28d8xu1ufha4tnn&amp;dl=1" sparkle:version="0.9.4.0" sparkle:shortVersionString="0.9.4.0" sparkle:edSignature="+ZTpozVpgv9Sd7za3eEAfaNUhKUgAq9RdN+3lEF6r8D4Uwg+pIr7TO2JDcTFNSRGXZA8XPhl32oRqiymnf2vCA==" length="36416199" type="application/octet-stream"/>
-  <sparkle:releaseNotesLink>https://bouncrrr.co/notes/0.9.4.0.html</sparkle:releaseNotesLink>
-</item>
-</channel>
+  </channel>
 </rss>
