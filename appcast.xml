@@ -9,8 +9,15 @@
       <title>version 0.9.3.8</title>
       <description>new features and bug fixes</description>
       <pubDate>Wed, 15 Mar 2023 12:00:00 +0000</pubDate>
-      <enclosure url="https://www.dropbox.com/scl/fi/kaldwpvpsqeqxu8wyfx8a/bouncrrr-v0.9.3.8.dmg?rlkey=be9gqsmyxy7rz1pqgci3nzd65&amp;dl=1" sparkle:version="0.9.3.8" sparkle:shortVersionString="0.9.3.8" sparkle:edSignature="your_signature_here" length="12345" type="application/octet-stream"/>
+      <enclosure url="https://www.dropbox.com/scl/fi/kaldwpvpsqeqxu8wyfx8a/bouncrrr-v0.9.3.8.dmg?rlkey=be9gqsmyxy7rz1pqgci3nzd65&amp;dl=1" sparkle:version="0.9.3.8" sparkle:shortVersionString="0.9.3.8" sparkle:edSignature="cC7r0ZP9i1YEynI16L/BEkI5ssCAgj56JL8yBe2isz6P5DVY33R1l6JcuMyyRweHD/NECP4KJ8Pgmuj71KYuDQ==" length="36417102" type="application/octet-stream"/>
       <sparkle:releaseNotesLink>https://bouncrrr.co/notes/0.9.3.8.html</sparkle:releaseNotesLink>
+    </item>
+    <item>
+      <title>version 0.9.3.9</title>
+      <description>bug fixes</description>
+      <pubDate>fri, 7 jun 2023 17:16:03 +0000</pubDate>
+      <enclosure url="https://www.dropbox.com/scl/fi/vvqprhl4h6dnpzaim542q/bouncrrr-v0.9.3.9.dmg?rlkey=mxzl2f1qs04dhbgibwlf315b3&dl=1" sparkle:version="0.9.3.9" sparkle:shortVersionString="0.9.3.9" sparkle:edSignature="ePxKZIe/lxd17X4BycnK+ohrqkN6GaT627xJMdMxQDhK3SD//qXpViB1jXdo0DmHo9L+xitrMarntzSxZbF8CQ==" length="36415704" type="application/octet-stream"/>
+      <sparkle:releaseNotesLink>https://bouncrrr.co/notes/0.9.3.9.html</sparkle:releaseNotesLink>
     </item>
   </channel>
 </rss>
