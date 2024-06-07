@@ -26,5 +26,12 @@
       <enclosure url="https://www.dropbox.com/scl/fi/m739alfnprc0zkz5mwbfv/bouncrrr-v0.9.3.10.dmg?rlkey=h4ylwd1l75dz28503bzgqbt3t&amp;dl=1" sparkle:version="0.9.3.10" sparkle:shortVersionString="0.9.3.10" sparkle:edSignature="OhYx44QTMAhfTdc3L6YLETNtOF0I1EkxP3jS54uqaRyB943/CWsbeiYuA9I8a2BvkJ9/iDgjAVbHmpU/pA6KCw==" length="36415949" type="application/octet-stream"/>
       <sparkle:releaseNotesLink>https://bouncrrr.co/notes/0.9.3.10.html</sparkle:releaseNotesLink>
     </item>
-  </channel>
+<item>
+  <title>version 0.9.4.0</title>
+  <description>bug fixes, including update mechanism and version naming</description>
+  <pubDate>Fri, 07 Jun 2024 16:46:43 +0000</pubDate>
+  <enclosure url="https://www.dropbox.com/scl/fi/5f4aurguqfyoty3xj4tan/bouncrrr-v0.9.4.0.dmg?rlkey=bkk9n4re5b6h9mgn3so8zridzDROPBOX_LINKamp;dl=1" sparkle:version="0.9.4.0" sparkle:shortVersionString="0.9.4.0" sparkle:edSignature="XCfYVvcCbFt25tZmT3+cxLwU+Zk57MSI4xCzdDVWUWq0ws4kSxQ9W9psRC+Kpj3QaMkw7Bxhmu//geBHwE/zBA==" length="36416150" type="application/octet-stream"/>
+  <sparkle:releaseNotesLink>https://bouncrrr.co/notes/0.9.4.0.html</sparkle:releaseNotesLink>
+</item>
+</channel>
 </rss>
