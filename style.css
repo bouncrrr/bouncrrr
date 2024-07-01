@@ -700,6 +700,7 @@ input:checked + .slider:before {
     }
 
     .navbar.active {
+        display: block; /* Show navbar when active class is applied */
         max-height: 500px; /* Adjust based on your content height */
         transition: max-height 0.2s ease-in;
     }
