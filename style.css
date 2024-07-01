@@ -89,7 +89,7 @@ header h2 {
     font-size: 3vw; /* Smaller than the main title */
     margin-top: 0vh; /* Adjust as needed */
     text-align: center;
-    padding-top: 10vh; /* Adjust this value as needed */
+    padding-top: 2vh; /* Adjust this value as needed */
 }
 
 main {
