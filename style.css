@@ -685,11 +685,7 @@ input:checked + .slider:before {
     display: none; /* Hide "Menu" button by default */
 }
 
-@media (max-width: 768px) {
-    .video-container {
-        max-width: 100%; /* Full width on smaller screens */
-    }
-    
+@media (max-width: 768px) {    
     #emoji-container, #image-animation-container {
         display: none; /* Hide animation containers on mobile */
     }
