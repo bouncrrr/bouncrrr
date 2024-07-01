@@ -109,8 +109,8 @@ function updatePricingSection(hasValidSubscription, status) {
 }
 
 function updatePricingOptionsBasedOnTrial(trialStarted) {
-    const monthlyPriceID = trialStarted ? "pri_01hv8xbna1cvm87v15bb0zpr4s" : "pri_01htk0e7exyc33gr8qvaxnf96s";
-    const annualPriceID = trialStarted ? "pri_01hv8xd0jcq9f4k95ry111xkw2" : "pri_01htk4dhmz6ngkhysj1c8rm6ah";
+    const monthlyPriceID = trialStarted ? "pri_01hv8xbna1cvm87v15bb0zpr4s" : "pri_01ht5tkhk64w42akytvee6ksy8";
+    const annualPriceID = trialStarted ? "pri_01hv8xd0jcq9f4k95ry111xkw2" : "pri_01ht5tpam5fxtkxxes2qpcn84r";
     const subscribeButtons = document.querySelectorAll('[id^="subscribe-button"]');
 
     document.getElementById('subscribe-button-monthly').dataset.priceId = monthlyPriceID;
@@ -139,9 +139,9 @@ function updatePricingOptionsBasedOnTrial(trialStarted) {
         function fetchAndDisplayPrices() {
             var request = {
                 items: [
-                    { quantity: 1, priceId: 'pri_01htk0e7exyc33gr8qvaxnf96s' },
-                    { quantity: 1, priceId: 'pri_01htk4dhmz6ngkhysj1c8rm6ah' },
-                    { quantity: 1, priceId: 'pri_01htk4feeptfk9fsw9zevx9mg5' }
+                    { quantity: 1, priceId: 'pri_01ht5tkhk64w42akytvee6ksy8' },
+                    { quantity: 1, priceId: 'pri_01ht5tpam5fxtkxxes2qpcn84r' },
+                    { quantity: 1, priceId: 'pri_01ht5tqd76gvzrr4p8zgdbhfb1' }
                 ],
                 address: { countryCode: 'GB' }
             };
@@ -201,9 +201,9 @@ function updatePricingOptionsBasedOnTrial(trialStarted) {
 
         function updatePricingDisplays(data) {
             const lineItems = data.data.details.lineItems;
-            const monthlyItem = lineItems.find(item => item.price.id === 'pri_01htk0e7exyc33gr8qvaxnf96s');
-            const annualItem = lineItems.find(item => item.price.id === 'pri_01htk4dhmz6ngkhysj1c8rm6ah');
-            const lifetimeItem = lineItems.find(item => item.price.id === 'dsc_01hvh5h2ax3r7xr35qhe92j43a');
+            const monthlyItem = lineItems.find(item => item.price.id === 'pri_01ht5tkhk64w42akytvee6ksy8');
+            const annualItem = lineItems.find(item => item.price.id === 'pri_01ht5tpam5fxtkxxes2qpcn84r');
+            const lifetimeItem = lineItems.find(item => item.price.id === 'pri_01ht5tqd76gvzrr4p8zgdbhfb1');
 
             if (monthlyItem) {
                 document.getElementById('monthly-price').textContent = monthlyItem.formattedUnitTotals.total + '/month';
@@ -399,7 +399,7 @@ function updatePricingOptionsBasedOnTrial(trialStarted) {
         handleSubscription(this.dataset.priceId);
     });
     document.getElementById('buy-button-lifetime').addEventListener('click', function() {
-    handleSubscription('pri_01htk4feeptfk9fsw9zevx9mg5', 'dsc_01hvh5h2ax3r7xr35qhe92j43a');
+    handleSubscription('pri_01ht5tqd76gvzrr4p8zgdbhfb1', 'pri_01ht5tqd76gvzrr4p8zgdbhfb1');
 });
 });
 </script>
