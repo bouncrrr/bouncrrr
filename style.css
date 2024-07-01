@@ -688,36 +688,39 @@ input:checked + .slider:before {
     }
     
     .navbar {
-        display: none; /* Hide the navbar by default on smaller screens */
+        display: none; /* Hide navbar by default on mobile */
+        padding: 10px 0; /* Add padding for better touch interactions */
+        background-color: #333; /* Example background color */
         position: fixed;
-        top: 60px; /* Adjust based on your header height */
+        top: 0; /* Adjust top position as needed */
         left: 0;
-        background-color: #333;
         width: 100%;
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.2s ease-out;
+        z-index: 1000; /* Ensure it overlays other content */
+        box-shadow: 0 2px 5px rgba(0,0,0,0.5); /* Example box shadow */
     }
 
     .navbar.active {
         display: block; /* Show navbar when active class is applied */
-        max-height: 500px; /* Adjust based on your content height */
-        transition: max-height 0.2s ease-in;
     }
 
     .navbar a {
         display: block;
         padding: 10px;
-        color: #fff; /* Adjust text color */
-        text-decoration: none; /* Remove underline */
+        color: #fff; /* Example text color */
+        text-decoration: none;
     }
 
     .menu-toggle {
-        cursor: pointer;
-        display: block;
-        padding: 10px 20px;
-        color: #fff; /* Adjust text color */
-        background-color: #333; /* Adjust background color */
+        display: block; /* Ensure "Menu" button is visible on small screens */
+        padding: 10px;
+        font-size: 16px;
+        background-color: #555; /* Example button background color */
+        color: #fff; /* Example button text color */
         border: none;
+        cursor: pointer;
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        z-index: 1001; /* Ensure it overlays the navbar */
     }
 }
