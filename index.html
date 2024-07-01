@@ -414,9 +414,11 @@ function updatePricingOptionsBasedOnTrial(trialStarted) {
     }
 }
 
-	            document.getElementById('menu-toggle').addEventListener('click', function() {
-            var navbar = document.getElementById('navbar');
-            navbar.classList.toggle('active');
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('menu-toggle').addEventListener('click', function() {
+                var navbar = document.getElementById('navbar');
+                navbar.classList.toggle('active');
+            });
         });
 
     // Attach the event listener to each subscription button with their specific priceId
