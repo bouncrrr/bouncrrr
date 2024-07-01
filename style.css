@@ -321,6 +321,11 @@ a[href^="mailto:"] {
     top: -700px; /* Adjust this value to move the trigger higher */
 }
 
+.video-container {
+    margin: 0 auto; /* Centers the container horizontally */
+    max-width: 600px; /* Adjust max-width as needed */
+}
+
 #signup-form {
     display: flex;
     justify-content: center;
