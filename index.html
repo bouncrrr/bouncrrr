@@ -414,12 +414,16 @@ function updatePricingOptionsBasedOnTrial(trialStarted) {
     }
 }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('menu-toggle').addEventListener('click', function() {
-                var navbar = document.getElementById('navbar');
-                navbar.classList.toggle('active');
-            });
-        });
+document.addEventListener('DOMContentLoaded', function() {
+    // Add event listener to menu toggle button
+    document.getElementById('menu-toggle').addEventListener('click', function() {
+        console.log('Menu toggle button clicked'); // Log a message to the console
+
+        // Toggle 'active' class on navbar
+        var navbar = document.getElementById('navbar');
+        navbar.classList.toggle('active');
+    });
+});
 
     // Attach the event listener to each subscription button with their specific priceId
     document.getElementById('subscribe-button-monthly').addEventListener('click', function() {
