@@ -658,6 +658,10 @@ input:checked + .slider:before {
     }
 }
 
+.menu-toggle {
+    display: none; /* Hide "Menu" button by default */
+}
+
 @media (max-width: 768px) {
     #emoji-container, #image-animation-container {
         display: none; /* Hide animation containers on mobile */
