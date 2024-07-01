@@ -324,9 +324,9 @@ a[href^="mailto:"] {
 .video-container {
     position: relative;
     width: 100%; /* Full width of its container */
+    height: 100%;
     max-width: 800px; /* Adjust max-width as needed */
     margin: 0 auto; /* Center the container horizontally */
-    padding-bottom: 56.25%; /* 16:9 aspect ratio (height/width * 100) */
     overflow: hidden; /* Prevents content from overflowing */
 }
 
