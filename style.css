@@ -683,8 +683,36 @@ input:checked + .slider:before {
         grid-template-columns: 1fr 1fr; /* Ensures two columns on smaller screens */
     }
     
+    .navbar {
+        display: none; /* Hide the navbar by default on smaller screens */
+        position: fixed;
+        top: 60px; /* Adjust based on your header height */
+        left: 0;
+        background-color: #333;
+        width: 100%;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.2s ease-out;
+    }
+
+    .navbar.active {
+        max-height: 500px; /* Adjust based on your content height */
+        transition: max-height 0.2s ease-in;
+    }
+
     .navbar a {
         display: block;
         padding: 10px;
+        color: #fff; /* Adjust text color */
+        text-decoration: none; /* Remove underline */
+    }
+
+    .menu-toggle {
+        cursor: pointer;
+        display: block;
+        padding: 10px 20px;
+        color: #fff; /* Adjust text color */
+        background-color: #333; /* Adjust background color */
+        border: none;
     }
 }
