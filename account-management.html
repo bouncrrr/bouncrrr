@@ -213,8 +213,8 @@
             const status = document.getElementById('subscription-status').textContent;
             if (status === 'active' || status === 'trialing') {
         const confirmationMessage = status === 'active'
-            ? 'Are you sure you want to cancel your subscription? This action will take effect at your next billing date.'
-            : 'Are you sure you want to cancel your trial? This action cannot be undone.';
+            ? 'are you sure you want to cancel your subscription? this action will take effect at your next billing date.'
+            : 'are you sure you want to cancel your trial? this action cannot be undone.';
         
         if (confirm(confirmationMessage)) {
             // Call to server to cancel subscription
