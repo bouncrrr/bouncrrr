@@ -211,11 +211,15 @@
 
         function manageSubscription() {
             const status = document.getElementById('subscription-status').textContent;
-            if (status === 'active') {
-                if (confirm('are you sure you want to cancel your subscription? this will take effect at your next billing date.')) {
-                    // Call to server to cancel subscription
-                    cancelSubscription();
-                }
+            if (status === 'active' || status === 'trialing') {
+        const confirmationMessage = status === 'active'
+            ? 'Are you sure you want to cancel your subscription? This action will take effect at your next billing date.'
+            : 'Are you sure you want to cancel your trial? This action cannot be undone.';
+        
+        if (confirm(confirmationMessage)) {
+            // Call to server to cancel subscription
+            cancelSubscription();
+        }
             } else {
                 window.location.href = 'https://bouncrrr.co/index.html#pricing';
             }
