@@ -108,8 +108,8 @@ function updatePricingSection(hasValidSubscription, status) {
 }
 
 function updatePricingOptionsBasedOnTrial(trialStarted) {
-    const monthlyPriceID = trialStarted ? "pri_01hv8xbna1cvm87v15bb0zpr4s" : "pri_01ht5tkhk64w42akytvee6ksy8";
-    const annualPriceID = trialStarted ? "pri_01hv8xd0jcq9f4k95ry111xkw2" : "pri_01ht5tpam5fxtkxxes2qpcn84r";
+    const monthlyPriceID = trialStarted ? "pri_01j1tnwh9gp4nthp76sm91m73b" : "pri_01ht5tkhk64w42akytvee6ksy8";
+    const annualPriceID = trialStarted ? "pri_01j1tnswk2frqjwvwj0awdhztx" : "pri_01ht5tpam5fxtkxxes2qpcn84r";
     const subscribeButtons = document.querySelectorAll('[id^="subscribe-button"]');
 
     document.getElementById('subscribe-button-monthly').dataset.priceId = monthlyPriceID;
