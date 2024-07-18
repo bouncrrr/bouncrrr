@@ -225,23 +225,31 @@
             }
         }
 
-        async function cancelSubscription() {
-            try {
-                const response = await secureFetch('https://paddle-cockroach-bouncrrr.onrender.com/api/cancel-subscription', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ effectiveFrom: 'next_billing_period' })
-                });
-                alert('your subscription will be canceled at the next billing date.');
-                document.getElementById('subscription-status').textContent = 'pending cancellation';
-                updateManageSubscriptionButton('pending cancellation');
-            } catch (error) {
-                console.error('failed to cancel subscription:', error);
-                alert('failed to cancel subscription. please try again or contact support.');
-            }
+async function cancelSubscription() {
+    try {
+        console.log('Sending cancellation request...');
+        const response = await secureFetch('https://paddle-cockroach-bouncrrr.onrender.com/api/cancel-subscription', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ effectiveFrom: 'next_billing_period' })
+        });
+
+        console.log('response from cancellation request:', response);
+
+        if (response.ok) {
+            alert('your subscription will be canceled at the next billing date.');
+            document.getElementById('subscription-status').textContent = 'pending cancellation';
+            updateManageSubscriptionButton('pending cancellation');
+        } else {
+            throw new Error('failed to cancel subscription.');
         }
+    } catch (error) {
+        console.error('failed to cancel subscription:', error);
+        alert('failed to cancel subscription. please try again or contact support.');
+    }
+}
 
         async function loadRegisteredMachines() {
             const url = 'https://paddle-cockroach-bouncrrr.onrender.com/api/get-registered-machines';
