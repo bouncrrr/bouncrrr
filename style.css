@@ -266,12 +266,12 @@ a[href^="mailto:"] {
 }
 
 .troubleshooting-table th {
-    background-color: #f0f0f0;
+    background-color: rgba(240, 240, 240, 0.8); /* Light gray with some transparency */
     font-weight: bold;
 }
 
 .troubleshooting-table td {
-    background-color: #ffffff; /* White background for table cells */
+    background-color: transparent; /* Transparent background for table data cells */
 }
 
 .troubleshooting-table td:first-child {
