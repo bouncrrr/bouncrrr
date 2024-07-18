@@ -228,18 +228,18 @@
 async function cancelSubscription() {
     try {
         console.log('Sending cancellation request...');
+        const authToken = localStorage.getItem('userToken'); // Assuming you store the user token in localStorage
+
         const response = await fetch('https://paddle-cockroach-bouncrrr.onrender.com/api/cancel-subscription', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authToken}`
             },
             body: JSON.stringify({ effectiveFrom: 'next_billing_period' })
         });
 
-        // Log the response type and properties
         console.log('Response from cancellation request:', response);
-        console.log('Response type:', typeof response);
-        console.log('Response keys:', Object.keys(response));
 
         if (response.ok) {
             const responseData = await response.json();
@@ -248,15 +248,9 @@ async function cancelSubscription() {
             document.getElementById('subscription-status').textContent = 'pending cancellation';
             updateManageSubscriptionButton('pending cancellation');
         } else {
-            const responseText = await response.text(); // Ensure proper response handling
-            try {
-                const errorData = JSON.parse(responseText);
-                console.error('Error in cancellation response:', errorData);
-                alert('Failed to cancel subscription: ' + errorData.error);
-            } catch (e) {
-                console.error('Error parsing response as JSON:', responseText);
-                alert('Failed to cancel subscription. Please try again or contact support.');
-            }
+            const errorData = await response.json();
+            console.error('Error in cancellation response:', errorData);
+            alert('Failed to cancel subscription: ' + errorData.error);
         }
     } catch (error) {
         console.error('Failed to cancel subscription:', error);
