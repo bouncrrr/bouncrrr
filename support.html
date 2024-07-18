@@ -10,16 +10,52 @@
 </head>
 <body class="info-page">
     <div id="background-animation"></div>
-    <div class="navbar navbar-visible" id="navbar"> <!-- Add 'navbar-visible' class for specific pages -->
+    <div class="navbar navbar-visible" id="navbar">
         <a href="index.html">home</a>
     </div>
     <header>
-        <h2>support</h2>
+        <h2>support/faq</h2>
     </header>
     <main>
-<div style="text-align: center;">
-        <h2><strong>for support, please email us at <a href="mailto:support@bouncrrr.co">support@bouncrrr.co</a></h2>
-</div>
+        <div style="text-align: center;">
+            <h2><strong>troubleshooting</strong></h2>
+            
+            <!-- Table for issues and solutions -->
+            <table class="troubleshooting-table">
+                <thead>
+                    <tr>
+                        <th>issue</th>
+                        <th>possible solution</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>bouncrrr immediately shows an error after switching over to logic when I press 'bounce stems'.</td>
+                        <td>turn off "check for active click" and "check for active solo" in bounce settings.</td>
+                    </tr>
+                    <tr>
+                        <td>logic has stopped midway through the bounce process.</td>
+                        <td>use the "choose track number to start from" function within bouncrrr to resume from where it stopped.</td>
+                    </tr>
+                    <tr>
+                        <td>bouncrrr fails to get track names, or switch to logic at all.</td>
+                        <td>make sure your permissions are set up correctly. try removing bouncrrr's accessibility permission in system preferences and restarting bouncrrr to set it up again.</td>
+                    </tr>
+                    <tr>
+                        <td>logic keeps on crashing during the bounce process.</td>
+                        <td>bouncrrr simply automates the bounce process, it cannot prevent crashes in logic. make sure all of your plugins are stable and maybe try a different version of logic pro if the issues persist.</td>
+                    </tr>
+                    <tr>
+                        <td>my bounces are including sends from other tracks.</td>
+                        <td>this can happen due to the way logic handles soloing and sends. try to avoid pre-fader sends and also mute all tracks before starting bouncrrr, making sure you don't mute any folders or groups that are necessary to hear stems you want to bounce.</td>
+                    </tr>
+
+                    <!-- Add more rows as needed -->
+                </tbody>
+            </table>
+            
+            <h2><strong>for anything else, please email us at <a href="mailto:support@bouncrrr.co">support@bouncrrr.co</a></strong></h2>
+        </div>
     </main>
     <footer>
         <a href="privacy.html">privacy notice</a> | 
