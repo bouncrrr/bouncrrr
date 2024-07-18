@@ -244,17 +244,17 @@ async function cancelSubscription() {
         if (response.ok) {
             const responseData = await response.json();
             console.log('Cancellation successful:', responseData);
-            alert('Your subscription will be canceled at the next billing date.');
+            alert('your subscription will be canceled at the next billing date.');
             document.getElementById('subscription-status').textContent = 'pending cancellation';
             updateManageSubscriptionButton('pending cancellation');
         } else {
             const errorData = await response.json();
             console.error('Error in cancellation response:', errorData);
-            alert('Failed to cancel subscription: ' + errorData.error);
+            alert('failed to cancel subscription: ' + errorData.error);
         }
     } catch (error) {
         console.error('Failed to cancel subscription:', error);
-        alert('Failed to cancel subscription. Please try again or contact support.');
+        alert('failed to cancel subscription. please try again or contact support.');
     }
 }
         async function loadRegisteredMachines() {
