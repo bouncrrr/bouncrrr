@@ -817,4 +817,21 @@ input:checked + .slider:before {
         left: 10px;
         z-index: 1001; /* Ensure it overlays the navbar */
     }
+
+        .troubleshooting-table {
+        width: 100%; /* Full width for smaller screens */
+    }
+
+    .troubleshooting-table th, .troubleshooting-table td {
+        font-size: 0.9em; /* Smaller font size for table cells on smaller screens */
+        padding: 8px; /* Adjust padding */
+    }
+
+    .troubleshooting-table td:first-child {
+        width: 50%; /* Adjust width of first column on smaller screens */
+    }
+
+    .troubleshooting-table td:last-child {
+        width: 50%; /* Adjust width of last column on smaller screens */
+    }
 }
