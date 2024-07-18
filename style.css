@@ -282,14 +282,6 @@ a[href^="mailto:"] {
     max-width: 600px; /* Adjust based on preference */
 }
 
-.troubleshooting-table tbody tr:nth-child(even) {
-    background-color: #f2f2f2; /* Alternating row color */
-}
-
-.troubleshooting-table tbody tr:hover {
-    background-color: #e0e0e0; /* Hover color */
-}
-
 .troubleshooting-table td:first-child {
     width: 40%; /* Adjust based on preference */
 }
