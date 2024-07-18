@@ -241,17 +241,23 @@ async function cancelSubscription() {
         if (response.ok) {
             const responseData = await response.json();
             console.log('Cancellation successful:', responseData);
-            alert('your subscription will be canceled at the next billing date.');
+            alert('Your subscription will be canceled at the next billing date.');
             document.getElementById('subscription-status').textContent = 'pending cancellation';
             updateManageSubscriptionButton('pending cancellation');
         } else {
-            const errorData = await response.json();
-            console.error('Error in cancellation response:', errorData);
-            alert('failed to cancel subscription: ' + errorData.error);
+            const responseText = await response.text(); // Fetch the response text if JSON fails
+            try {
+                const errorData = JSON.parse(responseText); // Try to parse the text as JSON
+                console.error('Error in cancellation response:', errorData);
+                alert('Failed to cancel subscription: ' + errorData.error);
+            } catch (e) {
+                console.error('Error parsing response as JSON:', responseText);
+                alert('Failed to cancel subscription. Please try again or contact support.');
+            }
         }
     } catch (error) {
         console.error('Failed to cancel subscription:', error);
-        alert('failed to cancel subscription. please try again or contact support.');
+        alert('Failed to cancel subscription. Please try again or contact support.');
     }
 }
 
