@@ -253,6 +253,77 @@ a[href^="mailto:"] {
     color: #3399CC; /* Adjusted to match your theme */
 }
 
+.troubleshooting-table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.troubleshooting-table th, .troubleshooting-table td {
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+.troubleshooting-table th {
+    background-color: #f0f0f0;
+    font-weight: bold;
+}
+
+.troubleshooting-table td {
+    background-color: #ffffff; /* White background for table cells */
+}
+
+.troubleshooting-table td:first-child {
+    font-weight: bold; /* Bold text for issue column */
+}
+
+.troubleshooting-table td:last-child {
+    max-width: 600px; /* Adjust based on preference */
+}
+
+.troubleshooting-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2; /* Alternating row color */
+}
+
+.troubleshooting-table tbody tr:hover {
+    background-color: #e0e0e0; /* Hover color */
+}
+
+.troubleshooting-table td:first-child {
+    width: 40%; /* Adjust based on preference */
+}
+
+.troubleshooting-table td:last-child {
+    width: 60%; /* Adjust based on preference */
+}
+
+/* Adjustments for Specific Elements */
+
+.troubleshooting-table h2 {
+    font-size: 3vw; /* Adjust based on preference */
+    text-align: center;
+    margin-top: 5vh; /* Adjust based on preference */
+}
+
+.troubleshooting-table h2 strong {
+    font-weight: bold; /* Bold text for 'troubleshooting' heading */
+}
+
+.troubleshooting-table p {
+    text-align: center;
+    margin-bottom: 10px; /* Adjust spacing below paragraphs */
+}
+
+.troubleshooting-table a {
+    color: #3399CC; /* Adjust link color */
+    text-decoration: none; /* Remove underline from links */
+}
+
+.troubleshooting-table a:hover {
+    text-decoration: underline; /* Underline on hover for better UX */
+}
+
 @keyframes arrow-bounce {
     0% {
         transform: translate(-50%, 0);
