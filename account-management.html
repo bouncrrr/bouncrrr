@@ -245,9 +245,10 @@ async function cancelSubscription() {
             document.getElementById('subscription-status').textContent = 'pending cancellation';
             updateManageSubscriptionButton('pending cancellation');
         } else {
-            const responseText = await response.text(); // Fetch the response text if JSON fails
+            // Ensure proper response handling
+            const responseText = await response.text();
             try {
-                const errorData = JSON.parse(responseText); // Try to parse the text as JSON
+                const errorData = JSON.parse(responseText);
                 console.error('Error in cancellation response:', errorData);
                 alert('Failed to cancel subscription: ' + errorData.error);
             } catch (e) {
