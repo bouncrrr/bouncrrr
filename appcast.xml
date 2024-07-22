@@ -12,5 +12,19 @@
   <enclosure url="https://www.dropbox.com/scl/fi/0kl7et5pmatff3k8h6b4q/bouncrrr-v1.0.0.0.dmg?rlkey=i92lny4qz8uxlkkmf4nubqml1&amp;dl=1" sparkle:version="1.0.0.0" sparkle:shortVersionString="1.0.0.0" sparkle:edSignature="sTkHA1qtxRfRJBFzE3m2vPPNubewOmMaGzhlaG3URPTawyuGk6+gGUsc8cy7zJ/HAbdEMugPMsvAqFwe19dZDg==" length="36415345" type="application/octet-stream"/>
   <sparkle:releaseNotesLink>https://bouncrrr.co/notes/1.0.0.0.html</sparkle:releaseNotesLink>
 </item>
+<item>
+  <title>version 1.0.1.1</title>
+  <description>Updated thread handling to increase efficiency and prevent crashes.</description>
+  <pubDate>Thu, 18 Jul 2024 17:38:31 +0000</pubDate>
+  <enclosure url="https://www.dropbox.com/scl/fi/z5her6h6li3ija03rele7/bouncrrr-v1.0.1.1.dmg?rlkey=zttdr37hsjvr9ui6aobi6qbgw&amp;dl=1" sparkle:version="1.0.1.1" sparkle:shortVersionString="1.0.1.1" sparkle:edSignature="4zppM3YVfuvWHrhwiXIDUsNfKWBvTqgZk/vvawa1wcET9Agx+XrIwV6z6JW+xtk1QZDztD24M9vCDzjld+nZCg==" length="36416138" type="application/octet-stream"/>
+  <sparkle:releaseNotesLink>https://bouncrrr.co/notes/1.0.1.1.html</sparkle:releaseNotesLink>
+</item>
+<item>
+  <title>version 1.0.1.2</title>
+  <description>Fixed issue where some users were experiencing crashes when bouncrrr tried to fetch track names/numbers.</description>
+  <pubDate>Mon, 22 Jul 2024 01:03:52 +0000</pubDate>
+  <enclosure url="https://www.dropbox.com/scl/fi/95puolj9y32kp61xxwj3v/bouncrrr-v1.0.1.2.dmg?rlkey=4qacafqbfiqzxh6n5c2yvw57z&amp;dl=1" sparkle:version="1.0.1.2" sparkle:shortVersionString="1.0.1.2" sparkle:edSignature="1Ai5qlPtXTCivQ/DZn/RqpmUJ7qL1EJDPfG7A0fMPyKZLaqtTmUF4D72ig2TSdrTMCfYH9Tjq3Eu5tnl1mVeAA==" length="36417249" type="application/octet-stream"/>
+  <sparkle:releaseNotesLink>https://bouncrrr.co/notes/1.0.1.2.html</sparkle:releaseNotesLink>
+</item>
 </channel>
 </rss>
