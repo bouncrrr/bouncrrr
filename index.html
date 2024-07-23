@@ -444,22 +444,14 @@ function updatePricingOptionsBasedOnTrial(trialStarted) {
             navbar.classList.toggle('active');
         });
 
-	            // Show alert box with email instructions
-        function showEmailAlert() {
-            alert('please enter your bouncrrr account email into the first box asking for your email address. this will be used to link your bouncrrr account to the purchase. you can use a different email for paypal if you need to.');
-        }
-
         // Event listeners for subscription buttons
         document.getElementById('subscribe-button-monthly').addEventListener('click', function() {
-		showEmailAlert();
             handleSubscription(this.dataset.priceId);
         });
         document.getElementById('subscribe-button-annual').addEventListener('click', function() {
-		showEmailAlert();
             handleSubscription(this.dataset.priceId);
         });
         document.getElementById('buy-button-lifetime').addEventListener('click', function() {
-		showEmailAlert();
             handleSubscription('pri_01ht5tqd76gvzrr4p8zgdbhfb1');
         });
 
