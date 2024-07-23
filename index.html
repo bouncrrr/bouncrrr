@@ -421,6 +421,9 @@ function updatePricingOptionsBasedOnTrial(trialStarted) {
                         quantity: 1
                     }],
                     discountId: "dsc_01j1x21zahbj6dyacrw7hsbjdj", // The discount ID you want to apply
+			customData: {
+                        "accountEmail": userEmail // Pass the user's email as custom data
+                    },
                     customer: {
                         email: userEmail
                     },
