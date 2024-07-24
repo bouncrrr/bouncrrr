@@ -416,6 +416,7 @@ function updatePricingOptionsBasedOnTrial(trialStarted) {
                 Paddle.Checkout.open({
                     theme: "light",
                     locale: "en",
+		    allowLogout: false,
                     items: [{
                         priceId: priceId, // This will be the price ID for the lifetime license
                         quantity: 1
