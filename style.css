@@ -161,6 +161,13 @@ section p {
     width: calc(100% - 30px); /* Adjust width - calculate based on container width minus gap */
 }
 
+s {
+    text-decoration: line-through; /* Ensures the strikeout is consistent */
+    text-decoration-thickness: 2px; /* Increases the thickness of the strikeout line */
+    text-decoration-color: black; /* Sets a clear color for the strikeout line */
+    color: #888; /* Makes the original price slightly faded for contrast */
+}
+
 .pricing-tier h3, .pricing-tier p, .pricing-tier .small-text {
     margin: 10px 0;
 }
