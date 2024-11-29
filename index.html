@@ -211,7 +211,7 @@ function updatePricingDisplays(data) {
     }
 
     function formatPriceWithStrikeout(originalPrice, discountedPrice) {
-        return `<s>${originalPrice}</s> ${discountedPrice}`; // Original price with strikeout, followed by discounted price
+        return `was <s>${originalPrice}</s>, now ${discountedPrice}`; // Original price with strikeout, followed by discounted price
     }
 
     if (monthlyItem) {
