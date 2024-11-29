@@ -108,8 +108,8 @@ function updatePricingSection(hasValidSubscription, status) {
 }
 
 function updatePricingOptionsBasedOnTrial(trialStarted) {
-    const monthlyPriceID = trialStarted ? "dsc_01jdvy9xzy8b5vpx1rsjm30zjd" : "dsc_01jdvyb4mbsaaqwfn7x8gc9vc0";
-    const annualPriceID = trialStarted ? "dsc_01jdvyenwqtpb49dp64mtt04bq" : "dsc_01jdvyfr4p6heg0xwkw8rqv7p3";
+    const monthlyPriceID = trialStarted ? "pri_01j1tnwh9gp4nthp76sm91m73b" : "pri_01ht5tkhk64w42akytvee6ksy8";
+    const annualPriceID = trialStarted ? "pri_01j1tnswk2frqjwvwj0awdhztx" : "pri_01ht5tpam5fxtkxxes2qpcn84r";
     const subscribeButtons = document.querySelectorAll('[id^="subscribe-button"]');
 
     document.getElementById('subscribe-button-monthly').dataset.priceId = monthlyPriceID;
@@ -138,9 +138,9 @@ function updatePricingOptionsBasedOnTrial(trialStarted) {
         function fetchAndDisplayPrices() {
             var request = {
                 items: [
-                    { quantity: 1, priceId: 'dsc_01jdvyb4mbsaaqwfn7x8gc9vc0' },
-                    { quantity: 1, priceId: 'dsc_01jdvyfr4p6heg0xwkw8rqv7p3' },
-                    { quantity: 1, priceId: 'dsc_01jdvy7w12jqs17je09g56qd6p' }
+                    { quantity: 1, priceId: 'pri_01ht5tkhk64w42akytvee6ksy8' },
+                    { quantity: 1, priceId: 'pri_01ht5tpam5fxtkxxes2qpcn84r' },
+                    { quantity: 1, priceId: 'pri_01ht5tqd76gvzrr4p8zgdbhfb1' }
                 ],
                 address: { countryCode: 'GB' }
             };
@@ -200,9 +200,9 @@ function updatePricingOptionsBasedOnTrial(trialStarted) {
 
         function updatePricingDisplays(data) {
             const lineItems = data.data.details.lineItems;
-            const monthlyItem = lineItems.find(item => item.price.id === 'dsc_01jdvyb4mbsaaqwfn7x8gc9vc0');
-            const annualItem = lineItems.find(item => item.price.id === 'dsc_01jdvyfr4p6heg0xwkw8rqv7p3');
-            const lifetimeItem = lineItems.find(item => item.price.id === 'dsc_01jdvy7w12jqs17je09g56qd6p');
+            const monthlyItem = lineItems.find(item => item.price.id === 'pri_01ht5tkhk64w42akytvee6ksy8');
+            const annualItem = lineItems.find(item => item.price.id === 'pri_01ht5tpam5fxtkxxes2qpcn84r');
+            const lifetimeItem = lineItems.find(item => item.price.id === 'pri_01ht5tqd76gvzrr4p8zgdbhfb1');
 
             if (monthlyItem) {
                 document.getElementById('monthly-price').textContent = monthlyItem.formattedUnitTotals.total + '/month';
@@ -277,7 +277,7 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
 </div>
     <header>
         <h1>bouncrrr</h1>
-	    <h2>20% off black friday sale on now, <a href="#pricing">click here to buy.</a></h2>
+	    <h2>20% off black friday sale on now.</h2>
 	    <h2>bounce smarter. not harder.</h2>
     </header>
     <div class="arrow" id="arrow-container">
@@ -352,7 +352,7 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
 
 	    <section id="pricing">
 <h2 id="pricing-header" class="large-heading">pricing</h2>
-		    	    <p>all licenses are 20% off until december 6th 2024, don't miss out!</p>
+		    	    <p>use code 'bouncrrrfriday2024' at checkout for a 20% off black friday discount.</p>
     
 <div class="pricing-container">
 
@@ -472,7 +472,7 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
             handleSubscription(this.dataset.priceId);
         });
         document.getElementById('buy-button-lifetime').addEventListener('click', function() {
-            handleSubscription('dsc_01jdvy7w12jqs17je09g56qd6p');
+            handleSubscription('pri_01ht5tqd76gvzrr4p8zgdbhfb1');
         });
 
         // ScrollMagic scripts
