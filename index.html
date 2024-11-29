@@ -198,25 +198,47 @@ function updatePricingOptionsBasedOnTrial(trialStarted) {
             return exp < now + 300; // 300 seconds (5 minutes) before expiry
         }
 
-        function updatePricingDisplays(data) {
-            const lineItems = data.data.details.lineItems;
-            const monthlyItem = lineItems.find(item => item.price.id === 'pri_01ht5tkhk64w42akytvee6ksy8');
-            const annualItem = lineItems.find(item => item.price.id === 'pri_01ht5tpam5fxtkxxes2qpcn84r');
-            const lifetimeItem = lineItems.find(item => item.price.id === 'pri_01ht5tqd76gvzrr4p8zgdbhfb1');
+function updatePricingDisplays(data) {
+    const lineItems = data.data.details.lineItems;
+    const monthlyItem = lineItems.find(item => item.price.id === 'pri_01ht5tkhk64w42akytvee6ksy8');
+    const annualItem = lineItems.find(item => item.price.id === 'pri_01ht5tpam5fxtkxxes2qpcn84r');
+    const lifetimeItem = lineItems.find(item => item.price.id === 'pri_01ht5tqd76gvzrr4p8zgdbhfb1');
 
-            if (monthlyItem) {
-                document.getElementById('monthly-price').textContent = monthlyItem.formattedUnitTotals.total + '/month';
-            }
-            if (annualItem) {
-        document.getElementById('annual-price').textContent = annualItem.formattedUnitTotals.total + '/year';
+    function applyDiscount(priceString) {
+        const priceValue = parseFloat(priceString.replace(/[^\d.]/g, '')); // Extract the numeric value
+        const discountedValue = (priceValue * 0.8).toFixed(2); // Apply 20% discount and format to 2 decimal places
+        return priceString[0] + discountedValue; // Prepend the currency symbol (assumes it is the first character)
+    }
+
+    function formatPriceWithStrikeout(originalPrice, discountedPrice) {
+        return `<s>${originalPrice}</s> ${discountedPrice}`; // Original price with strikeout, followed by discounted price
+    }
+
+    if (monthlyItem) {
+        const originalMonthlyPrice = monthlyItem.formattedUnitTotals.total;
+        const discountedMonthlyPrice = applyDiscount(originalMonthlyPrice);
+        document.getElementById('monthly-price').innerHTML = 
+            formatPriceWithStrikeout(originalMonthlyPrice, discountedMonthlyPrice) + '/month';
+    }
+
+    if (annualItem) {
+        const originalAnnualPrice = annualItem.formattedUnitTotals.total;
+        const discountedAnnualPrice = applyDiscount(originalAnnualPrice);
+        document.getElementById('annual-price').innerHTML = 
+            formatPriceWithStrikeout(originalAnnualPrice, discountedAnnualPrice) + '/year';
+
         // Calculate and update monthly equivalent
-        const monthlyEquivalent = (parseFloat(annualItem.formattedUnitTotals.total.replace('£', '')) / 12).toFixed(2);
+        const monthlyEquivalent = (parseFloat(discountedAnnualPrice.replace(/[^\d.]/g, '')) / 12).toFixed(2);
         document.getElementById('monthly-equivalent').textContent = `equivalent of £${monthlyEquivalent}/month`;
     }
-            if (lifetimeItem) {
-                document.getElementById('lifetime-price').textContent = lifetimeItem.formattedUnitTotals.total;
-            }
-        }
+
+    if (lifetimeItem) {
+        const originalLifetimePrice = lifetimeItem.formattedUnitTotals.total;
+        const discountedLifetimePrice = applyDiscount(originalLifetimePrice);
+        document.getElementById('lifetime-price').innerHTML = 
+            formatPriceWithStrikeout(originalLifetimePrice, discountedLifetimePrice);
+    }
+}
     </script>
 
 	<!-- Brevo Conversations {literal} -->
@@ -353,7 +375,7 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
 
 	    <section id="pricing">
 <h2 id="pricing-header" class="large-heading">pricing</h2>
-		    	    <p>use code 'bouncrrrfriday2024' at checkout for a 20% off black friday discount.</p>
+		    	    <p>black friday sale! all licenses are 20% off.</p>
     
 <div class="pricing-container">
 
