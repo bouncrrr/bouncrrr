@@ -198,47 +198,25 @@ function updatePricingOptionsBasedOnTrial(trialStarted) {
             return exp < now + 300; // 300 seconds (5 minutes) before expiry
         }
 
-function updatePricingDisplays(data) {
-    const lineItems = data.data.details.lineItems;
-    const monthlyItem = lineItems.find(item => item.price.id === 'pri_01ht5tkhk64w42akytvee6ksy8');
-    const annualItem = lineItems.find(item => item.price.id === 'pri_01ht5tpam5fxtkxxes2qpcn84r');
-    const lifetimeItem = lineItems.find(item => item.price.id === 'pri_01ht5tqd76gvzrr4p8zgdbhfb1');
+        function updatePricingDisplays(data) {
+            const lineItems = data.data.details.lineItems;
+            const monthlyItem = lineItems.find(item => item.price.id === 'pri_01ht5tkhk64w42akytvee6ksy8');
+            const annualItem = lineItems.find(item => item.price.id === 'pri_01ht5tpam5fxtkxxes2qpcn84r');
+            const lifetimeItem = lineItems.find(item => item.price.id === 'pri_01ht5tqd76gvzrr4p8zgdbhfb1');
 
-    function applyDiscount(priceString) {
-        const priceValue = parseFloat(priceString.replace(/[^\d.]/g, '')); // Extract the numeric value
-        const discountedValue = (priceValue * 0.8).toFixed(2); // Apply 20% discount and format to 2 decimal places
-        return priceString[0] + discountedValue; // Prepend the currency symbol (assumes it is the first character)
-    }
-
-    function formatPriceWithStrikeout(originalPrice, discountedPrice) {
-        return `was <s>${originalPrice}</s>, now ${discountedPrice}`; // Original price with strikeout, followed by discounted price
-    }
-
-    if (monthlyItem) {
-        const originalMonthlyPrice = monthlyItem.formattedUnitTotals.total;
-        const discountedMonthlyPrice = applyDiscount(originalMonthlyPrice);
-        document.getElementById('monthly-price').innerHTML = 
-            formatPriceWithStrikeout(originalMonthlyPrice, discountedMonthlyPrice) + '/month';
-    }
-
-    if (annualItem) {
-        const originalAnnualPrice = annualItem.formattedUnitTotals.total;
-        const discountedAnnualPrice = applyDiscount(originalAnnualPrice);
-        document.getElementById('annual-price').innerHTML = 
-            formatPriceWithStrikeout(originalAnnualPrice, discountedAnnualPrice) + '/year';
-
+            if (monthlyItem) {
+                document.getElementById('monthly-price').textContent = monthlyItem.formattedUnitTotals.total + '/month';
+            }
+            if (annualItem) {
+        document.getElementById('annual-price').textContent = annualItem.formattedUnitTotals.total + '/year';
         // Calculate and update monthly equivalent
-        const monthlyEquivalent = (parseFloat(discountedAnnualPrice.replace(/[^\d.]/g, '')) / 12).toFixed(2);
+        const monthlyEquivalent = (parseFloat(annualItem.formattedUnitTotals.total.replace('£', '')) / 12).toFixed(2);
         document.getElementById('monthly-equivalent').textContent = `equivalent of £${monthlyEquivalent}/month`;
     }
-
-    if (lifetimeItem) {
-        const originalLifetimePrice = lifetimeItem.formattedUnitTotals.total;
-        const discountedLifetimePrice = applyDiscount(originalLifetimePrice);
-        document.getElementById('lifetime-price').innerHTML = 
-            formatPriceWithStrikeout(originalLifetimePrice, discountedLifetimePrice);
-    }
-}
+            if (lifetimeItem) {
+                document.getElementById('lifetime-price').textContent = lifetimeItem.formattedUnitTotals.total;
+            }
+        }
     </script>
 
 	<!-- Brevo Conversations {literal} -->
@@ -300,7 +278,6 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
     <header>
         <h1>bouncrrr</h1>
 	    <h2>20% off black friday sale on now.</h2>
-	    <h2><a href="#pricing">click here</a> to purchase a license.</h2>
 	    <h2>bounce smarter. not harder.</h2>
     </header>
     <div class="arrow" id="arrow-container">
@@ -375,7 +352,7 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
 
 	    <section id="pricing">
 <h2 id="pricing-header" class="large-heading">pricing</h2>
-		    	    <p>black friday sale! all licenses are 20% off until midnight december 8th 2024.</p>
+		    	    <p>use code 'bouncrrrfriday2024' at checkout for a 20% off black friday discount.</p>
     
 <div class="pricing-container">
 
@@ -384,7 +361,7 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
         <p class="small-text">low monthly cost</p>
         <p class="small-text">cancel at any time</p>
         <p class="small-text">all of bouncrrr's current features</p>
-        <p id="monthly-price"><s>£8.99/month</s> £7.19/month</p>
+        <p id="monthly-price">£8.99/month</p>
         <p class="small-text">(billed monthly)</p>
         <button id="subscribe-button-monthly">subscribe</button>
     </div>
@@ -393,7 +370,7 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
         <p class="small-text">saves money vs monthly</p>
         <p class="small-text">no monthly costs to worry about</p>
 	<p class="small-text">priority support</p>
-        <p id="annual-price"><s>£75/year (billed annually)</s> £60/year</p>
+        <p id="annual-price">£75/year (billed annually)</p>
         <p class="small-text" id="monthly-equivalent">(equivalent of £6.25 a month)</p>
         <button id="subscribe-button-annual">subscribe</button>
     </div>
@@ -402,7 +379,7 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
         <p class="small-text">incredible value for money</p>
         <p class="small-text">no subscriptions to worry about</p>
         <p class="small-text">priority support</p>
-        <p id="lifetime-price"><s>£150</s> £120</p>
+        <p id="lifetime-price">£150</p>
 	<p class="small-text">(one time fee, no hidden charges)</p>
         <button id="buy-button-lifetime">buy now</button>
     </div>
@@ -463,7 +440,7 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
                         priceId: priceId, // This will be the price ID for the lifetime license
                         quantity: 1
                     }],
-                discountId: "dsc_01jdvy7w12jqs17je09g56qd6p", // The discount ID you want to apply
+                // discountId: "dsc_01j1x21zahbj6dyacrw7hsbjdj", // The discount ID you want to apply
 			customData: {
                         "accountEmail": userEmail // Pass the user's email as custom data
                     },
